@@ -150,3 +150,7 @@ $RECYCLE.BIN/
 # Local History for Visual Studio Code
 .history/
 .vscode/
+
+# Add this to your .gitignore file
+DocumentLayout.json
+
