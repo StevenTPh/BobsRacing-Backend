@@ -1,3 +1,7 @@
+using Bobs_Racing.Repositories;
+using Microsoft.EntityFrameworkCore;
+using System;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -22,6 +26,12 @@ builder.Services.AddCors(options =>
 
 app.UseCors();
 ///////////*
+///
+builder.Services.AddDbContext<DbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IRaceRepository, RaceRepository>();
+
 
 
 // Configure the HTTP request pipeline.
