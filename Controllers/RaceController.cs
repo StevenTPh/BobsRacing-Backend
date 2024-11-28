@@ -1,6 +1,7 @@
 ﻿using Bobs_Racing.Model;
 using Bobs_Racing.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Diagnostics;
 
 namespace Bobs_Racing.Controllers
@@ -10,6 +11,8 @@ namespace Bobs_Racing.Controllers
     public class RaceController : ControllerBase
     {
         private readonly IRaceRepository _raceRepository;
+
+        private readonly Random _random = new Random();
 
         public RaceController(IRaceRepository raceRepository)
         {
@@ -35,8 +38,10 @@ namespace Bobs_Racing.Controllers
                 return BadRequest(ModelState);
             }
 
+            // Save the race to the database
             await _raceRepository.CreateRaceAsync(race);
-            return CreatedAtAction(nameof(GetRaceById), new { id = race.RaceId, result = race.Result }, race);
+
+            return CreatedAtAction(nameof(CreateRace), new { id = race.RaceId }, race);
         }
     }
 

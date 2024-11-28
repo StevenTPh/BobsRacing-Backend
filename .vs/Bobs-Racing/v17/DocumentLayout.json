@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,26 +26,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
               "ToolTip": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\appsettings.json",
               "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2024-11-28T09:38:14.038Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": ".gitignore",
               "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\.gitignore",
               "RelativeDocumentMoniker": ".gitignore",
               "ToolTip": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\.gitignore",
               "RelativeToolTip": ".gitignore",
-              "ViewState": "AgIAAJAAAAAAAAAAAAAAAJoAAAAnAAAAAAAAAA==",
+              "ViewState": "AgIAAJAAAAAAAAAAAAAAAJcAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2024-11-28T09:25:57.746Z",
               "EditorCaption": ""
