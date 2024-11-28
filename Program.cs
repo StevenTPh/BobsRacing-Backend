@@ -22,6 +22,13 @@ builder.Services.AddCors(options =>
 
 app.UseCors();
 ///////////*
+///
+ /* Database connection
+builder.Services.AddDbContext<DbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IRaceRepository, RaceRepository>();
+ */
 
 
 // Configure the HTTP request pipeline.
