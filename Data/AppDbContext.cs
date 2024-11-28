@@ -1,5 +1,4 @@
 ﻿using Bobs_Racing.Model;
-using Bobs_Racing.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bobs_Racing.Data
@@ -14,16 +13,13 @@ namespace Bobs_Racing.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Race>()
-                .HasKey(r => r.RaceId);
-
-            modelBuilder.Entity<Race>()
                 .HasMany(r => r.Animals)
-                .WithOne(a => a.Race)
-                .HasForeignKey(a => a.RaceId);
-
-            modelBuilder.Entity<Animal>()
-                .HasKey(a => a.AnimalId);
+                .WithMany()
+                .UsingEntity<Dictionary<string, object>>(
+                "RaceAnimal",
+                r => r.HasOne<Animal>().WithMany().HasForeignKey("AnimalId"),
+                    a => a.HasOne<Race>().WithMany().HasForeignKey("RaceId")
+                );
         }
     }
-
 }

@@ -1,4 +1,5 @@
 using Bobs_Racing.Repositories;
+using Bobs_Racing.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -10,29 +11,29 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
 
 //////////* Slik at frontenden kan sende http forespørsler (API Calls) til backenden - Enock
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost:3000") // Replace with your frontend URL
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        //policy.WithOrigins("http://localhost:3000") // Replace with your frontend URL
+        policy.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
 });
 
-app.UseCors();
 ///////////*
 ///
-builder.Services.AddDbContext<DbContext>(options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IRaceRepository, RaceRepository>();
 builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
 
 
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -40,6 +41,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 
