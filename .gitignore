@@ -154,3 +154,5 @@ $RECYCLE.BIN/
 # Add this to your .gitignore file
 DocumentLayout.json
 
+.vs/Bobs-Racing/v17/DocumentLayout.json
+.vs/Bobs-Racing/v17/.suo
