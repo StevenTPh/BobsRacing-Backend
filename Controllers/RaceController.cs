@@ -12,8 +12,6 @@ namespace Bobs_Racing.Controllers
     {
         private readonly IRaceRepository _raceRepository;
 
-        private readonly Random _random = new Random();
-
         public RaceController(IRaceRepository raceRepository)
         {
             _raceRepository = raceRepository;
