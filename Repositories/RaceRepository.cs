@@ -18,7 +18,6 @@ namespace Bobs_Racing.Repositories
         public async Task<Race> GetRaceByIdAsync(int raceId, string result)
         {
             return await _context.Races
-                .Include(r => r.Animals) // Include related Animals
                 .FirstOrDefaultAsync(r => r.RaceId == raceId && r.Result == result);
         }
 

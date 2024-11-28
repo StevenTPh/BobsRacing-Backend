@@ -1,4 +1,5 @@
 ﻿using Bobs_Racing.Model;
+using Bobs_Racing.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bobs_Racing.Data
