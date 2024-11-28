@@ -153,4 +153,4 @@ $RECYCLE.BIN/
 
 # Add this to your .gitignore file
 .vs\Bobs-Racing\v17\DocumentLayout.json
-appsettings.json
+*.json
