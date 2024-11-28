@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\pkarst\\source\\bobsracing-backend\\models\\race.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:models\\race.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\pkarst\\source\\bobsracing-backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
@@ -21,10 +25,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\pkarst\\source\\bobsracing-backend\\repositories\\racerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:repositories\\racerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\pkarst\\source\\bobsracing-backend\\models\\race.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:models\\race.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\pkarst\\source\\bobsracing-backend\\models\\animal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -53,12 +53,12 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 255,
+          "DockedWidth": 183,
           "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "launchSettings.json",
               "DocumentMoniker": "C:\\Users\\PKarst\\source\\BobsRacing-Backend\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "Properties\\launchSettings.json",
@@ -71,7 +71,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "C:\\Users\\PKarst\\source\\BobsRacing-Backend\\Data\\AppDbContext.cs",
               "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
@@ -90,14 +90,14 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\PKarst\\source\\BobsRacing-Backend\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAAABgAAAADAAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAAACcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-28T11:20:44.975Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "RaceRepository.cs",
               "DocumentMoniker": "C:\\Users\\PKarst\\source\\BobsRacing-Backend\\Repositories\\RaceRepository.cs",
               "RelativeDocumentMoniker": "Repositories\\RaceRepository.cs",
@@ -110,7 +110,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\PKarst\\source\\BobsRacing-Backend\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -150,18 +150,18 @@
           ]
         },
         {
-          "DockedWidth": 145,
+          "DockedWidth": 217,
           "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "Race.cs",
               "DocumentMoniker": "C:\\Users\\PKarst\\source\\BobsRacing-Backend\\Models\\Race.cs",
               "RelativeDocumentMoniker": "Models\\Race.cs",
               "ToolTip": "C:\\Users\\PKarst\\source\\BobsRacing-Backend\\Models\\Race.cs",
               "RelativeToolTip": "Models\\Race.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAowAkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-28T12:02:55.472Z",
               "EditorCaption": ""
