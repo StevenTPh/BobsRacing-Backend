@@ -158,3 +158,4 @@ DocumentLayout.json
 .vs/Bobs-Racing/v17/.suo
 .appsettings.json
 *.json
+/appsettings.json
