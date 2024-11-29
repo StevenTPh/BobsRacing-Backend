@@ -8,5 +8,7 @@ namespace Bobs_Racing.Model
         public string Name { get; set; } = string.Empty;
         public int MinSpeed { get; set; }
         public int MaxSpeed { get; set; }
+
+        public ICollection<RaceAnimal> RaceAnimals { get; set; } = new List<RaceAnimal>();
     }
 }
