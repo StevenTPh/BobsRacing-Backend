@@ -11,5 +11,7 @@
         // Navigation properties
         public Race Race { get; set; }
         public Animal Animal { get; set; }
+
+        public ICollection<Bet> Bets { get; set; } = new List<Bet>();
     }
 }
