@@ -1,12 +1,15 @@
-﻿using System.Diagnostics;
-using Bobs_Racing.Model;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Bobs_Racing.Models;
 
 namespace Bobs_Racing.Repositories
 {
     public interface IRaceRepository
     {
-        Task<Race> GetRaceByIdAsync(int raceId, string result);
-        Task CreateRaceAsync(Race race);
+        Task<IEnumerable<Race>> GetAllAsync();
+        Task<Race> GetByIdAsync(int id);
+        Task AddAsync(Race race);
+        Task UpdateAsync(Race race);
+        Task DeleteAsync(int id);
     }
-
 }

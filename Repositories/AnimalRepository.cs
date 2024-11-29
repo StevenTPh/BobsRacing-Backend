@@ -1,6 +1,8 @@
-﻿using Bobs_Racing.Model;
-using Bobs_Racing.Data;
+﻿using Bobs_Racing.Data;
+using Bobs_Racing.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Bobs_Racing.Repositories
 {
@@ -13,31 +15,42 @@ namespace Bobs_Racing.Repositories
             _context = context;
         }
 
-        public IEnumerable<Animal> GetAll()
+        public async Task<IEnumerable<Animal>> GetAllAsync()
         {
-            return _context.Animals.ToList();
+            return await _context.Animals
+                .Include(a => a.RaceAnimals)
+                    .ThenInclude(ra => ra.Race)
+                .ToListAsync();
         }
 
-        public Animal GetById(int id)
+        public async Task<Animal> GetByIdAsync(int id)
         {
-            return _context.Animals.FirstOrDefault(a => a.Id == id);
+            return await _context.Animals
+                .Include(a => a.RaceAnimals)
+                    .ThenInclude(ra => ra.Race)
+                .FirstOrDefaultAsync(a => a.AnimalId == id);
         }
 
-        public void Add(Animal animal)
+        public async Task AddAsync(Animal animal)
         {
-            _context.Animals.Add(animal);
-        }
-        public void Update(Animal animal)
-        { 
-            _context.Animals.Update(animal);
-        }
-        public void Delete(Animal animal)
-        {
-            _context.Animals.Remove(animal);
-        }
-        public async Task SaveChangesAsync()
-        {
+            await _context.Animals.AddAsync(animal);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(Animal animal)
+        {
+            _context.Animals.Update(animal);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var animal = await _context.Animals.FindAsync(id);
+            if (animal != null)
+            {
+                _context.Animals.Remove(animal);
+                await _context.SaveChangesAsync();
+            }
         }
 
     }

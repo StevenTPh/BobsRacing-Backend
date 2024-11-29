@@ -1,76 +1,81 @@
-﻿using Bobs_Racing.Model;
-using Bobs_Racing.Repositories;
+﻿using Bobs_Racing.Data;
+using Bobs_Racing.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bobs_Racing.Controllers
 {
-
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AnimalController : ControllerBase
     {
-        private readonly IAnimalRepository _animalRepository;
+        private readonly AppDbContext _context;
 
-        public AnimalController(IAnimalRepository animalRepository)
+        public AnimalController(AppDbContext context)
         {
-            _animalRepository = animalRepository;
+            _context = context;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Animal>> GetAllAnimals()
+        public async Task<IActionResult> GetAllAnimals()
         {
-            var animals = _animalRepository.GetAll();
+            var animals = await _context.Animals
+                .Include(a => a.RaceAnimals)
+                    .ThenInclude(ra => ra.Race)
+                .ToListAsync();
+
             return Ok(animals);
         }
+
         [HttpGet("{id}")]
-        public ActionResult<Animal> GetAnimalById(int id)
+        public async Task<IActionResult> GetAnimalById(int id)
         {
-            var animal = _animalRepository.GetById(id);
+            var animal = await _context.Animals
+                .Include(a => a.RaceAnimals)
+                    .ThenInclude(ra => ra.Race)
+                .FirstOrDefaultAsync(a => a.AnimalId == id);
+
             if (animal == null)
-            {
                 return NotFound();
-            }
+
             return Ok(animal);
         }
+
         [HttpPost]
-        public async Task<ActionResult> AddAnimal([FromBody] Animal animal)
+        public async Task<IActionResult> CreateAnimal([FromBody] Animal animal)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
-            _animalRepository.Add(animal);
-            await _animalRepository.SaveChangesAsync();
-            return Ok();
-        }
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateAnimal(int id, [FromBody] Animal updatedAnimal)
-        {
-            if (!ModelState.IsValid || id != updatedAnimal.Id)
-            {
-                return BadRequest(ModelState);
-            }
-            var existingAnimal = _animalRepository.GetById(id);
-            if (existingAnimal == null)
-            {
-                return BadRequest(ModelState);
-            }
-            _animalRepository.Update(updatedAnimal);
-            await _animalRepository.SaveChangesAsync();
-            return Ok();
-        }
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteAnimal(int id)
-        {
-            var animal = _animalRepository.GetById(id);
-            if (animal == null)
-            {
-                return BadRequest(ModelState);
-            }
-            _animalRepository.Delete(animal);
-            await _animalRepository.SaveChangesAsync();
 
-            return Ok();
+            await _context.Animals.AddAsync(animal);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetAnimalById), new { id = animal.AnimalId }, animal);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAnimal(int id, [FromBody] Animal animal)
+        {
+            if (id != animal.AnimalId)
+                return BadRequest("Animal ID mismatch.");
+
+            _context.Animals.Update(animal);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAnimal(int id)
+        {
+            var animal = await _context.Animals.FindAsync(id);
+            if (animal == null)
+                return NotFound();
+
+            _context.Animals.Remove(animal);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

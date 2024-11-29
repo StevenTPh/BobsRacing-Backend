@@ -3,8 +3,68 @@
   "WorkspaceRootPath": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\global.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:global.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\bobs-racing.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:bobs-racing.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\bobs-racing.csproj.backup.tmp||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:bobs-racing.csproj.backup.tmp||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\models\\animal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:models\\animal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\models\\race.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:models\\race.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\models\\raceanimal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:models\\raceanimal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\repositories\\animalrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:repositories\\animalrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\repositories\\racerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:repositories\\racerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\repositories\\iracerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:repositories\\iracerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\repositories\\ianimalrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:repositories\\ianimalrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\controllers\\animalcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:controllers\\animalcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\controllers\\racecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:controllers\\racecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|solutionrelative:appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5B0BE24D-FADF-46A7-AE2F-C9F3F463565A}|Bobs-Racing.csproj|c:\\users\\eladu1\\source\\repos\\bobsracing-backend\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
@@ -27,19 +87,214 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAcAAAAAAAAAA==",
+              "Title": "global.json",
+              "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\global.json",
+              "RelativeDocumentMoniker": "global.json",
+              "ToolTip": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\global.json",
+              "RelativeToolTip": "global.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-11-28T09:38:14.038Z",
+              "WhenOpened": "2024-11-29T14:38:35.038Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Bobs-Racing.csproj.Backup.tmp",
+              "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Bobs-Racing.csproj.Backup.tmp",
+              "RelativeDocumentMoniker": "Bobs-Racing.csproj.Backup.tmp",
+              "ToolTip": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Bobs-Racing.csproj.Backup.tmp",
+              "RelativeToolTip": "Bobs-Racing.csproj.Backup.tmp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-11-29T14:24:59.401Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Animal.cs",
+              "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Models\\Animal.cs",
+              "RelativeDocumentMoniker": "Models\\Animal.cs",
+              "ToolTip": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Models\\Animal.cs",
+              "RelativeToolTip": "Models\\Animal.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAQwAsAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T11:02:13.647Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-28T11:20:00.802Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "Bobs-Racing",
+              "DocumentMoniker": "C:\\Users\\ELadu1\\Source\\Repos\\BobsRacing-Backend\\Bobs-Racing.csproj",
+              "RelativeDocumentMoniker": "Bobs-Racing.csproj",
+              "ToolTip": "C:\\Users\\ELadu1\\Source\\Repos\\BobsRacing-Backend\\Bobs-Racing.csproj",
+              "RelativeToolTip": "Bobs-Racing.csproj",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAkwBQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-11-29T09:21:47.438Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "IRaceRepository.cs",
+              "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Repositories\\IRaceRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\IRaceRepository.cs",
+              "ToolTip": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Repositories\\IRaceRepository.cs",
+              "RelativeToolTip": "Repositories\\IRaceRepository.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAA2wAwAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T11:02:51.524Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Race.cs",
+              "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Models\\Race.cs",
+              "RelativeDocumentMoniker": "Models\\Race.cs",
+              "ToolTip": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Models\\Race.cs",
+              "RelativeToolTip": "Models\\Race.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T11:02:15.495Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-11-29T11:24:35.78Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "Data\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T11:03:24.473Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "RaceAnimal.cs",
+              "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Models\\RaceAnimal.cs",
+              "RelativeDocumentMoniker": "Models\\RaceAnimal.cs",
+              "ToolTip": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Models\\RaceAnimal.cs",
+              "RelativeToolTip": "Models\\RaceAnimal.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAYwA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T11:13:53.269Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "RaceRepository.cs",
+              "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Repositories\\RaceRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\RaceRepository.cs",
+              "ToolTip": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Repositories\\RaceRepository.cs",
+              "RelativeToolTip": "Repositories\\RaceRepository.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAUwDYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T11:10:04.04Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "IAnimalRepository.cs",
+              "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Repositories\\IAnimalRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\IAnimalRepository.cs",
+              "ToolTip": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Repositories\\IAnimalRepository.cs",
+              "RelativeToolTip": "Repositories\\IAnimalRepository.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T11:02:46.322Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "AnimalController.cs",
+              "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Controllers\\AnimalController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AnimalController.cs",
+              "ToolTip": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Controllers\\AnimalController.cs",
+              "RelativeToolTip": "Controllers\\AnimalController.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAuwBgAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T11:02:12.621Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AnimalRepository.cs",
+              "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Repositories\\AnimalRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\AnimalRepository.cs",
+              "ToolTip": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Repositories\\AnimalRepository.cs",
+              "RelativeToolTip": "Repositories\\AnimalRepository.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAiwDgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T11:02:24.415Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "RaceController.cs",
+              "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Controllers\\RaceController.cs",
+              "RelativeDocumentMoniker": "Controllers\\RaceController.cs",
+              "ToolTip": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\Controllers\\RaceController.cs",
+              "RelativeToolTip": "Controllers\\RaceController.cs",
+              "ViewState": "AgIAAEQAAAAAAAAAAAAuwFAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T11:02:10.843Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "appsettings.Development.json",
+              "ToolTip": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\appsettings.Development.json",
+              "RelativeToolTip": "appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-11-29T11:19:19.876Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
               "Title": ".gitignore",
               "DocumentMoniker": "C:\\Users\\ELadu1\\source\\repos\\BobsRacing-Backend\\.gitignore",
               "RelativeDocumentMoniker": ".gitignore",

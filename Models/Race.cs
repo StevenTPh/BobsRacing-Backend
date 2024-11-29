@@ -1,10 +1,13 @@
-﻿namespace Bobs_Racing.Model
+﻿using System;
+using System.Collections.Generic;
+
+namespace Bobs_Racing.Models
 {
     public class Race
     {
         public int RaceId { get; set; }
-        public string Result { get; set; }
-        public List<Animal> Animals { get; set; } = new List<Animal>();
-        public bool[] Checkpoints { get; set; } = new bool[3];
+        public List<RaceAnimal> RaceAnimals { get; set; } = new List<RaceAnimal>();
+        public DateTime Date { get; set; }
+        public List<int> Rankings { get; set; } = new List<int>(); // Assuming Rankings is a list of Animal IDs
     }
 }

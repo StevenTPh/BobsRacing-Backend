@@ -1,14 +1,15 @@
-﻿using Bobs_Racing.Model;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Bobs_Racing.Models;
 
 namespace Bobs_Racing.Repositories
 {
     public interface IAnimalRepository
     {
-        IEnumerable<Animal> GetAll();
-        Animal? GetById(int id);
-        void Add(Animal animal);
-        void Update(Animal animal);
-        void Delete(Animal animal);
-        Task SaveChangesAsync();
+        Task<IEnumerable<Animal>> GetAllAsync();
+        Task<Animal> GetByIdAsync(int id);
+        Task AddAsync(Animal animal);
+        Task UpdateAsync(Animal animal);
+        Task DeleteAsync(int id);
     }
 }
