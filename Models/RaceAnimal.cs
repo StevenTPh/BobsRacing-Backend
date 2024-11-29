@@ -8,7 +8,6 @@
         public List<int> CheckpointSpeed { get; set; } = new();
         public int FinalPosition { get; set; } 
 
-        // Navigation properties
         public Race Race { get; set; }
         public Animal Animal { get; set; }
 

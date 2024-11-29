@@ -47,10 +47,10 @@ namespace Bobs_Racing.Data
                     v => JsonSerializer.Deserialize<List<int>>(v, new JsonSerializerOptions())
                 );
 
-            // Prepare Bet's relationship to RaceAnimal
+            // Configure Bet with FK to RaceAnimal
             modelBuilder.Entity<Bet>()
                 .HasOne(b => b.RaceAnimal)
-                .WithMany()
+                .WithMany(ra => ra.Bets)
                 .HasForeignKey(b => new { b.RaceID, b.AnimalID });
         }
     }
