@@ -21,20 +21,28 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var app = builder.Build();
+
 //////////* Slik at frontenden kan sende http forespørsler (API Calls) til backenden - Enock
 /*builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost:3000") // Replace with your frontend URL
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.WithOrigins("http://localhost/*") // Replace with your frontend URL
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
 });
 
-app.UseCors();*/
+app.UseCors();
 ///////////*
 ///
+builder.Services.AddDbContext<DbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IRaceRepository, RaceRepository>();
+builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
+
 
 var app = builder.Build();
 
@@ -44,6 +52,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 

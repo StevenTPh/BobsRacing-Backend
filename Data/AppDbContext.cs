@@ -1,5 +1,10 @@
 ﻿using Bobs_Racing.Models;
+using Bobs_Racing.Models;
 using Microsoft.EntityFrameworkCore;
+using Bobs_Racing.Model;
+using System.Text.Json;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Bobs_Racing.Data
 {
@@ -7,34 +12,24 @@ namespace Bobs_Racing.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
+        // DbSet for Race and Animal
         public DbSet<Race> Races { get; set; }
         public DbSet<Animal> Animals { get; set; }
         public DbSet<RaceAnimal> RaceAnimals { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Composite key for RaceAnimal
-            modelBuilder.Entity<RaceAnimal>()
-                .HasKey(ra => new { ra.RaceId, ra.AnimalId });
+            modelBuilder.Entity<Race>()
+                .HasKey(r => r.RaceId);
 
-            // Many-to-many relationships
-            modelBuilder.Entity<RaceAnimal>()
-                .HasOne(ra => ra.Race)
-                .WithMany(r => r.RaceAnimals)
-                .HasForeignKey(ra => ra.RaceId);
+            modelBuilder.Entity<Race>()
+                .HasMany(r => r.Animals)
+                .WithOne(a => a.Race)
+                .HasForeignKey(a => a.RaceId);
 
-            modelBuilder.Entity<RaceAnimal>()
-                .HasOne(ra => ra.Animal)
-                .WithMany(a => a.RaceAnimals)
-                .HasForeignKey(ra => ra.AnimalId);
-
-            modelBuilder.Entity<RaceAnimal>()
-                .Property(ra => ra.CheckpointSpeeds)
-                .HasConversion(
-                    v => string.Join(",", v),         // Convert int[] to a string
-                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray() // Convert string back to int[]
-                );
+            modelBuilder.Entity<Animal>()
+                .HasKey(a => a.AnimalId);
         }
-
     }
+
 }
