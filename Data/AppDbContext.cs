@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Bobs_Racing.Model;
 using System.Text.Json;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Bobs_Racing.Data
 {
@@ -8,50 +10,30 @@ namespace Bobs_Racing.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
+        // DbSet for Race and Animal
         public DbSet<Race> Races { get; set; }
         public DbSet<Animal> Animals { get; set; }
-        public DbSet<RaceAnimal> RaceAnimals { get; set; }
-        public DbSet<Bet> Bets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure RaceAnimal composite key
-            modelBuilder.Entity<RaceAnimal>()
-                .HasKey(ra => new { ra.RaceID, ra.AnimalID });
-
-            // Configure Race to RaceAnimal one-to-many relationship
+            // Configure Many-to-Many Relationship
             modelBuilder.Entity<Race>()
-                .HasMany(r => r.RaceAnimals)
-                .WithOne(ra => ra.Race)
-                .HasForeignKey(ra => ra.RaceID);
+                .HasMany(r => r.Animals)
+                .WithMany(a => a.Races)
+                .UsingEntity(j => j.ToTable("RaceAnimals"));
 
-            // Configure Animal to RaceAnimal one-to-many relationship
-            modelBuilder.Entity<Animal>()
-                .HasMany(a => a.RaceAnimals)
-                .WithOne(ra => ra.Animal)
-                .HasForeignKey(ra => ra.AnimalID);
+            // Configure JSON serialization for Rankings with a value comparer
+            var rankingsComparer = new ValueComparer<List<int>>(
+                (c1, c2) => c1.SequenceEqual(c2), // Compare sequences for equality
+                c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())), // Compute hash code
+                c => c.ToList()); // Deep copy the collection
 
-            // Configure Rankings as a JSON column
             modelBuilder.Entity<Race>()
                 .Property(r => r.Rankings)
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                    v => JsonSerializer.Deserialize<List<int>>(v, new JsonSerializerOptions())
-                );
-
-            // Configure CheckpointSpeed as a JSON column
-            modelBuilder.Entity<RaceAnimal>()
-                .Property(ra => ra.CheckpointSpeed)
-                .HasConversion(
-                    v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                    v => JsonSerializer.Deserialize<List<int>>(v, new JsonSerializerOptions())
-                );
-
-            // Configure Bet with FK to RaceAnimal
-            modelBuilder.Entity<Bet>()
-                .HasOne(b => b.RaceAnimal)
-                .WithMany(ra => ra.Bets)
-                .HasForeignKey(b => new { b.RaceID, b.AnimalID });
+                    v => JsonSerializer.Deserialize<List<int>>(v, new JsonSerializerOptions()))
+                .Metadata.SetValueComparer(rankingsComparer); // Apply value comparer
         }
     }
 }

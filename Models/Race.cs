@@ -7,6 +7,6 @@ namespace Bobs_Racing.Model
         public List<int> Rankings { get; set; } = new();
         public DateTime StartTime { get; set; }
 
-        public ICollection<RaceAnimal> RaceAnimals { get; set; } = new List<RaceAnimals>();
+        public ICollection<Animal> Animals { get; set; } = new List<Animal>();
     }
 }

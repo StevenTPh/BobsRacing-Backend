@@ -19,7 +19,14 @@ namespace Bobs_Racing.Repositories
         {
             return await _context.Races
                 .Include(r => r.Animals)
-                .FirstOrDefaultAsync(r => r.RaceId == raceId && r.Result == result);
+                .FirstOrDefaultAsync(r => r.RaceId == raceId);
+        }
+
+        public async Task<IEnumerable<Race>> GetAllRacesAsync()
+        {
+            return await _context.Races
+                .Include(r => r.Animals)
+                .ToListAsync();
         }
 
         public async Task CreateRaceAsync(Race race)
@@ -29,14 +36,12 @@ namespace Bobs_Racing.Repositories
         }
         public async Task AddAnimalToRace(int raceId, int animalId)
         {
-            var race = await _context.Races.Include(r => r.Animals)
-                .FirstOrDefaultAsync(r => r.RaceId == raceId);
-            
-            var animal = await _context
-                .Animals.FirstOrDefaultAsync(a => a.Id == animalId);
+            var race = await _context.Races.Include(r => r.Animals).FirstOrDefaultAsync(r => r.RaceId == raceId);
+            var animal = await _context.Animals.FirstOrDefaultAsync(a => a.AnimalId == animalId);
 
-            if (race != null && animal != null)
+            if (race != null && animal != null && !race.Animals.Contains(animal))
             {
+                // join table
                 race.Animals.Add(animal);
                 await _context.SaveChangesAsync();
             }

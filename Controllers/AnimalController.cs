@@ -46,7 +46,7 @@ namespace Bobs_Racing.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateAnimal(int id, [FromBody] Animal updatedAnimal)
         {
-            if (!ModelState.IsValid || id != updatedAnimal.Id)
+            if (!ModelState.IsValid || id != updatedAnimal.AnimalId)
             {
                 return BadRequest(ModelState);
             }

@@ -20,7 +20,7 @@ namespace Bobs_Racing.Repositories
 
         public Animal GetById(int id)
         {
-            return _context.Animals.FirstOrDefault(a => a.Id == id);
+            return _context.Animals.FirstOrDefault(a => a.AnimalId == id);
         }
 
         public void Add(Animal animal)
