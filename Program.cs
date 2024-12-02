@@ -21,9 +21,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Register the IUserRepository and its implementation (UserRepository)
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 var app = builder.Build();
 
-////////// Slik at frontenden kan sende http forespørsler (API Calls) til backenden - Enock
+////////// Slik at frontenden kan sende http forespÃ¸rsler (API Calls) til backenden - Enock
 /*builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
