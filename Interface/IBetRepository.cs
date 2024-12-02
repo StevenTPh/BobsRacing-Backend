@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Bobs_Racing.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Bobs_Racing.Models;
 
 namespace Bobs_Racing.Interface
 {
@@ -9,10 +6,11 @@ namespace Bobs_Racing.Interface
     {
         Task<IEnumerable<Bet>> GetAllBetsAsync();
         Task<Bet> GetBetByIdAsync(int betId);
-        Task CreateBetAsync(Bet bet);
+        Task AddBetAsync(Bet bet);
         Task UpdateBetAsync(Bet bet);
         Task DeleteBetAsync(int betId);
+
+        // New method to validate the composite key in RaceAnimal
+        Task<bool> ValidateRaceAnimalAsync(int raceId, int animalId);
     }
 }
-
-

@@ -1,8 +1,5 @@
 ﻿using Bobs_Racing.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Bobs_Racing.Data
 {
@@ -10,10 +7,12 @@ namespace Bobs_Racing.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        // DbSet for Race and Animal
+        // DbSet properties
         public DbSet<Race>? Races { get; set; }
         public DbSet<Animal>? Animals { get; set; }
         public DbSet<RaceAnimal>? RaceAnimals { get; set; }
+        public DbSet<Bet>? Bets { get; set; }
+        public DbSet<User>? Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,25 +30,33 @@ namespace Bobs_Racing.Data
                 .WithMany(a => a.RaceAnimals)
                 .HasForeignKey(ra => ra.AnimalId);
 
-            // Add a Value Converter for CheckpointSpeeds
+            // Value Converter for CheckpointSpeeds
             modelBuilder.Entity<RaceAnimal>()
                 .Property(ra => ra.CheckpointSpeeds)
                 .HasConversion(
-                    v => string.Join(",", v),         // Convert int[] to a string for the database
-                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray() // Convert string back to int[]
+                    v => string.Join(",", v),
+                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray()
                 );
 
-            // Add a Value Converter for Rankings in Race
+            // Value Converter for Rankings in Race
             modelBuilder.Entity<Race>()
                 .Property(r => r.Rankings)
                 .HasConversion(
-                    v => string.Join(",", v),         // Convert List<int> to a string for the database
-                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList() // Convert string back to List<int>
+                    v => string.Join(",", v),
+                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList()
                 );
+
+            // Bet relationships
+            modelBuilder.Entity<Bet>()
+                .HasOne(b => b.User)
+                .WithMany(u => u.Bets)
+                .HasForeignKey(b => b.UserId);
+
+            // Updated composite foreign key for Bet → RaceAnimal
+            modelBuilder.Entity<Bet>()
+                .HasOne(b => b.RaceAnimal)
+                .WithMany(ra => ra.Bets)
+                .HasForeignKey(b => new { b.RaceId, b.AnimalId });
         }
-
-
-
     }
-
 }

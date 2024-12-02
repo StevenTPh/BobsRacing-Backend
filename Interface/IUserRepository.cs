@@ -9,5 +9,8 @@ namespace Bobs_Racing.Interface
         Task AddUserAsync(User user);
         Task UpdateUserAsync(User user);
         Task DeleteUserAsync(int id);
+
+        // Check if a username is already taken
+        Task<bool> IsUsernameTakenAsync(string username);
     }
 }

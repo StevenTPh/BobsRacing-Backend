@@ -1,11 +1,11 @@
-﻿using Bobs_Racing.Interface;
+﻿using Microsoft.AspNetCore.Mvc;
 using Bobs_Racing.Models;
-using Microsoft.AspNetCore.Mvc;
+using Bobs_Racing.Interface;
 
 namespace Bobs_Racing.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class BetController : ControllerBase
     {
         private readonly IBetRepository _betRepository;
@@ -28,7 +28,7 @@ namespace Bobs_Racing.Controllers
             var bet = await _betRepository.GetBetByIdAsync(id);
             if (bet == null)
             {
-                return NotFound();
+                return NotFound("Bet not found");
             }
             return Ok(bet);
         }
@@ -41,16 +41,28 @@ namespace Bobs_Racing.Controllers
                 return BadRequest(ModelState);
             }
 
-            await _betRepository.CreateBetAsync(bet);
-            return CreatedAtAction(nameof(GetBetById), new { id = bet.BetID }, bet);
+            // Validate the composite key
+            if (!await _betRepository.ValidateRaceAnimalAsync(bet.RaceId, bet.AnimalId))
+            {
+                return BadRequest("Invalid RaceId or AnimalId combination");
+            }
+
+            await _betRepository.AddBetAsync(bet);
+            return CreatedAtAction(nameof(GetBetById), new { id = bet.BetId }, bet);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBet(int id, [FromBody] Bet bet)
         {
-            if (id != bet.BetID)
+            if (id != bet.BetId)
             {
-                return BadRequest("Bet ID mismatch.");
+                return BadRequest("Bet ID mismatch");
+            }
+
+            // Validate the composite key
+            if (!await _betRepository.ValidateRaceAnimalAsync(bet.RaceId, bet.AnimalId))
+            {
+                return BadRequest("Invalid RaceId or AnimalId combination");
             }
 
             await _betRepository.UpdateBetAsync(bet);
@@ -64,5 +76,4 @@ namespace Bobs_Racing.Controllers
             return NoContent();
         }
     }
-
 }

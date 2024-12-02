@@ -17,5 +17,8 @@ namespace Bobs_Racing.Models
 
         public int[] CheckpointSpeeds { get; set; } = new int[3]; // Array of speeds at checkpoints
         public int FinalPosition { get; set; } // Position in the race
+
+        // Navigation property for Bets
+        public List<Bet> Bets { get; set; } = new List<Bet>();
     }
 }

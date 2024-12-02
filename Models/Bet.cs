@@ -1,14 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bobs_Racing.Models
 {
     public class Bet
     {
         [Key]
-        public int BetID { get; set; } // Primary Key for the Bet table
+        public int BetId { get; set; } // Primary Key for the Bet table
 
         [Required]
         public int Amount { get; set; } // Bet amount
@@ -18,13 +17,19 @@ namespace Bobs_Racing.Models
 
         public int PotentialPayout { get; set; } // Potential payout
 
-        // Composite Foreign Key: RaceID and AnimalID
+        // Foreign Key: UserId
         [Required]
-        public int RaceID { get; set; }
-        public Race Race { get; set; } // Navigation property for Race
+        public int UserId { get; set; }
+        [ForeignKey(nameof(UserId))]
+        public User User { get; set; } // Navigation property for User
 
+        // Composite Foreign Key: RaceId and AnimalId (via RaceAnimal)
         [Required]
-        public int AnimalID { get; set; }
-        public Animal Animal { get; set; } // Navigation property for Animal
+        public int RaceId { get; set; }
+        [Required]
+        public int AnimalId { get; set; }
+
+        [ForeignKey(nameof(RaceId) + "," + nameof(AnimalId))]
+        public RaceAnimal RaceAnimal { get; set; } // Navigation property for RaceAnimal
     }
 }

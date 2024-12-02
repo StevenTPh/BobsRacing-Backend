@@ -5,11 +5,18 @@ namespace Bobs_Racing.Models
     public class User
     {
         [Key]
-        public int Id { get; set; } 
-        public string? Name { get; set; }
+        public int UserId { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
         
-        public int Credits { get; set; }
+        [Required]
+        [MaxLength(50)]
         public string Password { get; set; }
+
+        public int Credits { get; set; }
+
+        public List<Bet> Bets { get; set; } = new List<Bet>();
 
         public User()
         {
@@ -18,7 +25,7 @@ namespace Bobs_Racing.Models
 
         public User(int id, string name, int credits, string password)
         {
-            this.Id = id;
+            this.UserId = id;
             this.Name = name;
             this.Credits = credits;
             this.Password = password;
@@ -27,7 +34,7 @@ namespace Bobs_Racing.Models
 
         public User(int id)
         {
-            this.Id = id;
+            this.UserId = id;
         }
         
     }
