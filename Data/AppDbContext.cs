@@ -11,12 +11,13 @@ namespace Bobs_Racing.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         // DbSet for Race and Animal
-        public DbSet<Race> Races { get; set; }
-        public DbSet<Animal> Animals { get; set; }
-        public DbSet<RaceAnimal> RaceAnimals { get; set; }
+        public DbSet<Race>? Races { get; set; }
+        public DbSet<Animal>? Animals { get; set; }
+        public DbSet<RaceAnimal>? RaceAnimals { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Composite key for RaceAnimal
             modelBuilder.Entity<RaceAnimal>()
                 .HasKey(ra => new { ra.RaceId, ra.AnimalId });
 
@@ -30,14 +31,24 @@ namespace Bobs_Racing.Data
                 .WithMany(a => a.RaceAnimals)
                 .HasForeignKey(ra => ra.AnimalId);
 
-            // Value converter for CheckpointSpeeds
+            // Add a Value Converter for CheckpointSpeeds
             modelBuilder.Entity<RaceAnimal>()
                 .Property(ra => ra.CheckpointSpeeds)
                 .HasConversion(
-                    v => string.Join(",", v),         // Convert int[] to string for the database
+                    v => string.Join(",", v),         // Convert int[] to a string for the database
                     v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray() // Convert string back to int[]
                 );
+
+            // Add a Value Converter for Rankings in Race
+            modelBuilder.Entity<Race>()
+                .Property(r => r.Rankings)
+                .HasConversion(
+                    v => string.Join(",", v),         // Convert List<int> to a string for the database
+                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList() // Convert string back to List<int>
+                );
         }
+
+
 
     }
 
