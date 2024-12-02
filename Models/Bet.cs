@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bobs_Racing
+namespace Bobs_Racing.Models
 {
     public class Bet
     {

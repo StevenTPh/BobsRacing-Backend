@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Bobs_Racing.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bobs_Racing
+namespace Bobs_Racing.Interface
 {
     public interface IBetRepository
     {

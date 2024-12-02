@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bobs_Racing.Interface;
+using Bobs_Racing.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bobs_Racing
+namespace Bobs_Racing.Repositories
 {
     public class BetRepository : IBetRepository
     {

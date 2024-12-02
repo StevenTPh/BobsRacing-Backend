@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Bobs_Racing.Models;
 
-namespace Bobs_Racing.Repositories
+namespace Bobs_Racing.Interface
 {
     public interface IAnimalRepository
     {

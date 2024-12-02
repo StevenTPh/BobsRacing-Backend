@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Bobs_Racing.Interface;
+using Bobs_Racing.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Bobs_Racing
+namespace Bobs_Racing.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

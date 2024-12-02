@@ -1,6 +1,7 @@
 using Bobs_Racing.Repositories;
 using Bobs_Racing.Data; // Ensure you include your AppDbContext namespace
 using Microsoft.EntityFrameworkCore;
+using Bobs_Racing.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
