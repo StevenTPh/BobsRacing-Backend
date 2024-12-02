@@ -74,10 +74,10 @@ namespace Bobs_Racing.Repositories
             }
         }
 
-        public async Task<bool> IsUsernameTakenAsync(string username)
+/*        public async Task<bool> IsUsernameTakenAsync(string username)
         {
             return await _context.Users.AnyAsync(u => u.Name == username);
-        }
+        }*/
 
         private string HashPassword(string password)
         {

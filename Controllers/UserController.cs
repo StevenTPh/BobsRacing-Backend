@@ -40,11 +40,11 @@ namespace Bobs_Racing.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+/*
             if (await _userRepository.IsUsernameTakenAsync(user.Name))
             {
                 return BadRequest("Username is already taken");
-            }
+            }*/
 
             // Hash the password before storing it (ensure hashing in repository)
             await _userRepository.AddUserAsync(user);
