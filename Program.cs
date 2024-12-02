@@ -1,27 +1,23 @@
-using Bobs_Racing;
-using Bobs_Racing.Interface;
 using Bobs_Racing.Repositories;
+using Bobs_Racing.Data; // Ensure you include your AppDbContext namespace
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-// Access the connection string from appsettings.json
-var connectionString = builder.Configuration.GetConnectionString("RacingDbConnection");
+// Register AppDbContext with SQL Server
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Register the IUserRepository and its implementation (UserRepository)
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+// Register repositories
+builder.Services.AddScoped<IRaceRepository, RaceRepository>();
+builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
 
+// Add controllers
 builder.Services.AddControllers();
-builder.Services.AddDbContext<MyDbContext>(options =>
-    options.UseSqlServer(connectionString));  // Use SQL Server
-if (string.IsNullOrEmpty(connectionString))
-{
-    throw new InvalidOperationException("The connection string is not set correctly.");
-}
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Add Swagger for API documentation
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -30,27 +26,19 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
-/*//////////* Slik at frontenden kan sende http forespørsler (API Calls) til backenden - Enock
-builder.Services.AddCors(options =>
+////////// Slik at frontenden kan sende http forespørsler (API Calls) til backenden - Enock
+/*builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost:3000") // Replace with your frontend URL
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.WithOrigins("http://localhost/*") // Replace with your frontend URL
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
 });
 
 app.UseCors();
-
- /* Database connection
-builder.Services.AddDbContext<DbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddScoped<IRaceRepository, RaceRepository>();
- */
-
-
+*/
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -59,6 +47,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
@@ -66,3 +56,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
