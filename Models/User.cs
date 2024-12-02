@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Bobs_Racing.Models
 {
@@ -16,6 +17,7 @@ namespace Bobs_Racing.Models
 
         public int Credits { get; set; }
 
+        [JsonIgnore]
         public List<Bet> Bets { get; set; } = new List<Bet>();
 
         public User()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Bobs_Racing.Models
 {
@@ -20,13 +21,16 @@ namespace Bobs_Racing.Models
         // Foreign Key: UserId
         [Required]
         public int UserId { get; set; }
+        [JsonIgnore]
         [ForeignKey(nameof(UserId))]
         public User User { get; set; } // Navigation property for User
 
         // Composite Foreign Key: RaceId and AnimalId (via RaceAnimal)
         [Required]
+        [JsonIgnore]
         public int RaceId { get; set; }
         [Required]
+        [JsonIgnore]
         public int AnimalId { get; set; }
 
         [ForeignKey(nameof(RaceId) + "," + nameof(AnimalId))]
