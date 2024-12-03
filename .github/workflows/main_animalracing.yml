@@ -19,21 +19,23 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'
+          include-prerelease: true
 
-      # Restore dependencies
+        # Restore dependencies
       - name: Restore dependencies
         run: dotnet restore
 
-      # Build the project
-      - name: Build the application
+      - name: Build with dotnet
         run: dotnet build --configuration Release
 
-      # Upload build artifact for test job
-      - name: Upload build artifact
+      - name: dotnet publish
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        
+      - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          name: build-artifact
-          path: . # Upload the entire repository for testing
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   test:
     runs-on: windows-latest
@@ -58,20 +60,20 @@ jobs:
 
   deploy:
     runs-on: windows-latest
-    needs: test
-
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     steps:
-      # Download the artifact from the build job
-      - name: Download build artifact
+      - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: build-artifact
-
-      # Deploy to Azure Web App
+          name: .net-app
       - name: Deploy to Azure Web App
+        id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'animalracing'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_62B287EF40EA4A198D50036580F6FC6B }}
           package: .
