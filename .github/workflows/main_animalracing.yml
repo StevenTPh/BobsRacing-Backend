@@ -1,7 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy ASP.Net Core app to Azure Web App - animalracing
+name: Build, Test, and Deploy ASP.Net Core App to Azure Web App - animalracing
 
 on:
   push:
@@ -14,52 +11,67 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      # Check out the code from the repository
       - uses: actions/checkout@v4
 
+      # Set up .NET Core SDK
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.428'
+
+      # Restore dependencies
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # Build the project
+      - name: Build the application
+        run: dotnet build --configuration Release
+
+      # Upload build artifact for test job
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifact
+          path: . # Upload the entire repository for testing
+
+  test:
+    runs-on: windows-latest
+    needs: build
+
+    steps:
+      # Download the build artifact from the build job
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
+
+      # Set up .NET Core SDK
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'
-          include-prerelease: true
 
-            # Restore dependencies
-      - name: Restore dependencies
-        run: dotnet restore
-        
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
-
-            # Run unit tests
+      # Run tests
       - name: Run Unit Tests
-        run: dotnet test --no-build --configuration Release --verbosity normal
-
-      - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet test --configuration Release --verbosity normal
 
   deploy:
     runs-on: windows-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    needs: test
 
     steps:
-      - name: Download artifact from build job
+      # Download the artifact from the build job
+      - name: Download build artifact
         uses: actions/download-artifact@v3
         with:
-          name: .net-app
+          name: build-artifact
 
+      # Deploy to Azure Web App
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'animalracing'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_62B287EF40EA4A198D50036580F6FC6B }}
-          package: .
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./publish
