@@ -28,6 +28,10 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
+        # Run tests
+      - name: Run Unit Tests
+        run: dotnet test --configuration Release --verbosity normal
+
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
         
@@ -36,27 +40,6 @@ jobs:
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
-
-  test:
-    runs-on: windows-latest
-    needs: build
-
-    steps:
-      # Download the build artifact from the build job
-      - name: Download build artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: build-artifact
-
-      # Set up .NET Core SDK
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '6.0.x'
-
-      # Run tests
-      - name: Run Unit Tests
-        run: dotnet test --configuration Release --verbosity normal
 
   deploy:
     runs-on: windows-latest
