@@ -22,8 +22,16 @@ jobs:
           dotnet-version: '6.0.x'
           include-prerelease: true
 
+            # Restore dependencies
+      - name: Restore dependencies
+        run: dotnet restore
+        
       - name: Build with dotnet
         run: dotnet build --configuration Release
+
+            # Run unit tests
+      - name: Run Unit Tests
+        run: dotnet test --no-build --configuration Release --verbosity normal
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
