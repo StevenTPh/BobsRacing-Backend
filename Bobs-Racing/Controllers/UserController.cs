@@ -52,13 +52,13 @@ namespace Bobs_Racing.Controllers
             return CreatedAtAction(nameof(GetUser), new { id = user.UserId }, user);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] User user)
+        [HttpPut("{id}/credentials")]
+        public async Task<IActionResult> UpdateUserCredentials(int id, [FromBody] User user)
         {
-            if (id != user.UserId)
+/*            if (id != user.UserId)
             {
                 return BadRequest("User ID mismatch");
-            }
+            }*/
 
             var existingUser = await _userRepository.GetUserByIdAsync(id);
             if (existingUser == null)
@@ -67,7 +67,26 @@ namespace Bobs_Racing.Controllers
             }
 
             // Optionally handle sensitive updates like password hashing
-            await _userRepository.UpdateUserAsync(user);
+            await _userRepository.UpdateUserCredentialsAsync(user);
+            return NoContent();
+        }
+
+        [HttpPut("{id}/credits")]
+        public async Task<IActionResult> UpdateUserCredits(int id, [FromBody] User user)
+        {
+/*            if (id != user.UserId)
+            {
+                return BadRequest("User ID mismatch");
+            }*/
+
+            var existingUser = await _userRepository.GetUserByIdAsync(id);
+            if (existingUser == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Optionally handle sensitive updates like password hashing
+            await _userRepository.UpdateUserCreditsAsync(user);
             return NoContent();
         }
 

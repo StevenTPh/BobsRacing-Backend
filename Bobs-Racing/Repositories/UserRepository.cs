@@ -42,7 +42,7 @@ namespace Bobs_Racing.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateUserAsync(User user)
+        public async Task UpdateUserCredentialsAsync(User user)
         {
             var existingUser = await _context.Users.FindAsync(user.UserId);
 
@@ -50,7 +50,7 @@ namespace Bobs_Racing.Repositories
             {
                 // Example: Only update specific fields
                 existingUser.Name = user.Name;
-                existingUser.Credits = user.Credits;
+                //existingUser.Credits = user.Credits;
 
                 // Hash password if it is updated
                 if (!string.IsNullOrWhiteSpace(user.Password) &&
@@ -58,6 +58,28 @@ namespace Bobs_Racing.Repositories
                 {
                     existingUser.Password = HashPassword(user.Password);
                 }
+
+                _context.Users.Update(existingUser);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateUserCreditsAsync(User user)
+        {
+            var existingUser = await _context.Users.FindAsync(user.UserId);
+
+            if (existingUser != null)
+            {
+                // Example: Only update specific fields
+                //existingUser.Name = user.Name;
+                existingUser.Credits = user.Credits;
+
+                // Hash password if it is updated
+                //if (!string.IsNullOrWhiteSpace(user.Password) &&
+                //    user.Password != existingUser.Password)
+                //{
+                //    existingUser.Password = HashPassword(user.Password);
+                //}
 
                 _context.Users.Update(existingUser);
                 await _context.SaveChangesAsync();
