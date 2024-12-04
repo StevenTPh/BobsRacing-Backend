@@ -48,17 +48,7 @@ namespace Bobs_Racing.Repositories
 
             if (existingUser != null)
             {
-                // Example: Only update specific fields
-                existingUser.Name = user.Name;
-                //existingUser.Credits = user.Credits;
-
-                // Hash password if it is updated
-                if (!string.IsNullOrWhiteSpace(user.Password) &&
-                    user.Password != existingUser.Password)
-                {
-                    existingUser.Password = HashPassword(user.Password);
-                }
-
+                existingUser.Password = HashPassword(user.Password);
                 _context.Users.Update(existingUser);
                 await _context.SaveChangesAsync();
             }
@@ -73,14 +63,7 @@ namespace Bobs_Racing.Repositories
                 // Example: Only update specific fields
                 //existingUser.Name = user.Name;
                 existingUser.Credits = user.Credits;
-
-                // Hash password if it is updated
-                //if (!string.IsNullOrWhiteSpace(user.Password) &&
-                //    user.Password != existingUser.Password)
-                //{
-                //    existingUser.Password = HashPassword(user.Password);
-                //}
-
+               
                 _context.Users.Update(existingUser);
                 await _context.SaveChangesAsync();
             }
@@ -103,11 +86,9 @@ namespace Bobs_Racing.Repositories
 
         private string HashPassword(string password)
         {
-            using (var sha256 = SHA256.Create())
-            {
-                var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return Convert.ToBase64String(bytes);
-            }
+            using var sha256 = SHA256.Create();
+            var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+            return Convert.ToBase64String(bytes);
         }
     }
 }
