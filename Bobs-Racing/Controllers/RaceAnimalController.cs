@@ -1,5 +1,6 @@
 ﻿using Bobs_Racing.Interface;
 using Bobs_Racing.Models;
+using Bobs_Racing.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bobs_Racing.Controllers
@@ -9,10 +10,25 @@ namespace Bobs_Racing.Controllers
     public class RaceAnimalController : ControllerBase
     {
         private readonly IRaceAnimalRepository _raceAnimalRepository;
+        private readonly IRaceService _raceService;
 
         public RaceAnimalController(IRaceAnimalRepository raceAnimalRepository)
         {
             _raceAnimalRepository = raceAnimalRepository;
+        }
+        public RaceAnimalController(IRaceService raceService)
+        {
+            _raceService = raceService;
+        }
+
+        [HttpPost("process-race")]
+        public async Task<IActionResult> ProcessRace([FromBody] List<Animal> startList)
+        {
+            if (!startList.Any())
+                return BadRequest("Start list cannot be empty.");
+
+            var raceResults = await _raceService.ProcessRaceAsync(startList);
+            return Ok(raceResults);
         }
 
         // GET: api/RaceAnimal

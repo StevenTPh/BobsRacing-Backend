@@ -13,5 +13,7 @@ namespace Bobs_Racing.Interface
         // New method to validate the composite key in RaceAnimal
         Task<bool> ValidateAnimalAsync(int animalId);
         Task<bool> ValidateRaceAsync(int raceId);
+
+        Task SaveRaceResultsAsync(List<RaceAnimal> raceResults);
     }
 }
