@@ -11,5 +11,6 @@ namespace Bobs_Racing.Interface
         Task AddAsync(Animal animal);
         Task UpdateAsync(Animal animal);
         Task DeleteAsync(int id);
+        Task<List<Animal>> GetAnimalsByIdsAsync(List<int> animalIds);
     }
 }

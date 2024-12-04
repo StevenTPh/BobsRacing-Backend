@@ -16,6 +16,13 @@ namespace Bobs_Racing.Repositories
             _context = context;
         }
 
+        public async Task<List<Animal>> GetAnimalsByIdsAsync(List<int> animalIds)
+        {
+            return await _context.Animals
+                .Where(a => animalIds.Contains(a.AnimalId))
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Animal>> GetAllAsync()
         {
             return await _context.Animals

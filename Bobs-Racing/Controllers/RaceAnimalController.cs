@@ -1,5 +1,6 @@
 ﻿using Bobs_Racing.Interface;
 using Bobs_Racing.Models;
+using Bobs_Racing.Models.Input;
 using Bobs_Racing.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace Bobs_Racing.Controllers
     {
         private readonly IRaceAnimalRepository _raceAnimalRepository;
         private readonly IRaceService _raceService;
+        private readonly IAnimalRepository _animalRepository;
 
         public RaceAnimalController(IRaceAnimalRepository raceAnimalRepository)
         {
@@ -22,12 +24,19 @@ namespace Bobs_Racing.Controllers
         }
 
         [HttpPost("process-race")]
-        public async Task<IActionResult> ProcessRace([FromBody] List<Animal> startList)
+        public async Task<IActionResult> ProcessRace([FromBody] RaceAnimalInputModel raceInput)
         {
-            if (!startList.Any())
-                return BadRequest("Start list cannot be empty.");
+            if (raceInput.AnimalIds == null || !raceInput.AnimalIds.Any())
+                return BadRequest("Animal IDs cannot be empty.");
 
-            var raceResults = await _raceService.ProcessRaceAsync(startList);
+            // Fetch animals by IDs
+            var animals = await _animalRepository.GetAnimalsByIdsAsync(raceInput.AnimalIds);
+
+            if (!animals.Any())
+                return NotFound("No animals found for the given IDs.");
+
+            // Process the race
+            var raceResults = await _raceService.ProcessRaceAsync(raceInput.RaceId, animals);
             return Ok(raceResults);
         }
 
