@@ -10,85 +10,121 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bobs_Racing.Tests.Repositories
 {
+
     public class UserRepositoryTests
     {
-        private readonly UserRepository _repository;
         private readonly AppDbContext _context;
+        private readonly UserRepository _repository;
 
         public UserRepositoryTests()
         {
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .UseInMemoryDatabase(databaseName: "TestUserRepositoryDatabase")
                 .Options;
 
             _context = new AppDbContext(options);
             _repository = new UserRepository(_context);
+
+            // Seed data
+            _context.Users.Add(new User { UserId = 1, Name = "User1", Password = "Password1", Credits = 100 });
+            _context.SaveChanges();
         }
 
         [Fact]
-        public async Task AddUserAsync_ShouldAddUserToDatabase()
+        public async Task GetAllUsersAsync_ShouldReturnAllUsers()
         {
-            // Arrange
-            var user = new User { UserId = 1, Name = "John", Password = "password", Credits = 100 };
-
             // Act
-            await _repository.AddUserAsync(user);
-            var result = await _context.Users.FindAsync(1);
+            var users = await _repository.GetAllUsersAsync();
 
             // Assert
-            Assert.NotNull(result);
-            Assert.Equal("John", result.Name);
+            Assert.Single(users);
         }
 
         [Fact]
-        public async Task GetUserByIdAsync_ShouldReturnUser_WhenUserExists()
+        public async Task GetUserByIdAsync_ShouldReturnUser_WhenExists()
         {
-            // Arrange
-            var user = new User { UserId = 1, Name = "John", Credits = 100 };
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
             // Act
-            var result = await _repository.GetUserByIdAsync(1);
+            var user = await _repository.GetUserByIdAsync(1);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.Equal("John", result.Name);
+            Assert.NotNull(user);
+            Assert.Equal(1, user.UserId);
         }
 
         [Fact]
-        public async Task UpdateUserCredentialsAsync_ShouldUpdateNameAndPassword()
+        public async Task GetUserByIdAsync_ShouldReturnNull_WhenDoesNotExist()
         {
-            // Arrange
-            var user = new User { UserId = 1, Name = "John", Password = "oldpassword" };
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            user.Name = "Jane";
-            user.Password = "newpassword";
-
             // Act
-            await _repository.UpdateUserCredentialsAsync(user);
-            var result = await _context.Users.FindAsync(1);
+            var user = await _repository.GetUserByIdAsync(99);
 
             // Assert
-            Assert.Equal("Jane", result.Name);
+            Assert.Null(user);
         }
 
         [Fact]
-        public async Task DeleteUserAsync_ShouldRemoveUserFromDatabase()
+        public async Task AddUserAsync_ShouldAddUser()
         {
             // Arrange
-            var user = new User { UserId = 1, Name = "John" };
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            var newUser = new User { UserId = 2, Name = "User2", Password = "Password2", Credits = 200 };
 
+            // Act
+            await _repository.AddUserAsync(newUser);
+
+            // Assert
+            var user = await _context.Users.FindAsync(2);
+            Assert.NotNull(user);
+            Assert.Equal("User2", user.Name);
+        }
+
+        [Fact]
+        public async Task UpdateUserCredentialsAsync_ShouldUpdateUserCredentials()
+        {
+            // Arrange
+            var updatedUser = new User { UserId = 1, Name = "UpdatedUser", Password = "UpdatedPassword" };
+
+            // Act
+            await _repository.UpdateUserCredentialsAsync(updatedUser);
+
+            // Assert
+            var user = await _context.Users.FindAsync(1);
+            Assert.Equal("UpdatedUser", user.Name);
+        }
+
+        [Fact]
+        public async Task UpdateUserCreditsAsync_ShouldUpdateUserCredits()
+        {
+            // Arrange
+            var updatedUser = new User { UserId = 1, Credits = 500 };
+
+            // Act
+            await _repository.UpdateUserCreditsAsync(updatedUser);
+
+            // Assert
+            var user = await _context.Users.FindAsync(1);
+            Assert.Equal(500, user.Credits);
+        }
+
+        [Fact]
+        public async Task DeleteUserAsync_ShouldRemoveUser_WhenExists()
+        {
             // Act
             await _repository.DeleteUserAsync(1);
-            var result = await _context.Users.FindAsync(1);
 
             // Assert
-            Assert.Null(result);
+            var user = await _context.Users.FindAsync(1);
+            Assert.Null(user);
+        }
+
+        [Fact]
+        public async Task DeleteUserAsync_ShouldDoNothing_WhenDoesNotExist()
+        {
+            // Act
+            await _repository.DeleteUserAsync(99);
+
+            // Assert
+            var user = await _context.Users.FindAsync(99);
+            Assert.Null(user);
         }
     }
+
 }
