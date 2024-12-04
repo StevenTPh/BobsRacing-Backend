@@ -15,13 +15,13 @@ namespace Bobs_Racing.Controllers
         private readonly IRaceService _raceService;
         private readonly IAnimalRepository _animalRepository;
 
-        public RaceAnimalController(IRaceAnimalRepository raceAnimalRepository)
+        public RaceAnimalController(IRaceAnimalRepository raceAnimalRepository,
+                                    IRaceService raceService,
+                                    IAnimalRepository animalRepository)
         {
             _raceAnimalRepository = raceAnimalRepository;
-        }
-        public RaceAnimalController(IRaceService raceService)
-        {
             _raceService = raceService;
+            _animalRepository = animalRepository;
         }
 
         [HttpPost("process-race")]

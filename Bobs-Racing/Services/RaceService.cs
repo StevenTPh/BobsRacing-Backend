@@ -24,19 +24,19 @@ namespace Bobs_Racing.Services
 
             foreach (var animal in animals)
             {
-                var checkpoints = new List<int>();
+                var checkpointSpeeds = new List<int>();
                 for (int i = 0; i < 3; i++)
                 {
-                    checkpoints.Add(random.Next(animal.MinSpeed, animal.MaxSpeed + 1));
+                    checkpointSpeeds.Add(random.Next(animal.MinSpeed, animal.MaxSpeed + 1));
                 }
 
-                int totalSpeed = checkpoints.Sum();
+                int totalSpeed = checkpointSpeeds.Sum();
 
                 var raceAnimal = new RaceAnimal
                 {
                     RaceId = raceId,
                     AnimalId = animal.AnimalId,
-                    CheckpointSpeeds = checkpoints.ToArray(),
+                    CheckpointSpeeds = checkpointSpeeds,
                     FinalPosition = totalSpeed
                 };
 
@@ -44,7 +44,7 @@ namespace Bobs_Racing.Services
             }
 
             var rankedResults = raceResults
-                .OrderBy(ra => ra.FinalPosition)
+                .OrderByDescending(ra => ra.FinalPosition)
                 .ToList();
 
             for  (int i = 0; i < rankedResults.Count;i++)

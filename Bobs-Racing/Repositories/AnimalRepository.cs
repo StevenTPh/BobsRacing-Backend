@@ -2,8 +2,7 @@
 using Bobs_Racing.Interface;
 using Bobs_Racing.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
 
 namespace Bobs_Racing.Repositories
 {
