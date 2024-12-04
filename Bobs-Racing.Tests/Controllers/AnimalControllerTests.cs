@@ -31,8 +31,12 @@ namespace Bobs_Racing.Tests.Controllers
             _context = new AppDbContext(options);
             _controller = new AnimalController(_context);
 
+            // Reset the database for each test run
+            _context.Database.EnsureDeleted();
+            _context.Database.EnsureCreated();
+
             // Seed data
-            _context.Animals.Add(new Animal { AnimalId = 1, Name = "Animal1", MinSpeed = 10, MaxSpeed = 20 });
+            _context.Animals.Add(new Animal { AnimalId = 1, Name = "Animal1", Image = "animal.jpg", MinSpeed = 10, MaxSpeed = 20 });
             _context.SaveChanges();
         }
 
@@ -75,7 +79,7 @@ namespace Bobs_Racing.Tests.Controllers
         public async Task CreateAnimal_ShouldReturnCreatedAtAction()
         {
             // Arrange
-            var newAnimal = new Animal { AnimalId = 2, Name = "Animal2", MinSpeed = 15, MaxSpeed = 25 };
+            var newAnimal = new Animal { AnimalId = 2, Name = "Animal2", Image = "animal.jpg", MinSpeed = 15, MaxSpeed = 25 };
 
             // Act
             var result = await _controller.CreateAnimal(newAnimal);
@@ -90,17 +94,17 @@ namespace Bobs_Racing.Tests.Controllers
         public async Task UpdateAnimal_ShouldReturnNoContent_WhenAnimalExists()
         {
             // Arrange
-            var updatedAnimal = new Animal { AnimalId = 1, Name = "UpdatedAnimal1", MinSpeed = 12, MaxSpeed = 22 };
+            var updatedAnimal = new Animal { AnimalId = 2, Name = "UpdatedAnimal2", Image = "animal.jpg", MinSpeed = 12, MaxSpeed = 22 };
 
             // Act
-            var result = await _controller.UpdateAnimal(1, updatedAnimal);
+            var result = await _controller.UpdateAnimal(2, updatedAnimal);
 
             // Assert
             Assert.IsType<NoContentResult>(result);
 
             // Verify update
-            var animal = await _context.Animals.FindAsync(1);
-            Assert.Equal("UpdatedAnimal1", animal.Name);
+            var animal = await _context.Animals.FindAsync(2);
+            Assert.Equal("UpdatedAnimal2", animal.Name);
         }
 
         [Fact]

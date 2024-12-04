@@ -29,9 +29,13 @@ namespace Bobs_Racing.Tests.Repositories
             _context = new AppDbContext(options);
             _repository = new RaceAnimalRepository(_context);
 
+            // Reset the database for each test run
+            _context.Database.EnsureDeleted();
+            _context.Database.EnsureCreated();
+
             // Seed data
             var race = new Race { RaceId = 1, Date = DateTime.Now };
-            var animal = new Animal { AnimalId = 1, Name = "Animal1", MinSpeed = 10, MaxSpeed = 20 };
+            var animal = new Animal { AnimalId = 1, Name = "Animal1", Image = "animal.jpg", MinSpeed = 10, MaxSpeed = 20 };
 
             _context.Races.Add(race);
             _context.Animals.Add(animal);
@@ -76,7 +80,7 @@ namespace Bobs_Racing.Tests.Repositories
         {
             // Arrange
             var newRaceAnimal = new RaceAnimal { RaceId = 1, AnimalId = 2, CheckpointSpeeds = new int[] { 12, 18, 25 }, FinalPosition = 2 };
-            _context.Animals.Add(new Animal { AnimalId = 2, Name = "Animal2", MinSpeed = 15, MaxSpeed = 25 });
+            _context.Animals.Add(new Animal { AnimalId = 2, Name = "Animal2", Image = "animal.jpg", MinSpeed = 15, MaxSpeed = 25 });
             _context.SaveChanges();
 
             // Act

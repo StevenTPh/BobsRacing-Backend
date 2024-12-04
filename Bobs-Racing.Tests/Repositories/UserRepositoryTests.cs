@@ -25,6 +25,10 @@ namespace Bobs_Racing.Tests.Repositories
             _context = new AppDbContext(options);
             _repository = new UserRepository(_context);
 
+            // Reset the database for each test run
+            _context.Database.EnsureDeleted();
+            _context.Database.EnsureCreated();
+
             // Seed data
             _context.Users.Add(new User { UserId = 1, Name = "User1", Password = "Password1", Credits = 100 });
             _context.SaveChanges();

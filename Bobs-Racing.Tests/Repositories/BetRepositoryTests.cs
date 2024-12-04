@@ -30,10 +30,14 @@ namespace Bobs_Racing.Tests.Repositories
             _context = new AppDbContext(options);
             _repository = new BetRepository(_context);
 
+            // Reset the database for each test run
+            _context.Database.EnsureDeleted();
+            _context.Database.EnsureCreated();
+
             // Seed data
             var user = new User { UserId = 1, Name = "User1", Credits = 100, Password = "password" };
             var race = new Race { RaceId = 1, Date = DateTime.Now };
-            var animal = new Animal { AnimalId = 1, Name = "Animal1", MinSpeed = 10, MaxSpeed = 20 };
+            var animal = new Animal { AnimalId = 1, Name = "Animal1", Image = "animal.jpg", MinSpeed = 10, MaxSpeed = 20 };
 
             _context.Users.Add(user);
             _context.Races.Add(race);

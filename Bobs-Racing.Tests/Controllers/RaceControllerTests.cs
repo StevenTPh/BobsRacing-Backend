@@ -30,9 +30,13 @@ namespace Bobs_Racing.Tests.Controllers
             _context = new AppDbContext(options);
             _controller = new RaceController(_context);
 
+            // Reset the database for each test run
+            _context.Database.EnsureDeleted();
+            _context.Database.EnsureCreated();
+
             // Seed data
             var race = new Race { RaceId = 1, Date = DateTime.Now };
-            var animal = new Animal { AnimalId = 1, Name = "Animal1", MinSpeed = 10, MaxSpeed = 20 };
+            var animal = new Animal { AnimalId = 1, Name = "Animal1", Image = "animal.jpg", MinSpeed = 10, MaxSpeed = 20 };
 
             _context.Races.Add(race);
             _context.Animals.Add(animal);
