@@ -66,8 +66,11 @@ namespace Bobs_Racing.Controllers
                 return NotFound("User not found");
             }
 
+            existingUser.Name = user.Name;
+            existingUser.Password = user.Password;
+
             // Optionally handle sensitive updates like password hashing
-            await _userRepository.UpdateUserCredentialsAsync(user);
+            await _userRepository.UpdateUserCredentialsAsync(existingUser);
             return NoContent();
         }
 
@@ -85,8 +88,10 @@ namespace Bobs_Racing.Controllers
                 return NotFound("User not found");
             }
 
+            existingUser.Credits = user.Credits;
+
             // Optionally handle sensitive updates like password hashing
-            await _userRepository.UpdateUserCreditsAsync(user);
+            await _userRepository.UpdateUserCreditsAsync(existingUser);
             return NoContent();
         }
 

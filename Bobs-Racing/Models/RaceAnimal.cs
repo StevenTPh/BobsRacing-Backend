@@ -1,24 +1,36 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Bobs_Racing.Models
 {
     public class RaceAnimal
     {
-        [Key, Column(Order = 0)] // Composite key
-        public int RaceId { get; set; }
-        [ForeignKey(nameof(RaceId))]
-        [JsonIgnore]
-        public Race? Race { get; set; }
+        [Key]
+        public int RaceAnimalId { get; set; } // Surrogate key for this entity
 
-        [Key, Column(Order = 1)] // Composite key
-        public int AnimalId { get; set; }
-        [ForeignKey(nameof(AnimalId))]
-        [JsonIgnore]
-        public Animal? Animal { get; set; }
+        [ForeignKey("RaceId")]
+        public int RaceId { get; set; }  // Foreign key for Race
+        [ForeignKey("AnimalId")]
+        public int AnimalId { get; set; }  // Foreign key for Animal
 
-        public int[] CheckpointSpeeds { get; set; } = new int[3]; // Array of speeds at checkpoints
+        [JsonIgnore]
+        public Race Race { get; set; }
+
+        //[ForeignKey(nameof(AnimalId))]
+        [JsonIgnore]
+        public Animal Animal { get; set; }
+
+        // CheckpointSpeeds string for database storage
+        public string CheckpointSpeedsString { get; set; }
+
+        [NotMapped]
+        public List<int> CheckpointSpeeds
+        {
+            get => CheckpointSpeedsString?.Split(',').Select(int.Parse).ToList() ?? new List<int>();
+            set => CheckpointSpeedsString = string.Join(",", value);
+        }
+
         public int FinalPosition { get; set; } // Position in the race
 
         // Navigation property for Bets

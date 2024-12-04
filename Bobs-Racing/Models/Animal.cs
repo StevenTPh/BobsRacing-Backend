@@ -13,6 +13,6 @@ namespace Bobs_Racing.Models
         public int MinSpeed { get; set; }
         public int MaxSpeed { get; set; }
         [JsonIgnore]
-        public List<RaceAnimal>? RaceAnimals { get; set; } = new List<RaceAnimal>();
+        public List<RaceAnimal> RaceAnimals { get; set; } = new List<RaceAnimal>();
     }
 }

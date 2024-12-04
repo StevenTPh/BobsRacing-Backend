@@ -19,9 +19,9 @@ namespace Bobs_Racing.Repositories
             return await _context.Bets
                 .Include(b => b.User)
                 .Include(b => b.RaceAnimal)
-                .ThenInclude(ra => ra.Race)
+                    .ThenInclude(ra => ra.Race)
                 .Include(b => b.RaceAnimal)
-                .ThenInclude(ra => ra.Animal)
+                    .ThenInclude(ra => ra.Animal)
                 .ToListAsync();
         }
 
@@ -30,18 +30,18 @@ namespace Bobs_Racing.Repositories
             return await _context.Bets
                 .Include(b => b.User)
                 .Include(b => b.RaceAnimal)
-                .ThenInclude(ra => ra.Race)
+                    .ThenInclude(ra => ra.Race)
                 .Include(b => b.RaceAnimal)
-                .ThenInclude(ra => ra.Animal)
+                    .ThenInclude(ra => ra.Animal)
                 .FirstOrDefaultAsync(b => b.BetId == betId);
         }
 
         public async Task AddBetAsync(Bet bet)
         {
-            // Validate the composite key in RaceAnimal
-            if (!await ValidateRaceAnimalAsync(bet.RaceId, bet.AnimalId))
+            // Validate if the RaceAnimalId exists
+            if (!await ValidateRaceAnimalAsync(bet.RaceAnimal.RaceAnimalId))
             {
-                throw new ArgumentException("Invalid RaceId or AnimalId combination.");
+                throw new ArgumentException("Invalid RaceAnimalId.");
             }
 
             await _context.Bets.AddAsync(bet);
@@ -50,10 +50,10 @@ namespace Bobs_Racing.Repositories
 
         public async Task UpdateBetAsync(Bet bet)
         {
-            // Validate the composite key in RaceAnimal
-            if (!await ValidateRaceAnimalAsync(bet.RaceId, bet.AnimalId))
+            // Validate if the RaceAnimalId exists
+            if (!await ValidateRaceAnimalAsync(bet.RaceAnimal.RaceAnimalId))
             {
-                throw new ArgumentException("Invalid RaceId or AnimalId combination.");
+                throw new ArgumentException("Invalid RaceAnimalId.");
             }
 
             _context.Bets.Update(bet);
@@ -70,9 +70,11 @@ namespace Bobs_Racing.Repositories
             }
         }
 
-        public async Task<bool> ValidateRaceAnimalAsync(int raceId, int animalId)
+        // This method now only takes raceAnimalId as a parameter
+        public async Task<bool> ValidateRaceAnimalAsync(int raceAnimalId)
         {
-            return await _context.RaceAnimals.AnyAsync(ra => ra.RaceId == raceId && ra.AnimalId == animalId);
+            // Check if a RaceAnimal with the given raceAnimalId exists in the database
+            return await _context.RaceAnimals.AnyAsync(ra => ra.RaceAnimalId == raceAnimalId);
         }
     }
 }

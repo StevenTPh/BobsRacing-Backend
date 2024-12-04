@@ -19,10 +19,11 @@ namespace Bobs_Racing.Repositories
             return await _context.RaceAnimals.ToListAsync();
         }
 
-        public async Task<RaceAnimal> GetBetByIdAsync(int animalId, int raceId)
+        public async Task<RaceAnimal> GetRaceAnimalByIdAsync(int id)
         {
             return await _context.RaceAnimals
-                .FirstOrDefaultAsync(ra => ra.AnimalId == animalId && ra.RaceId == raceId);
+                .Include(ra => ra.RaceAnimalId)
+                .FirstOrDefaultAsync(ra => ra.RaceAnimalId == id);
         }
 
         public async Task AddRaceAnimalAsync(RaceAnimal raceAnimal)
@@ -36,9 +37,10 @@ namespace Bobs_Racing.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteRaceAnimalAsync(int animalId, int raceId)
+        public async Task DeleteRaceAnimalAsync(int id)
         {
-            var raceAnimal = await GetBetByIdAsync(animalId, raceId);
+
+            var raceAnimal = await _context.RaceAnimals.FindAsync(id);
             if (raceAnimal != null)
             {
                 _context.RaceAnimals.Remove(raceAnimal);

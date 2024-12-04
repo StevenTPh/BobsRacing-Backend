@@ -16,47 +16,49 @@ namespace Bobs_Racing.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Composite key for RaceAnimal
+            // Use surrogate key for RaceAnimal
             modelBuilder.Entity<RaceAnimal>()
-                .HasKey(ra => new { ra.RaceId, ra.AnimalId });
+                .HasKey(ra => ra.RaceAnimalId);
 
+            // Configure relationships with Race and Animal
             modelBuilder.Entity<RaceAnimal>()
                 .HasOne(ra => ra.Race)
                 .WithMany(r => r.RaceAnimals)
-                .HasForeignKey(ra => ra.RaceId);
+                .HasForeignKey(ra => ra.RaceId); // Foreign Key for Race
 
             modelBuilder.Entity<RaceAnimal>()
                 .HasOne(ra => ra.Animal)
                 .WithMany(a => a.RaceAnimals)
-                .HasForeignKey(ra => ra.AnimalId);
+                .HasForeignKey(ra => ra.AnimalId); // Foreign Key for Animal
 
             // Value Converter for CheckpointSpeeds
             modelBuilder.Entity<RaceAnimal>()
-                .Property(ra => ra.CheckpointSpeeds)
+                .Property(ra => ra.CheckpointSpeedsString)
+                .HasColumnName("CheckpointSpeeds")
                 .HasConversion(
-                    v => string.Join(",", v),
-                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray()
+                    v => v, // Store as is (string)
+                    v => v  // Convert back to string
                 );
 
-            // Value Converter for Rankings in Race
+            // Mapping RankingsString to a database column
             modelBuilder.Entity<Race>()
-                .Property(r => r.Rankings)
+                .Property(r => r.RankingsString)
+                .HasColumnName("Rankings") // This is the actual column in the database
                 .HasConversion(
-                    v => string.Join(",", v),
-                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList()
+                    v => v, // Store as is (string)
+                    v => v  // Convert back to string when reading
                 );
 
             // Bet relationships
             modelBuilder.Entity<Bet>()
                 .HasOne(b => b.User)
                 .WithMany(u => u.Bets)
-                .HasForeignKey(b => b.UserId);
+                .HasForeignKey(b => b.UserId); // Foreign Key for User
 
-            // Updated composite foreign key for Bet → RaceAnimal
             modelBuilder.Entity<Bet>()
                 .HasOne(b => b.RaceAnimal)
                 .WithMany(ra => ra.Bets)
-                .HasForeignKey(b => new { b.RaceId, b.AnimalId });
+                .HasForeignKey(b => b.RaceAnimalId); // Foreign Key for RaceAnimal
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Bobs_Racing.Interface;
 using Bobs_Racing.Models;
+using Bobs_Racing.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bobs_Racing.Controllers
@@ -28,10 +29,10 @@ namespace Bobs_Racing.Controllers
         }
 
         // GET: api/RaceAnimal/{animalId}/{raceId}
-        [HttpGet("{animalId}/{raceId}")]
-        public async Task<ActionResult<RaceAnimal>> GetBetById(int animalId, int raceId)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<RaceAnimal>> GetBetById(int id)
         {
-            var raceAnimal = await _raceAnimalRepository.GetBetByIdAsync(animalId, raceId);
+            var raceAnimal = await _raceAnimalRepository.GetRaceAnimalByIdAsync(id);
             if (raceAnimal == null)
             {
                 return NotFound();
@@ -48,67 +49,61 @@ namespace Bobs_Racing.Controllers
                 return BadRequest("Invalid data.");
             }
 
-            var isValidAnimal = await _raceAnimalRepository.ValidateAnimalAsync(raceAnimal.AnimalId);
-            var isValidRace = await _raceAnimalRepository.ValidateRaceAsync(raceAnimal.RaceId);
+            var isValidAnimal = await _raceAnimalRepository.ValidateAnimalAsync(raceAnimal.Animal.AnimalId);
+            var isValidRace = await _raceAnimalRepository.ValidateRaceAsync(raceAnimal.Race.RaceId);
 
             if (!isValidAnimal)
             {
-                return BadRequest($"Animal with ID {raceAnimal.AnimalId} is not valid.");
+                return BadRequest($"Animal with ID {raceAnimal.Animal.AnimalId} is not valid.");
             }
 
             if (!isValidRace)
             {
-                return BadRequest($"Race with ID {raceAnimal.RaceId} is not valid.");
+                return BadRequest($"Race with ID {raceAnimal.Race.RaceId} is not valid.");
             }
 
             await _raceAnimalRepository.AddRaceAnimalAsync(raceAnimal);
-            return CreatedAtAction(nameof(GetBetById), new { animalId = raceAnimal.AnimalId, raceId = raceAnimal.RaceId }, raceAnimal);
+            return CreatedAtAction(nameof(GetBetById), new { animalId = raceAnimal.Animal.AnimalId, raceId = raceAnimal.Race.RaceId }, raceAnimal);
         }
 
         // PUT: api/RaceAnimal
-        [HttpPut]
-        public async Task<ActionResult> UpdateRaceAnimal([FromBody] RaceAnimal raceAnimal)
+        [HttpPut ("{id}")]
+        public async Task<ActionResult> UpdateRaceAnimal(int id, [FromBody] RaceAnimal raceAnimal)
         {
-            if (raceAnimal == null)
-            {
-                return BadRequest("Invalid data.");
-            }
+            var exisitngRaceAnimal = await _raceAnimalRepository.GetRaceAnimalByIdAsync(id);
 
-            var isValidAnimal = await _raceAnimalRepository.ValidateAnimalAsync(raceAnimal.AnimalId);
-            var isValidRace = await _raceAnimalRepository.ValidateRaceAsync(raceAnimal.RaceId);
+            var isValidAnimal = await _raceAnimalRepository.ValidateAnimalAsync(raceAnimal.Animal.AnimalId);
+            var isValidRace = await _raceAnimalRepository.ValidateRaceAsync(raceAnimal.Race.RaceId);
 
             if (!isValidAnimal)
             {
-                return BadRequest($"Animal with ID {raceAnimal.AnimalId} is not valid.");
+                return BadRequest($"Animal with ID {raceAnimal.Animal.AnimalId} is not valid.");
             }
 
             if (!isValidRace)
             {
-                return BadRequest($"Race with ID {raceAnimal.RaceId} is not valid.");
+                return BadRequest($"Race with ID {raceAnimal.Race.RaceId} is not valid.");
             }
 
-            await _raceAnimalRepository.UpdateRaceAnimalAsync(raceAnimal);
+            exisitngRaceAnimal.Race.RaceId = raceAnimal.Race.RaceId;
+            exisitngRaceAnimal.Animal.AnimalId= raceAnimal.Animal.AnimalId;
+
+            await _raceAnimalRepository.UpdateRaceAnimalAsync(exisitngRaceAnimal);
             return NoContent();
         }
 
         // DELETE: api/RaceAnimal/{animalId}/{raceId}
-        [HttpDelete("{animalId}/{raceId}")]
-        public async Task<ActionResult> DeleteRaceAnimal(int animalId, int raceId)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteRaceAnimal(int id)
         {
-            var isValidAnimal = await _raceAnimalRepository.ValidateAnimalAsync(animalId);
-            var isValidRace = await _raceAnimalRepository.ValidateRaceAsync(raceId);
 
-            if (!isValidAnimal)
+            var raceAnimal = await _raceAnimalRepository.GetRaceAnimalByIdAsync(id);
+            if (raceAnimal == null)
             {
-                return BadRequest($"Animal with ID {animalId} is not valid.");
+                return NotFound("RaceAnimal not found");
             }
 
-            if (!isValidRace)
-            {
-                return BadRequest($"Race with ID {raceId} is not valid.");
-            }
-
-            await _raceAnimalRepository.DeleteRaceAnimalAsync(animalId, raceId);
+            await _raceAnimalRepository.DeleteRaceAnimalAsync(id);
             return NoContent();
         }
     }
