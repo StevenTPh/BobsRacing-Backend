@@ -1,5 +1,7 @@
 ﻿using Bobs_Racing.Data;
+using Bobs_Racing.Interface;
 using Bobs_Racing.Models;
+using Bobs_Racing.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,34 +11,28 @@ namespace Bobs_Racing.Controllers
     [Route("api/[controller]")]
     public class AnimalController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IAnimalRepository _animalRepository;
 
-        public AnimalController(AppDbContext context)
+        public AnimalController(IAnimalRepository animalRepository)
         {
-            _context = context;
+            _animalRepository = animalRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllAnimals()
         {
-            var animals = await _context.Animals
-                .Include(a => a.RaceAnimals)
-                    .ThenInclude(ra => ra.Race)
-                .ToListAsync();
-
+            var animals = await _animalRepository.GetAllAnimalsAsync();
             return Ok(animals);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAnimalById(int id)
         {
-            var animal = await _context.Animals
-                .Include(a => a.RaceAnimals)
-                    .ThenInclude(ra => ra.Race)
-                .FirstOrDefaultAsync(a => a.AnimalId == id);
-
+            var animal = await _animalRepository.GetAnimalByIdAsync(id);
             if (animal == null)
-                return NotFound();
+            {
+                return NotFound("Animal not found");
+            }
 
             return Ok(animal);
         }
@@ -47,8 +43,7 @@ namespace Bobs_Racing.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _context.Animals.AddAsync(animal);
-            await _context.SaveChangesAsync();
+            await _animalRepository.AddAnimalAsync(animal);
 
             return CreatedAtAction(nameof(GetAnimalById), new { id = animal.AnimalId }, animal);
         }
@@ -56,11 +51,18 @@ namespace Bobs_Racing.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAnimal(int id, [FromBody] Animal animal)
         {
-            if (id != animal.AnimalId)
-                return BadRequest("Animal ID mismatch.");
+            var existingAnimal = await _animalRepository.GetAnimalByIdAsync(id);
+            if (existingAnimal == null)
+            {
+                return NotFound("Animal not found");
+            }
 
-            _context.Animals.Update(animal);
-            await _context.SaveChangesAsync();
+            existingAnimal.Image = animal.Image;
+            existingAnimal.Name = animal.Name;
+            existingAnimal.MinSpeed = animal.MinSpeed;
+            existingAnimal.MaxSpeed = animal.MaxSpeed;
+
+            await _animalRepository.UpdateAnimalAsync(existingAnimal);
 
             return NoContent();
         }
@@ -68,13 +70,13 @@ namespace Bobs_Racing.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAnimal(int id)
         {
-            var animal = await _context.Animals.FindAsync(id);
+            var animal = await _animalRepository.GetAnimalByIdAsync(id);
             if (animal == null)
-                return NotFound();
+            {
+                return NotFound("Animal not found");
+            }
 
-            _context.Animals.Remove(animal);
-            await _context.SaveChangesAsync();
-
+            await _animalRepository.DeleteAnimalAsync(id);
             return NoContent();
         }
     }

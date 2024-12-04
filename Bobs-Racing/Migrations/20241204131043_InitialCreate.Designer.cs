@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bobs_Racing.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241202091701_InitialCreate")]
+    [Migration("20241204131043_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,10 @@ namespace Bobs_Racing.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AnimalId"), 1L, 1);
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MaxSpeed")
                         .HasColumnType("int");
@@ -58,16 +62,13 @@ namespace Bobs_Racing.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<int>("AnimalId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("PotentialPayout")
                         .HasColumnType("int");
 
-                    b.Property<int>("RaceId")
+                    b.Property<int>("RaceAnimalId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -75,9 +76,9 @@ namespace Bobs_Racing.Migrations
 
                     b.HasKey("BetId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("RaceAnimalId");
 
-                    b.HasIndex("RaceId", "AnimalId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Bets");
                 });
@@ -93,9 +94,10 @@ namespace Bobs_Racing.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Rankings")
+                    b.Property<string>("RankingsString")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Rankings");
 
                     b.HasKey("RaceId");
 
@@ -104,24 +106,31 @@ namespace Bobs_Racing.Migrations
 
             modelBuilder.Entity("Bobs_Racing.Models.RaceAnimal", b =>
                 {
-                    b.Property<int>("RaceId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(0);
+                    b.Property<int>("RaceAnimalId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RaceAnimalId"), 1L, 1);
 
                     b.Property<int>("AnimalId")
-                        .HasColumnType("int")
-                        .HasColumnOrder(1);
+                        .HasColumnType("int");
 
-                    b.Property<string>("CheckpointSpeeds")
+                    b.Property<string>("CheckpointSpeedsString")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("CheckpointSpeeds");
 
                     b.Property<int>("FinalPosition")
                         .HasColumnType("int");
 
-                    b.HasKey("RaceId", "AnimalId");
+                    b.Property<int>("RaceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RaceAnimalId");
 
                     b.HasIndex("AnimalId");
+
+                    b.HasIndex("RaceId");
 
                     b.ToTable("RaceAnimals");
                 });
@@ -154,15 +163,15 @@ namespace Bobs_Racing.Migrations
 
             modelBuilder.Entity("Bobs_Racing.Models.Bet", b =>
                 {
-                    b.HasOne("Bobs_Racing.Models.User", "User")
+                    b.HasOne("Bobs_Racing.Models.RaceAnimal", "RaceAnimal")
                         .WithMany("Bets")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("RaceAnimalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Bobs_Racing.Models.RaceAnimal", "RaceAnimal")
+                    b.HasOne("Bobs_Racing.Models.User", "User")
                         .WithMany("Bets")
-                        .HasForeignKey("RaceId", "AnimalId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

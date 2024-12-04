@@ -42,7 +42,7 @@ namespace Bobs_Racing.Controllers
             }
 
             // Validate the composite key
-            if (!await _betRepository.ValidateRaceAnimalAsync(bet.RaceId, bet.AnimalId))
+            if (!await _betRepository.ValidateRaceAnimalAsync(bet.RaceAnimal.RaceAnimalId))
             {
                 return BadRequest("Invalid RaceId or AnimalId combination");
             }
@@ -51,14 +51,9 @@ namespace Bobs_Racing.Controllers
             return CreatedAtAction(nameof(GetBetById), new { id = bet.BetId }, bet);
         }
 
-        [HttpPut("{id}")]
+/*        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBet(int id, [FromBody] Bet bet)
         {
-            if (id != bet.BetId)
-            {
-                return BadRequest("Bet ID mismatch");
-            }
-
             // Validate the composite key
             if (!await _betRepository.ValidateRaceAnimalAsync(bet.RaceId, bet.AnimalId))
             {
@@ -74,6 +69,6 @@ namespace Bobs_Racing.Controllers
         {
             await _betRepository.DeleteBetAsync(id);
             return NoContent();
-        }
+        }*/
     }
 }
