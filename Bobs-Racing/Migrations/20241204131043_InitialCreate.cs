@@ -16,6 +16,7 @@ namespace Bobs_Racing.Migrations
                     AnimalId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MinSpeed = table.Column<int>(type: "int", nullable: false),
                     MaxSpeed = table.Column<int>(type: "int", nullable: false)
                 },
@@ -57,6 +58,8 @@ namespace Bobs_Racing.Migrations
                 name: "RaceAnimals",
                 columns: table => new
                 {
+                    RaceAnimalId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RaceId = table.Column<int>(type: "int", nullable: false),
                     AnimalId = table.Column<int>(type: "int", nullable: false),
                     CheckpointSpeeds = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -64,7 +67,7 @@ namespace Bobs_Racing.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RaceAnimals", x => new { x.RaceId, x.AnimalId });
+                    table.PrimaryKey("PK_RaceAnimals", x => x.RaceAnimalId);
                     table.ForeignKey(
                         name: "FK_RaceAnimals_Animals_AnimalId",
                         column: x => x.AnimalId,
@@ -89,17 +92,16 @@ namespace Bobs_Racing.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PotentialPayout = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    RaceId = table.Column<int>(type: "int", nullable: false),
-                    AnimalId = table.Column<int>(type: "int", nullable: false)
+                    RaceAnimalId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bets", x => x.BetId);
                     table.ForeignKey(
-                        name: "FK_Bets_RaceAnimals_RaceId_AnimalId",
-                        columns: x => new { x.RaceId, x.AnimalId },
+                        name: "FK_Bets_RaceAnimals_RaceAnimalId",
+                        column: x => x.RaceAnimalId,
                         principalTable: "RaceAnimals",
-                        principalColumns: new[] { "RaceId", "AnimalId" },
+                        principalColumn: "RaceAnimalId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Bets_Users_UserId",
@@ -110,9 +112,9 @@ namespace Bobs_Racing.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bets_RaceId_AnimalId",
+                name: "IX_Bets_RaceAnimalId",
                 table: "Bets",
-                columns: new[] { "RaceId", "AnimalId" });
+                column: "RaceAnimalId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bets_UserId",
@@ -123,6 +125,11 @@ namespace Bobs_Racing.Migrations
                 name: "IX_RaceAnimals_AnimalId",
                 table: "RaceAnimals",
                 column: "AnimalId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RaceAnimals_RaceId",
+                table: "RaceAnimals",
+                column: "RaceId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

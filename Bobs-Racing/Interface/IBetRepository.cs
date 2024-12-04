@@ -11,6 +11,6 @@ namespace Bobs_Racing.Interface
         Task DeleteBetAsync(int betId);
 
         // New method to validate the composite key in RaceAnimal
-        Task<bool> ValidateRaceAnimalAsync(int raceId, int animalId);
+        Task<bool> ValidateRaceAnimalAsync(int raceAnimalId);
     }
 }

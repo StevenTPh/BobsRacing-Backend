@@ -5,10 +5,10 @@ namespace Bobs_Racing.Interface
     public interface IRaceAnimalRepository
     {
         Task<IEnumerable<RaceAnimal>> GetAllRaceAnimalAsync();
-        Task<RaceAnimal> GetBetByIdAsync(int animalId, int raceId);
+        Task<RaceAnimal> GetRaceAnimalByIdAsync(int id);
         Task AddRaceAnimalAsync(RaceAnimal raceAnimal);
         Task UpdateRaceAnimalAsync(RaceAnimal raceAnimal);
-        Task DeleteRaceAnimalAsync(int animalId, int raceId);
+        Task DeleteRaceAnimalAsync(int id);
 
         // New method to validate the composite key in RaceAnimal
         Task<bool> ValidateAnimalAsync(int animalId);

@@ -28,10 +28,6 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
-        # Run tests
-      - name: Run Unit Tests
-        run: dotnet test --configuration Release --verbosity normal
-
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
         

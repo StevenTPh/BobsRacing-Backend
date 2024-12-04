@@ -10,30 +10,23 @@ namespace Bobs_Racing.Models
         [Key]
         public int BetId { get; set; } // Primary Key for the Bet table
 
-        [Required]
+        //[Required]
         public int Amount { get; set; } // Bet amount
 
-        [Required]
+        //[Required]
         public DateTime Date { get; set; } // Date of the bet
 
         public int PotentialPayout { get; set; } // Potential payout
 
-        // Foreign Key: UserId
-        [Required]
-        public int UserId { get; set; }
+        public int  UserId { get; set; }
+
         [JsonIgnore]
-        [ForeignKey(nameof(UserId))]
+        [ForeignKey("UserId")]
         public User User { get; set; } // Navigation property for User
 
-        // Composite Foreign Key: RaceId and AnimalId (via RaceAnimal)
-        [Required]
+        public int RaceAnimalId { get; set; }  // Foreign Key for RaceAnimal
         [JsonIgnore]
-        public int RaceId { get; set; }
-        [Required]
-        [JsonIgnore]
-        public int AnimalId { get; set; }
-
-        [ForeignKey(nameof(RaceId) + "," + nameof(AnimalId))]
-        public RaceAnimal RaceAnimal { get; set; } // Navigation property for RaceAnimal
+        [ForeignKey("RaceAnimalId")]
+        public RaceAnimal RaceAnimal { get; set; }  // Navigation property
     }
 }

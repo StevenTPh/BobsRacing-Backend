@@ -1,5 +1,7 @@
 ﻿using Bobs_Racing.Data;
+using Bobs_Racing.Interface;
 using Bobs_Racing.Models;
+using Bobs_Racing.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,35 +11,28 @@ namespace Bobs_Racing.Controllers
     [Route("api/[controller]")]
     public class RaceController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IRaceRepository _raceRepository;
 
-        public RaceController(AppDbContext context)
+        public RaceController(IRaceRepository raceRepository)
         {
-            _context = context;
+            _raceRepository = raceRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllRaces()
         {
-            var races = await _context.Races
-                .Include(r => r.RaceAnimals)
-                    .ThenInclude(ra => ra.Animal)
-                .ToListAsync();
-
+            var races = await _raceRepository.GetAllRacesAsync();
             return Ok(races);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRaceById(int id)
         {
-            var race = await _context.Races
-                .Include(r => r.RaceAnimals)
-                    .ThenInclude(ra => ra.Animal)
-                .FirstOrDefaultAsync(r => r.RaceId == id);
-
+            var race = await _raceRepository.GetRaceByIdAsync(id);
             if (race == null)
-                return NotFound();
-
+            {
+                return NotFound("Race not found");
+            }
             return Ok(race);
         }
 
@@ -47,8 +42,7 @@ namespace Bobs_Racing.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _context.Races.AddAsync(race);
-            await _context.SaveChangesAsync();
+            await _raceRepository.AddRaceAsync(race);
 
             return CreatedAtAction(nameof(GetRaceById), new { id = race.RaceId }, race);
         }
@@ -56,25 +50,31 @@ namespace Bobs_Racing.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateRace(int id, [FromBody] Race race)
         {
-            if (id != race.RaceId)
-                return BadRequest("Race ID mismatch.");
+            var existingRace = await _raceRepository.GetRaceByIdAsync(id);
+            if (existingRace == null)
+            {
+                return NotFound("Race not found");
+            }
 
-            _context.Races.Update(race);
-            await _context.SaveChangesAsync();
+            existingRace.Date = race.Date;
+            //existingRace.RaceAnimals = race.RaceAnimals;
 
+
+            // Optionally handle sensitive updates like password hashing
+            await _raceRepository.UpdateRaceAsync(existingRace);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRace(int id)
         {
-            var race = await _context.Races.FindAsync(id);
+            var race = await _raceRepository.GetRaceByIdAsync(id);
             if (race == null)
-                return NotFound();
+            {
+                return NotFound("Race not found");
+            }
 
-            _context.Races.Remove(race);
-            await _context.SaveChangesAsync();
-
+            await _raceRepository.DeleteRaceAsync(id);
             return NoContent();
         }
     }

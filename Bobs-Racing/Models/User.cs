@@ -19,25 +19,6 @@ namespace Bobs_Racing.Models
 
         [JsonIgnore]
         public List<Bet> Bets { get; set; } = new List<Bet>();
-
-        public User()
-        {
-            
-        }
-
-        public User(int id, string name, int credits, string password)
-        {
-            this.UserId = id;
-            this.Name = name;
-            this.Credits = credits;
-            this.Password = password;
-        }
-   
-
-        public User(int id)
-        {
-            this.UserId = id;
-        }
         
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Bobs_Racing.Models
 {
@@ -8,8 +10,17 @@ namespace Bobs_Racing.Models
     {
         [Key]
         public int RaceId { get; set; }
+        [JsonIgnore]
         public List<RaceAnimal>? RaceAnimals { get; set; } = new List<RaceAnimal>();
         public DateTime Date { get; set; }
-        public List<int> Rankings { get; set; } = new List<int>(); // Assuming Rankings is a list of Animal IDs
+        // This property holds the Rankings as a string in the database
+        public string RankingsString { get; set; } // Store as a comma-separated string in the database
+
+        [NotMapped]
+        public List<int> Rankings
+        {
+            get => RankingsString?.Split(',').Select(int.Parse).ToList() ?? new List<int>();
+            set => RankingsString = string.Join(",", value);
+        }
     }
 }

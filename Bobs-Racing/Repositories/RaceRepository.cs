@@ -16,7 +16,7 @@ namespace Bobs_Racing.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Race>> GetAllAsync()
+        public async Task<IEnumerable<Race>> GetAllRacesAsync()
         {
             return await _context.Races
                 .Include(r => r.RaceAnimals)
@@ -24,7 +24,7 @@ namespace Bobs_Racing.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Race> GetByIdAsync(int id)
+        public async Task<Race> GetRaceByIdAsync(int id)
         {
             return await _context.Races
                 .Include(r => r.RaceAnimals)
@@ -32,19 +32,19 @@ namespace Bobs_Racing.Repositories
                 .FirstOrDefaultAsync(r => r.RaceId == id);
         }
 
-        public async Task AddAsync(Race race)
+        public async Task AddRaceAsync(Race race)
         {
             await _context.Races.AddAsync(race);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Race race)
+        public async Task UpdateRaceAsync(Race race)
         {
             _context.Races.Update(race);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteRaceAsync(int id)
         {
             var race = await _context.Races.FindAsync(id);
             if (race != null)

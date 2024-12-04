@@ -6,10 +6,10 @@ namespace Bobs_Racing.Interface
 {
     public interface IRaceRepository
     {
-        Task<IEnumerable<Race>> GetAllAsync();
-        Task<Race> GetByIdAsync(int id);
-        Task AddAsync(Race race);
-        Task UpdateAsync(Race race);
-        Task DeleteAsync(int id);
+        Task<IEnumerable<Race>> GetAllRacesAsync();
+        Task<Race> GetRaceByIdAsync(int id);
+        Task AddRaceAsync(Race race);
+        Task UpdateRaceAsync(Race race);
+        Task DeleteRaceAsync(int id);
     }
 }
