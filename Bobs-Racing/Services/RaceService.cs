@@ -43,6 +43,7 @@ namespace Bobs_Racing.Services
             foreach (var animal in animals)
             {
                 // initialize a List<> for storing 3 different checkpoint speeds for the current animal
+                // created as List<> for easier adding elements
                 var checkpointSpeeds = new List<int>();
                 for (int i = 0; i < 3; i++)
                 {
