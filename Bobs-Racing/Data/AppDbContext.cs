@@ -31,23 +31,21 @@ namespace Bobs_Racing.Data
                 .WithMany(a => a.RaceAnimals)
                 .HasForeignKey(ra => ra.AnimalId); // Foreign Key for Animal
 
-            // Value Converter for CheckpointSpeeds
+            // Value Converter for CheckpointSpeeds (RaceAnimal)
             modelBuilder.Entity<RaceAnimal>()
-                .Property(ra => ra.CheckpointSpeedsString)
-                .HasColumnName("CheckpointSpeeds")
+                .Property(ra => ra.CheckpointSpeeds)
                 .HasConversion(
-                    v => v, // Store as is (string)
-                    v => v  // Convert back to string
+                    v => string.Join(",", v), // Convert int[] to string for storage
+                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray() // Convert string back to int[]
                 );
-
-            // Mapping RankingsString to a database column
+            /*
+            // Value Converter for Rankings (Race)
             modelBuilder.Entity<Race>()
-                .Property(r => r.RankingsString)
-                .HasColumnName("Rankings") // This is the actual column in the database
+                .Property(r => r.Rankings)
                 .HasConversion(
-                    v => v, // Store as is (string)
-                    v => v  // Convert back to string when reading
-                );
+                    v => string.Join(",", v), // Convert int[] to string for storage
+                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray() // Convert string back to int[]
+                ); */
 
             // Bet relationships
             modelBuilder.Entity<Bet>()
@@ -60,5 +58,6 @@ namespace Bobs_Racing.Data
                 .WithMany(ra => ra.Bets)
                 .HasForeignKey(b => b.RaceAnimalId); // Foreign Key for RaceAnimal
         }
+
     }
 }

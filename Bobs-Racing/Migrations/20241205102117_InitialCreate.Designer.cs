@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bobs_Racing.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241204131043_InitialCreate")]
+    [Migration("20241205102117_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,11 +94,6 @@ namespace Bobs_Racing.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("RankingsString")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Rankings");
-
                     b.HasKey("RaceId");
 
                     b.ToTable("Races");
@@ -115,10 +110,9 @@ namespace Bobs_Racing.Migrations
                     b.Property<int>("AnimalId")
                         .HasColumnType("int");
 
-                    b.Property<string>("CheckpointSpeedsString")
+                    b.Property<string>("CheckpointSpeeds")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("CheckpointSpeeds");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("FinalPosition")
                         .HasColumnType("int");

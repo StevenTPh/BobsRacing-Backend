@@ -18,7 +18,7 @@ namespace Bobs_Racing.Models
         public int Credits { get; set; }
 
         [JsonIgnore]
-        public List<Bet> Bets { get; set; } = new List<Bet>();
+        public List<Bet>? Bets { get; set; } = new List<Bet>();
         
     }
 }
