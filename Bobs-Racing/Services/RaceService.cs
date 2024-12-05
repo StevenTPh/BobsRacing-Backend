@@ -58,7 +58,8 @@ namespace Bobs_Racing.Services
                 {
                     RaceId = raceId,
                     AnimalId = animal.AnimalId,
-                    CheckpointSpeeds = checkpointSpeeds,
+                    // converts a the List<int> to an array
+                    CheckpointSpeeds = checkpointSpeeds.ToArray(),
                     // temporarily sets totalSpeed to FinalPosition
                     FinalPosition = totalSpeed
                 };
