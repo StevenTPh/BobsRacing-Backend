@@ -38,14 +38,14 @@ namespace Bobs_Racing.Data
                     v => string.Join(",", v), // Convert int[] to string for storage
                     v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray() // Convert string back to int[]
                 );
-
+            /*
             // Value Converter for Rankings (Race)
             modelBuilder.Entity<Race>()
                 .Property(r => r.Rankings)
                 .HasConversion(
                     v => string.Join(",", v), // Convert int[] to string for storage
                     v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray() // Convert string back to int[]
-                );
+                ); */
 
             // Bet relationships
             modelBuilder.Entity<Bet>()
