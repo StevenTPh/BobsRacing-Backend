@@ -1,6 +1,6 @@
 ﻿using Bobs_Racing.Models;
 
-namespace Bobs_Racing.Services
+namespace Bobs_Racing.Interface
 {
     public interface IRaceService
     {
