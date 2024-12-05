@@ -14,6 +14,12 @@ namespace Bobs_Racing.Repositories
             _context = context;
         }
 
+        public async Task SaveRaceResultsAsync(List<RaceAnimal> raceResults)
+        {
+            _context.RaceAnimals.AddRange(raceResults);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<RaceAnimal>> GetAllRaceAnimalAsync()
         {
             return await _context.RaceAnimals.ToListAsync();

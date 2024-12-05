@@ -2,8 +2,7 @@
 using Bobs_Racing.Interface;
 using Bobs_Racing.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
 
 namespace Bobs_Racing.Repositories
 {
@@ -14,6 +13,13 @@ namespace Bobs_Racing.Repositories
         public AnimalRepository(AppDbContext context)
         {
             _context = context;
+        }
+
+        public async Task<List<Animal>> GetAnimalsByIdsAsync(List<int> animalIds)
+        {
+            return await _context.Animals
+                .Where(a => animalIds.Contains(a.AnimalId))
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Animal>> GetAllAnimalsAsync()

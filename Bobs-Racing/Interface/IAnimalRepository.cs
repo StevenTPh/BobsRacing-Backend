@@ -6,6 +6,7 @@ namespace Bobs_Racing.Interface
 {
     public interface IAnimalRepository
     {
+        Task<List<Animal>> GetAnimalsByIdsAsync(List<int> animalIds);
         Task<IEnumerable<Animal>> GetAllAnimalsAsync();
         Task<Animal> GetAnimalByIdAsync(int id);
         Task AddAnimalAsync(Animal animal);

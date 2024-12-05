@@ -2,6 +2,7 @@ using Bobs_Racing.Repositories;
 using Bobs_Racing.Data; // Ensure you include your AppDbContext namespace
 using Microsoft.EntityFrameworkCore;
 using Bobs_Racing.Interface;
+using Bobs_Racing.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,7 @@ builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
 builder.Services.AddScoped<IRaceAnimalRepository, RaceAnimalRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBetRepository, BetRepository>();
+builder.Services.AddScoped<IRaceService, RaceService>();
 
 // Add controllers
 builder.Services.AddControllers();
