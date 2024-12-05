@@ -31,8 +31,6 @@ namespace Bobs_Racing.Models
             get => CheckpointSpeedsString?.Split(',').Select(int.Parse).ToList() ?? new List<int>();
             set => CheckpointSpeedsString = string.Join(",", value);
         } */
-
-        [NotMapped]
         public int[] CheckpointSpeeds { get; set; } = new int[3];
 
         public int FinalPosition { get; set; } // Position in the race

@@ -14,8 +14,7 @@ namespace Bobs_Racing.Models
         public List<RaceAnimal>? RaceAnimals { get; set; } = new List<RaceAnimal>();
         public DateTime Date { get; set; }
         // This property holds the Rankings as a string in the database
-        [NotMapped]
-        public int[] Rankings { get; set; } = new int[3];
+        public int[] Rankings { get; set; } = new int[5];
         /*
         public string RankingsString { get; set; } // Store as a comma-separated string in the database
 
