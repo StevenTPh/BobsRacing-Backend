@@ -22,11 +22,11 @@ namespace Bobs_Racing.Models
 
         [JsonIgnore]
         [ForeignKey("UserId")]
-        public User User { get; set; } // Navigation property for User
+        public User? User { get; set; } // Navigation property for User
 
         public int RaceAnimalId { get; set; }  // Foreign Key for RaceAnimal
         [JsonIgnore]
         [ForeignKey("RaceAnimalId")]
-        public RaceAnimal RaceAnimal { get; set; }  // Navigation property
+        public RaceAnimal? RaceAnimal { get; set; }  // Navigation property
     }
 }

@@ -30,7 +30,7 @@ namespace Bobs_Racing.Controllers
 
         // GET: api/RaceAnimal/{animalId}/{raceId}
         [HttpGet("{id}")]
-        public async Task<ActionResult<RaceAnimal>> GetBetById(int id)
+        public async Task<ActionResult<RaceAnimal>> GetRaceAnimalById(int id)
         {
             var raceAnimal = await _raceAnimalRepository.GetRaceAnimalByIdAsync(id);
             if (raceAnimal == null)
@@ -49,8 +49,8 @@ namespace Bobs_Racing.Controllers
                 return BadRequest("Invalid data.");
             }
 
-            var isValidAnimal = await _raceAnimalRepository.ValidateAnimalAsync(raceAnimal.Animal.AnimalId);
-            var isValidRace = await _raceAnimalRepository.ValidateRaceAsync(raceAnimal.Race.RaceId);
+            var isValidAnimal = await _raceAnimalRepository.ValidateAnimalAsync(raceAnimal.AnimalId);
+            var isValidRace = await _raceAnimalRepository.ValidateRaceAsync(raceAnimal.RaceId);
 
             if (!isValidAnimal)
             {
@@ -63,7 +63,7 @@ namespace Bobs_Racing.Controllers
             }
 
             await _raceAnimalRepository.AddRaceAnimalAsync(raceAnimal);
-            return CreatedAtAction(nameof(GetBetById), new { animalId = raceAnimal.Animal.AnimalId, raceId = raceAnimal.Race.RaceId }, raceAnimal);
+            return CreatedAtAction(nameof(GetRaceAnimalById), new { id = raceAnimal.RaceAnimalId }, raceAnimal);
         }
 
         // PUT: api/RaceAnimal
