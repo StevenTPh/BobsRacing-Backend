@@ -32,6 +32,7 @@ namespace Bobs_Racing.Models
             set => CheckpointSpeedsString = string.Join(",", value);
         } */
 
+        [NotMapped]
         public int[] CheckpointSpeeds { get; set; } = new int[3];
 
         public int FinalPosition { get; set; } // Position in the race
