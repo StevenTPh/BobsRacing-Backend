@@ -25,8 +25,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
-
 ////////// Slik at frontenden kan sende http forespørsler (API Calls) til backenden - Enock
 builder.Services.AddCors(options =>
 {
@@ -37,6 +35,9 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod();
     });
 });
+
+var app = builder.Build();
+
 
 app.UseCors();
 
