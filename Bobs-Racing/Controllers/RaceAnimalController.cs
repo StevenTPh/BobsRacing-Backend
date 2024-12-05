@@ -29,7 +29,7 @@ namespace Bobs_Racing.Controllers
             if (raceInput.AnimalIds == null || !raceInput.AnimalIds.Any())
                 return BadRequest("Animal IDs cannot be empty.");
 
-            // Fetch animals by IDs
+            // Fetch all animals in list based on id
             var animals = await _animalRepository.GetAnimalsByIdsAsync(raceInput.AnimalIds);
 
             if (!animals.Any())
