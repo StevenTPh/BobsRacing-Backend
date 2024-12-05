@@ -21,6 +21,7 @@ namespace Bobs_Racing.Models
         [JsonIgnore]
         public Animal Animal { get; set; }
 
+        /*
         // CheckpointSpeeds string for database storage
         public string CheckpointSpeedsString { get; set; }
 
@@ -29,7 +30,9 @@ namespace Bobs_Racing.Models
         {
             get => CheckpointSpeedsString?.Split(',').Select(int.Parse).ToList() ?? new List<int>();
             set => CheckpointSpeedsString = string.Join(",", value);
-        }
+        } */
+
+        public int[] CheckpointSpeeds { get; set; } = new int[3];
 
         public int FinalPosition { get; set; } // Position in the race
 

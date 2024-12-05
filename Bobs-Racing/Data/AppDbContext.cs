@@ -31,6 +31,7 @@ namespace Bobs_Racing.Data
                 .WithMany(a => a.RaceAnimals)
                 .HasForeignKey(ra => ra.AnimalId); // Foreign Key for Animal
 
+            /*
             // Value Converter for CheckpointSpeeds
             modelBuilder.Entity<RaceAnimal>()
                 .Property(ra => ra.CheckpointSpeedsString)
@@ -47,7 +48,7 @@ namespace Bobs_Racing.Data
                 .HasConversion(
                     v => v, // Store as is (string)
                     v => v  // Convert back to string when reading
-                );
+                ); */
 
             // Bet relationships
             modelBuilder.Entity<Bet>()
