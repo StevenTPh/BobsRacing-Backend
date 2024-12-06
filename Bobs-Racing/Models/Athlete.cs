@@ -4,15 +4,15 @@ using System.Text.Json.Serialization;
 
 namespace Bobs_Racing.Models
 {
-    public class Animal
+    public class Athlete
     {
         [Key]
-        public int AnimalId { get; set; }
+        public int AthleteId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Image { get; set; }
-        public int MinSpeed { get; set; }
-        public int MaxSpeed { get; set; }
+        public int LowestTime { get; set; }
+        public int FastestTime { get; set; }
         [JsonIgnore]
-        public List<RaceAnimal>? RaceAnimals { get; set; } = new List<RaceAnimal>();
+        public List<RaceAthlete>? RaceAthletes { get; set; } = new List<RaceAthlete>();
     }
 }

@@ -42,9 +42,9 @@ namespace Bobs_Racing.Controllers
             }
 
             // Validate the composite key
-            if (!await _betRepository.ValidateRaceAnimalAsync(bet.RaceAnimal.RaceAnimalId))
+            if (!await _betRepository.ValidateRaceAthleteAsync(bet.RaceAthlete.RaceAthleteId))
             {
-                return BadRequest("Invalid RaceId or AnimalId combination");
+                return BadRequest("Invalid RaceId or AthleteId combination");
             }
 
             await _betRepository.AddBetAsync(bet);

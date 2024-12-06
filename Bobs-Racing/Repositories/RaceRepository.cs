@@ -19,16 +19,16 @@ namespace Bobs_Racing.Repositories
         public async Task<IEnumerable<Race>> GetAllRacesAsync()
         {
             return await _context.Races
-                .Include(r => r.RaceAnimals)
-                    .ThenInclude(ra => ra.Animal)
+                .Include(r => r.RaceAthletes)
+                    .ThenInclude(ra => ra.Athlete)
                 .ToListAsync();
         }
 
         public async Task<Race> GetRaceByIdAsync(int id)
         {
             return await _context.Races
-                .Include(r => r.RaceAnimals)
-                    .ThenInclude(ra => ra.Animal)
+                .Include(r => r.RaceAthletes)
+                    .ThenInclude(ra => ra.Athlete)
                 .FirstOrDefaultAsync(r => r.RaceId == id);
         }
 

@@ -57,7 +57,6 @@ namespace Bobs_Racing.Controllers
             }
 
             existingRace.Date = race.Date;
-            //existingRace.RaceAnimals = race.RaceAnimals;
 
 
             // Optionally handle sensitive updates like password hashing

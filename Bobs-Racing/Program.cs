@@ -14,8 +14,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Register repositories
 builder.Services.AddScoped<IRaceRepository, RaceRepository>();
-builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
-builder.Services.AddScoped<IRaceAnimalRepository, RaceAnimalRepository>();
+builder.Services.AddScoped<IAthleteRepository, AthleteRepository>();
+builder.Services.AddScoped<IRaceAthleteRepository, RaceAthleteRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBetRepository, BetRepository>();
 builder.Services.AddScoped<IRaceService, RaceService>();

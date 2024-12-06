@@ -6,24 +6,13 @@ using System.Text.Json.Serialization;
 
 namespace Bobs_Racing.Models
 {
-    public class Race
+    public class Race //OlympicGame
     {
         [Key]
         public int RaceId { get; set; }
-        [JsonIgnore]
-        public List<RaceAnimal>? RaceAnimals { get; set; } = new List<RaceAnimal>();
         public DateTime Date { get; set; }
-        // This property holds the Rankings as a string in the database
-        //public int[] Rankings { get; set; } = new int[5];
-        
-        /*
-        public string RankingsString { get; set; } // Store as a comma-separated string in the database
+        [JsonIgnore]
+        public List<RaceAthlete>? RaceAthletes { get; set; } = new List<RaceAthlete>();
 
-        [NotMapped]
-        public List<int> Rankings
-        {
-            get => RankingsString?.Split(',').Select(int.Parse).ToList() ?? new List<int>();
-            set => RankingsString = string.Join(",", value);
-        } */
     }
 }
