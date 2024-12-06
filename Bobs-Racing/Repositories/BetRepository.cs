@@ -71,10 +71,10 @@ namespace Bobs_Racing.Repositories
         }
 
         // This method now only takes raceAnimalId as a parameter
-        public async Task<bool> ValidateRaceAthleteAsync(int raceAnimalId)
+        public async Task<bool> ValidateRaceAthleteAsync(int raceAthleteId)
         {
             // Check if a RaceAnimal with the given raceAnimalId exists in the database
-            return await _context.RaceAthletes.AnyAsync(ra => ra.RaceAnimalId == raceAnimalId);
+            return await _context.RaceAthletes.AnyAsync(ra => ra.RaceAthleteId == raceAthleteId);
         }
     }
 }

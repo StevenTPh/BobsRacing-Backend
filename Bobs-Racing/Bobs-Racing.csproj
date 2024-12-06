@@ -24,4 +24,8 @@
     <PackageReference Include="xunit" Version="2.9.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Security\" />
+  </ItemGroup>
+
 </Project>
