@@ -28,8 +28,7 @@ namespace Bobs_Racing.Repositories
         public async Task<RaceAthlete> GetRaceAthleteByIdAsync(int id)
         {
             return await _context.RaceAthletes
-                .Include(ra => ra.RaceAthleteId)
-                .FirstOrDefaultAsync(ra => ra.RaceAthleteId == id);
+                         .FirstOrDefaultAsync(ra => ra.RaceAthleteId == id);
         }
 
         public async Task AddRaceAthleteAsync(RaceAthlete raceAthlete)

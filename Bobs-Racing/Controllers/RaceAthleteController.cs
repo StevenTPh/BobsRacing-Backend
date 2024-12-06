@@ -56,12 +56,12 @@ namespace Bobs_Racing.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<RaceAthlete>> GetRaceAthleteById(int id)
         {
-            var raceAnimal = await _raceAthleteRepository.GetRaceAthleteByIdAsync(id);
-            if (raceAnimal == null)
+            var raceAthlete = await _raceAthleteRepository.GetRaceAthleteByIdAsync(id);
+            if (raceAthlete == null)
             {
                 return NotFound();
             }
-            return Ok(raceAnimal);
+            return Ok(raceAthlete);
         }
 
         // POST: api/RaceAthlete
