@@ -9,11 +9,11 @@ namespace Bobs_Racing.Models
         public int UserId { get; set; }
         [Required]
         [MaxLength(50)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         
         [Required]
         [MaxLength(50)]
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         public int Credits { get; set; }
 
