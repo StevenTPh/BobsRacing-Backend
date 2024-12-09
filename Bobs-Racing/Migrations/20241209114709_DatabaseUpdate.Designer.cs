@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bobs_Racing.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241209112415_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241209114709_DatabaseUpdate")]
+    partial class DatabaseUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -138,8 +138,8 @@ namespace Bobs_Racing.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Profilename")
                         .IsRequired()
@@ -158,6 +158,17 @@ namespace Bobs_Racing.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            Credits = 0,
+                            Password = "$2a$11$wtsvMzI5SvhdOd3PIuZ1Q.WbBS39Z1Uj4oPmPFF.Bc08cU.hC0fye",
+                            Profilename = "Admin",
+                            Role = "Admin",
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("Bobs_Racing.Models.Bet", b =>

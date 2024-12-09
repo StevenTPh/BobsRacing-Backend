@@ -113,7 +113,7 @@ namespace Bobs_Racing.Repositories
 
         public async Task<User> GetUserByUsernameAsync(string username)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Profilename == username);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         }
     }
 }
