@@ -6,7 +6,11 @@ namespace Bobs_Racing.Data
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+        private readonly IConfiguration _configuration;
+        public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration) : base(options) {
+            _configuration = configuration;
+        }
 
         // DbSet properties
         public DbSet<Race>? Races { get; set; }
@@ -17,6 +21,27 @@ namespace Bobs_Racing.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            base.OnModelCreating(modelBuilder);
+
+            var adminPassword = _configuration["AdminSettings:Password"];
+            if (string.IsNullOrEmpty(adminPassword))
+            {
+                throw new Exception("Admin password not configured in appsettings.json.");
+            }
+
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    UserId = 1,
+                    Profilename = "Admin",
+                    Username = "admin",
+                    Password = BCrypt.Net.BCrypt.HashPassword(adminPassword),
+                    Role = "Admin",
+                    Credits = 0
+                }
+            );
+
             // Use surrogate key for RaceAthlete
             modelBuilder.Entity<RaceAthlete>()
                 .HasKey(ra => ra.RaceAthleteId);

@@ -37,7 +37,7 @@ namespace Bobs_Racing.Controllers
             return Ok(race);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, User")]
         [HttpPost]
         public async Task<IActionResult> CreateRace([FromBody] Race race)
         {

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Bobs_Racing.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class DatabaseUpdate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,7 +46,7 @@ namespace Bobs_Racing.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Profilename = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Username = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Credits = table.Column<int>(type: "int", nullable: false),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -110,6 +110,11 @@ namespace Bobs_Racing.Migrations
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserId", "Credits", "Password", "Profilename", "Role", "Username" },
+                values: new object[] { 1, 0, "$2a$11$aTFwZVoUOOOKDLoo9TUF6eGu.1HLDUZG7csJt06/4awUkPSL78XdS", "Admin", "Admin", "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bets_RaceAthleteId",

@@ -11,6 +11,7 @@ namespace Bobs_Racing.Security
         public string Username { get; set; } // Unique login credential
 
         [Required]
+        [MaxLength(150)]
         public string Password { get; set; }
     }
 }

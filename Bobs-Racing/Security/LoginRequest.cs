@@ -8,6 +8,7 @@ namespace Bobs_Racing.Security
         public string Username { get; set; } // Used for login
 
         [Required]
+        [MaxLength(150)]
         public string Password { get; set; }
     }
 }
