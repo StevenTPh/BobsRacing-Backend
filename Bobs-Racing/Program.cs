@@ -1,5 +1,5 @@
 using Bobs_Racing.Repositories;
-using Bobs_Racing.Data; // Ensure you include your AppDbContext namespace
+using Bobs_Racing.Data;
 using Microsoft.EntityFrameworkCore;
 using Bobs_Racing.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -21,10 +21,8 @@ builder.Services.AddScoped<IAthleteRepository, AthleteRepository>();
 builder.Services.AddScoped<IRaceAthleteRepository, RaceAthleteRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBetRepository, BetRepository>();
-//builder.Services.AddScoped<IRaceService, RaceService>();
 
 // Add JWT Authentication
-builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -44,7 +42,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-
 builder.Services.AddAuthorization();
 
 // Add controllers
@@ -54,25 +51,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-////////// Slik at frontenden kan sende http forespørsler (API Calls) til backenden - Enock
+// CORS Configuration
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
         policy.WithOrigins("http://localhost/*") // Replace with your frontend URL
             .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowAnyOrigin();
+            .AllowAnyMethod();
     });
 });
 
 var app = builder.Build();
-
-
-app.UseCors();
-
-app.UseAuthentication(); // Use Authentication Middleware
-app.UseAuthorization(); // Use Authorization Middleware
 
 // Seed the database with default admin
 using (var scope = app.Services.CreateScope())
@@ -84,22 +74,22 @@ using (var scope = app.Services.CreateScope())
         var adminPassword = configuration["AdminSettings:Password"];
         if (string.IsNullOrEmpty(adminPassword))
         {
-            throw new Exception("Admin password not configured.");
+            Console.WriteLine("Admin password not configured.");
         }
-
-        var adminUser = new User
+        else
         {
-            Profilename = "Admin",
-            Password = BCrypt.Net.BCrypt.HashPassword(adminPassword),
-            Role = "Admin",
-            Credits = 0
-        };
-        context.Users.Add(adminUser);
-        context.SaveChanges();
+            var adminUser = new User
+            {
+                Profilename = "Admin",
+                Password = BCrypt.Net.BCrypt.HashPassword(adminPassword),
+                Role = "Admin",
+                Credits = 0
+            };
+            context.Users.Add(adminUser);
+            context.SaveChanges();
+        }
     }
 }
-
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -111,10 +101,9 @@ if (app.Environment.IsDevelopment())
 app.UseCors();
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
-
