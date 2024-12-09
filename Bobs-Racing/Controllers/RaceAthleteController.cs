@@ -43,7 +43,7 @@ namespace Bobs_Racing.Controllers
         } */
 
         // GET: api/RaceAthlete
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RaceAthlete>>> GetAllRaceAthletes()
         {
@@ -55,7 +55,7 @@ namespace Bobs_Racing.Controllers
             return Ok(raceAthletes);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, User")]
         // GET: api/RaceAthlete/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<RaceAthlete>> GetRaceAthleteById(int id)
