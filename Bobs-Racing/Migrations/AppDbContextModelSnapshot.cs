@@ -162,7 +162,7 @@ namespace Bobs_Racing.Migrations
                         {
                             UserId = 1,
                             Credits = 0,
-                            Password = "$2a$11$wtsvMzI5SvhdOd3PIuZ1Q.WbBS39Z1Uj4oPmPFF.Bc08cU.hC0fye",
+                            Password = "$2a$11$vIFr8/OSwU81qjyIQjwKs.g.YEmGAF3oiRuqQRLav2hdtGcvS9TCG",
                             Profilename = "Admin",
                             Role = "Admin",
                             Username = "admin"

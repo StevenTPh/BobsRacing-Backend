@@ -52,29 +52,6 @@ namespace Bobs_Racing.Controllers
             return Ok(new { user.UserId, user.Profilename, user.Username, user.Credits, user.Role });
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterRequest request)
-        {
-            var existingUser = await _userRepository.GetUserByUsernameAsync(request.Username);
-            if (existingUser != null)
-            {
-                return BadRequest("Username is already taken");
-            }
-
-            var user = new User
-            {
-                Username = request.Username,
-                Profilename = request.Profilename, // Default profile name is same as username, can be updated later
-                Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
-                Role = "User", // Automatically assign the "User" role
-                Credits = 0 // Set default credits
-            };
-
-            await _userRepository.AddUserAsync(user);
-
-            return CreatedAtAction(nameof(GetUser), new { id = user.UserId }, new { user.UserId, user.Username, user.Role });
-        }
-
         [Authorize(Roles = "User")]
         [HttpPut("{id}/credentials")]
         public async Task<IActionResult> UpdateUserCredentials(int id, [FromBody] User user)
@@ -156,6 +133,29 @@ namespace Bobs_Racing.Controllers
             return NoContent();
         }
 
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterRequest request)
+        {
+            var existingUser = await _userRepository.GetUserByUsernameAsync(request.Username);
+            if (existingUser != null)
+            {
+                return BadRequest("Username is already taken");
+            }
+
+            var user = new User
+            {
+                Username = request.Username,
+                Profilename = request.Profilename,
+                Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
+                Role = "User", // Automatically assign the "User" role
+                Credits = 0 // Set default credits
+            };
+
+            await _userRepository.AddUserAsync(user);
+
+            return CreatedAtAction(nameof(GetUser), new { id = user.UserId }, new { user.UserId, user.Username, user.Role });
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
@@ -165,6 +165,14 @@ namespace Bobs_Racing.Controllers
             }
 
             var user = await _userRepository.GetUserByUsernameAsync(loginRequest.Username);
+
+            Console.WriteLine($"Username: {loginRequest.Username}");
+            Console.WriteLine($"Password: {loginRequest.Password}");
+            Console.WriteLine($"Retrieved User: {user?.Username}");
+            Console.WriteLine($"Stored Password: {user?.Password}");
+            Console.WriteLine($"Password Match: {BCrypt.Net.BCrypt.Verify(loginRequest.Password, user?.Password)}");
+
+
             if (user == null || !BCrypt.Net.BCrypt.Verify(loginRequest.Password, user.Password))
             {
                 return Unauthorized("Invalid credentials");

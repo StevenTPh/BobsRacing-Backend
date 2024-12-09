@@ -114,7 +114,7 @@ namespace Bobs_Racing.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "Credits", "Password", "Profilename", "Role", "Username" },
-                values: new object[] { 1, 0, "$2a$11$wtsvMzI5SvhdOd3PIuZ1Q.WbBS39Z1Uj4oPmPFF.Bc08cU.hC0fye", "Admin", "Admin", "admin" });
+                values: new object[] { 1, 0, "$2a$11$vIFr8/OSwU81qjyIQjwKs.g.YEmGAF3oiRuqQRLav2hdtGcvS9TCG", "Admin", "Admin", "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bets_RaceAthleteId",
