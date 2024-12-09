@@ -53,7 +53,7 @@
                 await Task.Delay((int)(TimeStep * 1000), cancellationToken);
                 timeElapsed += TimeStep;
             }
-            Console.WriteLine("Race Complete!");
+            //Console.WriteLine("Race Complete!");
         }
     }
 
