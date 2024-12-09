@@ -80,7 +80,8 @@ using (var scope = app.Services.CreateScope())
         {
             var adminUser = new User
             {
-                Profilename = "Admin",
+                Profilename = "Admin", // Assuming "Name" is the display profile name
+                Username = "admin", // Unique username for login
                 Password = BCrypt.Net.BCrypt.HashPassword(adminPassword),
                 Role = "Admin",
                 Credits = 0
