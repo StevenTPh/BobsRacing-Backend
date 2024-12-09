@@ -36,7 +36,9 @@ namespace Bobs_Racing.Repositories
         public async Task AddUserAsync(User user)
         {
             // Hash the password before storing
-            user.Password = HashPassword(user.Password);
+            //user.Password = HashPassword(user.Password);
+
+            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
@@ -48,7 +50,7 @@ namespace Bobs_Racing.Repositories
 
             if (existingUser != null)
             {
-                existingUser.Password = HashPassword(user.Password);
+                existingUser.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
                 _context.Users.Update(existingUser);
                 await _context.SaveChangesAsync();
             }
@@ -68,6 +70,24 @@ namespace Bobs_Racing.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task UpdateUserAsync(User user)
+        {
+            var existingUser = await _context.Users.FindAsync(user.UserId);
+
+            if (existingUser != null)
+            {
+                // Update properties as needed
+                existingUser.Profilename = user.Profilename;
+                existingUser.Password = user.Password; // Ensure password is hashed before calling this
+                existingUser.Role = user.Role;
+                existingUser.Credits = user.Credits;
+
+                _context.Users.Update(existingUser);
+                await _context.SaveChangesAsync();
+            }
+        }
+
 
         public async Task DeleteUserAsync(int id)
         {
@@ -89,6 +109,11 @@ namespace Bobs_Racing.Repositories
             using var sha256 = SHA256.Create();
             var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
             return Convert.ToBase64String(bytes);
+        }
+
+        public async Task<User> GetUserByUsernameAsync(string username)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Profilename == username);
         }
     }
 }

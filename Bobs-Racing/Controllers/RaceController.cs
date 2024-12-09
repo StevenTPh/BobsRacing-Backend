@@ -2,6 +2,7 @@
 using Bobs_Racing.Interface;
 using Bobs_Racing.Models;
 using Bobs_Racing.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,6 +37,7 @@ namespace Bobs_Racing.Controllers
             return Ok(race);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateRace([FromBody] Race race)
         {
@@ -47,6 +49,7 @@ namespace Bobs_Racing.Controllers
             return CreatedAtAction(nameof(GetRaceById), new { id = race.RaceId }, race);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateRace(int id, [FromBody] Race race)
         {
@@ -64,6 +67,7 @@ namespace Bobs_Racing.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRace(int id)
         {

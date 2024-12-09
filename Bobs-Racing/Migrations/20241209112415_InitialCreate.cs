@@ -17,8 +17,8 @@ namespace Bobs_Racing.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LowestTime = table.Column<int>(type: "int", nullable: false),
-                    FastestTime = table.Column<int>(type: "int", nullable: false)
+                    LowestTime = table.Column<double>(type: "float", nullable: false),
+                    FastestTime = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,9 +44,11 @@ namespace Bobs_Racing.Migrations
                 {
                     UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Profilename = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Credits = table.Column<int>(type: "int", nullable: false)
+                    Credits = table.Column<int>(type: "int", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

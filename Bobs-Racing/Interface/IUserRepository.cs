@@ -10,7 +10,10 @@ namespace Bobs_Racing.Interface
         Task UpdateUserCredentialsAsync(User user);
         Task UpdateUserCreditsAsync(User user);
 
+        Task UpdateUserAsync(User user);
+
         Task DeleteUserAsync(int id);
+        Task<User> GetUserByUsernameAsync(string username);
 
         /*// Check if a username is already taken
         Task<bool> IsUsernameTakenAsync(string username);*/

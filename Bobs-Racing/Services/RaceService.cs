@@ -1,4 +1,5 @@
 ﻿// import RaceAnimal and RaceService interfaces
+ /*
 using Bobs_Racing.Interface;
 // import Animal and RaceAnimal model classes
 using Bobs_Racing.Models;
@@ -32,6 +33,7 @@ namespace Bobs_Racing.Services
                     - CheckpointSpeeds []
                     - int: FinalPosition
          */
+ /*
         public async Task<List<RaceAthlete>> ProcessRaceAsync(int raceId, List<Athlete> athletes)
         {
             // List<> for storing RaceAnimal objects
@@ -50,6 +52,7 @@ namespace Bobs_Racing.Services
                     // uses random to generate a random speed in a range based on min and max speed
                     // adding +1 to ensure the max value is included.
                     checkpointSpeeds.Add(random.Next((int)athlete.LowestTime, (int)(athlete.FastestTime + 1)));
+                    //checkpointSpeeds.Add(random.Next(athlete.LowestTime, athlete.FastestTime + 1));
                 }
                 // finds the sum of all checkpoint speeds to represent animals overall speed for a race
                 int totalSpeed = checkpointSpeeds.Sum();
@@ -89,4 +92,5 @@ namespace Bobs_Racing.Services
             return rankedResults;
         }
     }
-}
+} */
+ 
