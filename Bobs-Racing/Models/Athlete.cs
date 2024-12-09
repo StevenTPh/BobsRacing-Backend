@@ -10,8 +10,8 @@ namespace Bobs_Racing.Models
         public int AthleteId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Image { get; set; }
-        public int LowestTime { get; set; }
-        public int FastestTime { get; set; }
+        public double LowestTime { get; set; }
+        public double FastestTime { get; set; }
         [JsonIgnore]
         public List<RaceAthlete>? RaceAthletes { get; set; } = new List<RaceAthlete>();
     }
