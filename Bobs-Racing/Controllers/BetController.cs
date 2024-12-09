@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Bobs_Racing.Models;
 using Bobs_Racing.Interface;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Bobs_Racing.Controllers
 {
@@ -15,6 +17,7 @@ namespace Bobs_Racing.Controllers
             _betRepository = betRepository;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllBets()
         {
@@ -22,6 +25,7 @@ namespace Bobs_Racing.Controllers
             return Ok(bets);
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBetById(int id)
         {
@@ -30,9 +34,19 @@ namespace Bobs_Racing.Controllers
             {
                 return NotFound("Bet not found");
             }
+
+            // Get user role and ID from token
+            var userRole = HttpContext.User.FindFirst(ClaimTypes.Role)?.Value;
+            var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userRole == "User" && int.TryParse(userIdClaim, out var userId) && bet.UserId != userId)
+            {
+                return Forbid("You are not allowed to access this bet.");
+            }
             return Ok(bet);
         }
 
+        [Authorize(Roles = "User")]
         [HttpPost]
         public async Task<IActionResult> CreateBet([FromBody] Bet bet)
         {
@@ -50,25 +64,5 @@ namespace Bobs_Racing.Controllers
             await _betRepository.AddBetAsync(bet);
             return CreatedAtAction(nameof(GetBetById), new { id = bet.BetId }, bet);
         }
-
-/*        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBet(int id, [FromBody] Bet bet)
-        {
-            // Validate the composite key
-            if (!await _betRepository.ValidateRaceAnimalAsync(bet.RaceId, bet.AnimalId))
-            {
-                return BadRequest("Invalid RaceId or AnimalId combination");
-            }
-
-            await _betRepository.UpdateBetAsync(bet);
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBet(int id)
-        {
-            await _betRepository.DeleteBetAsync(id);
-            return NoContent();
-        }*/
     }
 }

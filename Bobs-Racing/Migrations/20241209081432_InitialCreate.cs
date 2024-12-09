@@ -17,8 +17,8 @@ namespace Bobs_Racing.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LowestTime = table.Column<int>(type: "int", nullable: false),
-                    FastestTime = table.Column<int>(type: "int", nullable: false)
+                    LowestTime = table.Column<double>(type: "float", nullable: false),
+                    FastestTime = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {

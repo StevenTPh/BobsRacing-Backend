@@ -1,5 +1,6 @@
 ﻿using Bobs_Racing.Models;
 using Microsoft.EntityFrameworkCore;
+using BCrypt.Net;
 
 namespace Bobs_Racing.Data
 {

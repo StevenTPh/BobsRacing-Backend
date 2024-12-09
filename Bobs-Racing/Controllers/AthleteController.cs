@@ -2,6 +2,7 @@
 using Bobs_Racing.Interface;
 using Bobs_Racing.Models;
 using Bobs_Racing.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,7 @@ namespace Bobs_Racing.Controllers
             _athleteRepository = athleteRepository;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllAthletes()
         {
@@ -25,6 +27,7 @@ namespace Bobs_Racing.Controllers
             return Ok(athletes);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAthleteById(int id)
         {
@@ -37,6 +40,7 @@ namespace Bobs_Racing.Controllers
             return Ok(athlete);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateAthlete([FromBody] Athlete athlete)
         {
@@ -48,6 +52,7 @@ namespace Bobs_Racing.Controllers
             return CreatedAtAction(nameof(GetAthleteById), new { id = athlete.AthleteId }, athlete);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAthlete(int id, [FromBody] Athlete athlete)
         {
@@ -67,6 +72,7 @@ namespace Bobs_Racing.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAthlete(int id)
         {

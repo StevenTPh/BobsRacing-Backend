@@ -2,6 +2,7 @@
 using Bobs_Racing.Models;
 using Bobs_Racing.Models.Input;
 using Bobs_Racing.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bobs_Racing.Controllers
@@ -23,6 +24,7 @@ namespace Bobs_Racing.Controllers
             _athleteRepository = athleteRepository;
         }
 
+        /*
         [HttpPost("process-race")]
         public async Task<IActionResult> ProcessRace([FromBody] RaceAthleteInputModel raceInput)
         {
@@ -38,9 +40,10 @@ namespace Bobs_Racing.Controllers
             // Process the race
             var raceResults = await _raceService.ProcessRaceAsync(raceInput.RaceId, athletes);
             return Ok(raceResults);
-        }
+        } */
 
         // GET: api/RaceAthlete
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RaceAthlete>>> GetAllRaceAthletes()
         {
@@ -52,6 +55,7 @@ namespace Bobs_Racing.Controllers
             return Ok(raceAthletes);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: api/RaceAthlete/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<RaceAthlete>> GetRaceAthleteById(int id)
@@ -65,6 +69,7 @@ namespace Bobs_Racing.Controllers
         }
 
         // POST: api/RaceAthlete
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult> AddRaceAthlete([FromBody] RaceAthlete raceAthlete)
         {
@@ -91,6 +96,7 @@ namespace Bobs_Racing.Controllers
         }
 
         // PUT: api/RaceAthlete/{id}
+        [Authorize(Roles = "Admin")]
         [HttpPut ("{id}")]
         public async Task<ActionResult> UpdateRaceAthlete(int id, [FromBody] RaceAthlete raceAthlete)
         {
@@ -117,6 +123,7 @@ namespace Bobs_Racing.Controllers
         }
 
         // DELETE: api/RaceAthlete/{id}
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteRaceAthlete(int id)
         {
