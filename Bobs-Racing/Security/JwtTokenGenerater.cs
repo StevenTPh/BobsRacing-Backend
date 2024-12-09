@@ -7,7 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Bobs_Racing.Security
 {
-
     public class JwtTokenGenerator
     {
         private readonly IConfiguration _configuration;
@@ -23,16 +22,19 @@ namespace Bobs_Racing.Security
 
             var claims = new[]
             {
-                new Claim("id", userId.ToString()),
-                new Claim("name", username)
-    };
+                new Claim(JwtRegisteredClaimNames.Sub, username), // Standard claim for subject
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // Unique token ID
+                new Claim(ClaimTypes.NameIdentifier, userId.ToString()), // User ID
+                new Claim(ClaimTypes.Name, username), // User name
+                new Claim(ClaimTypes.Role, role) // User role
+            };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Secret"]));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
                 issuer: jwtSettings["Issuer"],
-                audience: jwtSettings["Audience"], // Make sure this matches the appsettings.json
+                audience: jwtSettings["Audience"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(int.Parse(jwtSettings["ExpirationInMinutes"])),
                 signingCredentials: credentials
@@ -40,9 +42,5 @@ namespace Bobs_Racing.Security
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
-
-    
     }
-
 }
