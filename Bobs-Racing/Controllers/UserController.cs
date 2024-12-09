@@ -170,7 +170,7 @@ namespace Bobs_Racing.Controllers
             Console.WriteLine($"Password: {loginRequest.Password}");
             Console.WriteLine($"Retrieved User: {user?.Username}");
             Console.WriteLine($"Stored Password: {user?.Password}");
-            Console.WriteLine($"Password Match: {BCrypt.Net.BCrypt.Verify(loginRequest.Password, user?.Password)}");
+            Console.WriteLine($"Password Match: {BCrypt.Net.BCrypt.Verify(loginRequest.Password, user.Password)}");
 
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(loginRequest.Password, user.Password))

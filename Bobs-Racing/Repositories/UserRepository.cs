@@ -38,7 +38,7 @@ namespace Bobs_Racing.Repositories
             // Hash the password before storing
             //user.Password = HashPassword(user.Password);
 
-            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            //user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
