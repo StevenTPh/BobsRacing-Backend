@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bobs_Racing.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241209100908_InitialCreate")]
+    [Migration("20241209112415_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

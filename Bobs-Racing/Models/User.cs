@@ -16,7 +16,7 @@ namespace Bobs_Racing.Models
         public string Username { get; set; } // Login username, must be unique
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(150)]
         public string Password { get; set; } // Hashed password
 
         public int Credits { get; set; }
