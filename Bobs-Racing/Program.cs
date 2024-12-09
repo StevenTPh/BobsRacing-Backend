@@ -6,21 +6,18 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Bobs_Racing.Models;
+using Bobs_Racing.Hubs;
+using Bobs_Racing.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 // Register AppDbContext with SQL Server
-/*
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); */
-
 builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
 {
     var configuration = serviceProvider.GetService<IConfiguration>();
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-    //options.UseInternalServiceProvider(serviceProvider);
 });
 
 // Register repositories
@@ -84,48 +81,35 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// Register the runners
+builder.Services.AddSingleton(new List<Runner>
+{
+    new Runner { Name = "Runner 1", Speed = 0, Position = 0, Acceleration = 0.2, ReactionTime = 0.1 },
+    new Runner { Name = "Runner 2", Speed = 0, Position = 0, Acceleration = 0.25, ReactionTime = 0.2 }
+});
+
+// Register SignalR and RaceSimulationService
+builder.Services.AddSignalR();
+builder.Services.AddSingleton<RaceSimulationService>(provider =>
+{
+    var hubContext = provider.GetRequiredService<Microsoft.AspNetCore.SignalR.IHubContext<RaceSimulationHub>>();
+    var runners = provider.GetRequiredService<List<Runner>>();
+    return new RaceSimulationService(runners, hubContext);
+});
 
 // CORS Configuration
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost/*") // Replace with your frontend URL
+        policy.WithOrigins("http://localhost") // Replace with your frontend URL
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .AllowCredentials(); // Required for SignalR
     });
 });
 
 var app = builder.Build();
-
-// Seed the database with default admin
-/*
-using (var scope = app.Services.CreateScope())
-{
-    var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    if (!context.Users.Any(u => u.Role == "Admin"))
-    {
-        var adminPassword = configuration["AdminSettings:Password"];
-        if (string.IsNullOrEmpty(adminPassword))
-        {
-            Console.WriteLine("Admin password not configured.");
-        }
-        else
-        {
-            var adminUser = new User
-            {
-                Profilename = "Admin", // Assuming "Name" is the display profile name
-                Username = "admin", // Unique username for login
-                Password = BCrypt.Net.BCrypt.HashPassword(adminPassword),
-                Role = "Admin",
-                Credits = 0
-            };
-            context.Users.Add(adminUser);
-            context.SaveChanges();
-        }
-    }
-} */
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -135,11 +119,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors();
-
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Map controllers and SignalR hubs
 app.MapControllers();
+app.MapHub<RaceSimulationHub>("/raceSimulationHub"); // Map the SignalR Hub
 
 app.Run();

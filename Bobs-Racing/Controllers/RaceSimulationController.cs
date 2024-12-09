@@ -9,12 +9,12 @@ namespace Bobs_Racing.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class RaceSimulatioController : ControllerBase
+    public class RaceSimulationController : ControllerBase
     {
         private readonly RaceSimulationService _simulationService;
         private readonly List<Runner> _runners;
 
-        public RaceSimulatioController(RaceSimulationService simulationService)
+        public RaceSimulationController(RaceSimulationService simulationService)
         {
             _simulationService = simulationService;
             _runners = new List<Runner>

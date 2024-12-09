@@ -45,11 +45,15 @@
                     }
                 }
 
+                // check if race is running
+                Console.WriteLine($"Time: {timeElapsed}, Runners: {string.Join(", ", _runners.Select(r => $"{r.Name}: {r.Position:F2}m"))}");
+
                 await _hubContext.Clients.All.SendAsync("ReceiveRaceUpdate", _runners);
 
                 await Task.Delay((int)(TimeStep * 1000), cancellationToken);
                 timeElapsed += TimeStep;
             }
+            Console.WriteLine("Race Complete!");
         }
     }
 
