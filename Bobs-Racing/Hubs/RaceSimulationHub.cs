@@ -11,9 +11,11 @@
         public double Speed { get; set; } // In m/s
         public double SlowestTime { get; set; }
         public double FastestTime { get; set; }
+        
+        public Runner() { }
 
 
-        public Runner(string name, double position, double speed, double slowestTime, double fastestTime )
+        public Runner(string name, double position, double speed, double slowestTime, double fastestTime)
         {
             Name = name;
             Position = position;
