@@ -14,13 +14,16 @@ namespace Bobs_Racing.Controllers
     public class RaceSimulationController : ControllerBase
     {
         private readonly RaceSimulationService _simulationService;
+        private readonly RaceSimulationHub _raceSimulationHub;
         private readonly IAthleteRepository _athleteRepository;
         private readonly List<Runner> _runners;
 
-        public RaceSimulationController(RaceSimulationService simulationService, IAthleteRepository athleteRepository)
+        public RaceSimulationController(RaceSimulationService simulationService, IAthleteRepository athleteRepository,
+            RaceSimulationHub raceSimulationHub)
         {
             _simulationService = simulationService;
             _athleteRepository = athleteRepository;
+            _raceSimulationHub = raceSimulationHub;
          /*   _runners = new List<Runner>
         {
             new Runner { Name = "Runner 1", Speed = 0, Position = 0, FastestTime = 9.58, LowestTime = 11.0},
@@ -33,18 +36,31 @@ namespace Bobs_Racing.Controllers
         public async Task<IActionResult> StartRace([FromBody] List<int> athleteIds, CancellationToken cancellationToken)
         {
 
-            if (athlete == null)
+            if (athleteIds == null)
             {
                 return NotFound("Athlete not found");
             }
             var athletes = await _athleteRepository.GetAthletesByIdsAsync(athleteIds);
-
+            
+            var runners = athletes.Select(a => new Runner
             {
-                var cts = new CancellationTokenSource();
-                var task = _simulationService.StartRace(cts.Token);
+                Name = a.Name,
+                Speed = 0.0,
+                Position = 0.0,
+                SlowestTime = a.SlowestTime,
+                FastestTime = a.FastestTime
+            }).ToList();
+
+            _simulationService.SetRunners(runners);
+
+            await _simulationService.StartRace(cancellationToken);
+
+            
+                //var cts = new CancellationTokenSource();
+                //var task = _simulationService.StartRace(cts.Token);
 
                 return Ok(new { message = "Race started!" });
-            }
+            
         }
         }
 

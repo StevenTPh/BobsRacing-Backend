@@ -12,14 +12,20 @@
     {
         private const double TimeStep = 0.05; // 50ms
         private const double TrackLength = 100.0; // 100 meters
-        private readonly List<Runner> _runners;
+        private List<Runner> _runners;
         private readonly IHubContext<RaceSimulationHub> _hubContext;
 
-        public RaceSimulationService(List<Runner> runners, IHubContext<RaceSimulationHub> hubContext)
+        public RaceSimulationService(IHubContext<RaceSimulationHub> hubContext)
         {
-            _runners = runners;
+            _runners = new List<Runner>();
             _hubContext = hubContext;
         }
+
+        public void SetRunners(List<Runner> runners)
+        {
+            _runners = runners;
+        }
+
         public async Task StartRace(CancellationToken cancellationToken)
         {
             bool raceComplete = false;
@@ -35,7 +41,7 @@
 
                     if (timeElapsed >= 0)
                      {
-                        runner.Speed = 100 / runner.LowestTime + (random.NextDouble() * (runner.LowestTime - runner.FastestTime));
+                        runner.Speed = 100 / runner.SlowestTime + (random.NextDouble() * (runner.SlowestTime - runner.FastestTime));
                         runner.Position += runner.Speed * TimeStep;
                      }
 

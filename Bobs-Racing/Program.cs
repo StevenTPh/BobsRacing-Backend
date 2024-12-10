@@ -82,20 +82,16 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // Register the runners
-builder.Services.AddSingleton(new List<Runner>
-{
-    new Runner { Name = "Runner 1", Speed = 0, Position = 0, FastestTime = 9.58, LowestTime = 11.0},
-            new Runner { Name = "Runner 2", Speed = 0, Position = 0, FastestTime = 10.00, LowestTime = 10.07}
-});
+builder.Services.AddSingleton<RaceSimulationService>();
 
 // Register SignalR and RaceSimulationService
 builder.Services.AddSignalR();
-builder.Services.AddSingleton<RaceSimulationService>(provider =>
+/*builder.Services.AddSingleton<RaceSimulationService>(provider =>
 {
     var hubContext = provider.GetRequiredService<Microsoft.AspNetCore.SignalR.IHubContext<RaceSimulationHub>>();
     var runners = provider.GetRequiredService<List<Runner>>();
     return new RaceSimulationService(runners, hubContext);
-});
+});*/
 
 // CORS Configuration
 builder.Services.AddCors(options =>
