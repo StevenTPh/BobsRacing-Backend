@@ -84,8 +84,8 @@ builder.Services.AddSwaggerGen(options =>
 // Register the runners
 builder.Services.AddSingleton(new List<Runner>
 {
-    new Runner { Name = "Runner 1", Speed = 0, Position = 0, Acceleration = 0.2, ReactionTime = 0.1 },
-    new Runner { Name = "Runner 2", Speed = 0, Position = 0, Acceleration = 0.25, ReactionTime = 0.2 }
+    new Runner { Name = "Runner 1", Speed = 0, Position = 0, FastestTime = 9.58, LowestTime = 11.0},
+            new Runner { Name = "Runner 2", Speed = 0, Position = 0, FastestTime = 10.00, LowestTime = 10.07}
 });
 
 // Register SignalR and RaceSimulationService

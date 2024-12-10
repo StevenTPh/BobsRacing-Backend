@@ -9,8 +9,8 @@
         public string Name { get; set; }
         public double Position { get; set; } // In meters
         public double Speed { get; set; } // In m/s
-        public double Acceleration { get; set; } // In m/s²
-        public double ReactionTime { get; set; } // In seconds
+        public double LowestTime { get; set; } 
+        public double FastestTime { get; set; } 
     }
 
     public class RaceSimulationHub : Hub

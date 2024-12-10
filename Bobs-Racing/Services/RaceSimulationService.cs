@@ -28,14 +28,20 @@
             while (!raceComplete && !cancellationToken.IsCancellationRequested)
             {
                 raceComplete = true;
+                Random random = new Random();
 
                 foreach (var runner in _runners)
                 {
-                    if (timeElapsed >= runner.ReactionTime)
-                    {
-                        runner.Speed += runner.Acceleration * TimeStep;
+
+                    if (timeElapsed >= 0)
+                     {
+                        runner.Speed = 100 / runner.LowestTime + (random.NextDouble() * (runner.LowestTime - runner.FastestTime));
                         runner.Position += runner.Speed * TimeStep;
-                    }
+                     }
+
+
+
+                    //runner.Speed = 100 / runner.LowestTime + (random.NextDouble() * (runner.LowestTime + runner.FastestTime));
 
                     if (runner.Position < TrackLength)
                     {
