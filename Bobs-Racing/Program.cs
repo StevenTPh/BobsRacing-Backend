@@ -101,7 +101,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("http://localhost") // Replace with your frontend URL
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowAnyOrigin() //For Giar/frontend
+            //.AllowAnyOrigin() //For Giar/frontend
             .AllowCredentials(); // Required for SignalR
     });
 });
