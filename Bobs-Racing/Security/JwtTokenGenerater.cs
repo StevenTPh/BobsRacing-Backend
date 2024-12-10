@@ -16,7 +16,7 @@ namespace Bobs_Racing.Security
             _configuration = configuration;
         }
 
-        public string GenerateToken(int userId, string username, string role)
+        public string GenerateToken(int userId, string username, string profilename, string role, double credits)
         {
             var jwtSettings = _configuration.GetSection("JwtSettings");
 
@@ -24,9 +24,11 @@ namespace Bobs_Racing.Security
             {
                 new Claim(JwtRegisteredClaimNames.Sub, username), // Standard claim for subject
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // Unique token ID
-                new Claim(ClaimTypes.NameIdentifier, userId.ToString()), // User ID
-                new Claim(ClaimTypes.Name, username), // User name
-                new Claim(ClaimTypes.Role, role) // User role
+                new Claim("id", userId.ToString()), // User ID
+                new Claim("username", username), // User name
+                new Claim("role", role), // User role
+                new Claim("profilename", profilename), // User profile name
+                new Claim("credits", credits.ToString()) // credits
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Secret"]));

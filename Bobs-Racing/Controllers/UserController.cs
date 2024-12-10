@@ -166,19 +166,12 @@ namespace Bobs_Racing.Controllers
 
             var user = await _userRepository.GetUserByUsernameAsync(loginRequest.Username);
 
-            Console.WriteLine($"Username: {loginRequest.Username}");
-            Console.WriteLine($"Password: {loginRequest.Password}");
-            Console.WriteLine($"Retrieved User: {user?.Username}");
-            Console.WriteLine($"Stored Password: {user?.Password}");
-            Console.WriteLine($"Password Match: {BCrypt.Net.BCrypt.Verify(loginRequest.Password, user.Password)}");
-
-
             if (user == null || !BCrypt.Net.BCrypt.Verify(loginRequest.Password, user.Password))
             {
                 return Unauthorized("Invalid credentials");
             }
 
-            var token = _tokenGenerator.GenerateToken(user.UserId, user.Username, user.Role);
+            var token = _tokenGenerator.GenerateToken(user.UserId, user.Username, user.Profilename, user.Role, user.Credits);
 
             return Ok(new { Token = token });
         }
