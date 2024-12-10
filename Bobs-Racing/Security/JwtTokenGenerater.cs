@@ -27,7 +27,7 @@ namespace Bobs_Racing.Security
                 new Claim(ClaimTypes.NameIdentifier, userId.ToString()), // User ID
                 new Claim(ClaimTypes.Name, username), // User name
                 new Claim(ClaimTypes.Role, role), // User role
-                new Claim(ClaimTypes.Name, profilename) // User profile name
+                new Claim(ClaimTypes.GivenName, profilename) // User profile name
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Secret"]));
