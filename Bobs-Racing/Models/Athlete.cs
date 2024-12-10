@@ -8,8 +8,8 @@ namespace Bobs_Racing.Models
     {
         [Key]
         public int AthleteId { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Image { get; set; }
+        public string? Name { get; set; }
+        public string? Image { get; set; }
         public double SlowestTime { get; set; }
         public double FastestTime { get; set; }
         [JsonIgnore]

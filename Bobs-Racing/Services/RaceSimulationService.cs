@@ -11,7 +11,7 @@
 
     public class RaceSimulationService
     {
-        private const double TimeStep = 0.11; // 50ms
+        private const double TimeStep = 0.02; // 50ms
         private const double TrackLength = 100.0; // 100 meters
         private List<Runner> _runners;
         private readonly IHubContext<RaceSimulationHub> _hubContext;
