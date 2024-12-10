@@ -37,7 +37,7 @@ namespace Bobs_Racing.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("LowestTime")
+                    b.Property<double>("SlowestTime")
                         .HasColumnType("float");
 
                     b.Property<string>("Name")
@@ -162,7 +162,7 @@ namespace Bobs_Racing.Migrations
                         {
                             UserId = 1,
                             Credits = 0,
-                            Password = "$2a$11$wtsvMzI5SvhdOd3PIuZ1Q.WbBS39Z1Uj4oPmPFF.Bc08cU.hC0fye",
+                            Password = "$2a$11$aTFwZVoUOOOKDLoo9TUF6eGu.1HLDUZG7csJt06/4awUkPSL78XdS",
                             Profilename = "Admin",
                             Role = "Admin",
                             Username = "admin"
