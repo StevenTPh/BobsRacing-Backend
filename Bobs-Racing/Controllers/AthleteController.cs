@@ -64,7 +64,7 @@ namespace Bobs_Racing.Controllers
 
             existingAthlete.Image = athlete.Image;
             existingAthlete.Name = athlete.Name;
-            existingAthlete.LowestTime = athlete.LowestTime;
+            existingAthlete.SlowestTime = athlete.SlowestTime;
             existingAthlete.FastestTime = athlete.FastestTime;
 
             await _athleteRepository.UpdateAthleteAsync(existingAthlete);

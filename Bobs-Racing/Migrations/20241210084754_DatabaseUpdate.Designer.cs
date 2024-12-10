@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bobs_Racing.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241209133113_DatabaseUpdate")]
+    [Migration("20241210084754_DatabaseUpdate")]
     partial class DatabaseUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,12 +39,12 @@ namespace Bobs_Racing.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("LowestTime")
-                        .HasColumnType("float");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("SlowestTime")
+                        .HasColumnType("float");
 
                     b.HasKey("AthleteId");
 
@@ -164,7 +164,7 @@ namespace Bobs_Racing.Migrations
                         {
                             UserId = 1,
                             Credits = 0,
-                            Password = "$2a$11$aTFwZVoUOOOKDLoo9TUF6eGu.1HLDUZG7csJt06/4awUkPSL78XdS",
+                            Password = "$2a$11$ZvSQAJKwmUdPOnGEkLQYXuZjQXS/iT9SARo8hG9PUUsYKC04QoxP6",
                             Profilename = "Admin",
                             Role = "Admin",
                             Username = "admin"
