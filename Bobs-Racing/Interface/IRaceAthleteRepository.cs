@@ -6,8 +6,11 @@ namespace Bobs_Racing.Interface
     {
         Task<IEnumerable<RaceAthlete>> GetAllRaceAthleteAsync();
         Task<RaceAthlete> GetRaceAthleteByIdAsync(int id);
+
+        Task<List<RaceAthlete>> GetAthletesByIdsAsyncList(List<int> raceAthleteIds);
         Task AddRaceAthleteAsync(RaceAthlete raceAthlete);
         Task UpdateRaceAthleteAsync(RaceAthlete raceAthlete);
+        Task UpdateRaceAthleteFinalPositionAsync(int raceAthleteId, int finalPosition);
         Task DeleteRaceAthleteAsync(int id);
 
         // New method to validate the composite key in RaceAnimal

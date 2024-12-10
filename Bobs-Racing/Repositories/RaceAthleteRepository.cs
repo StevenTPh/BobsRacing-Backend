@@ -20,6 +20,24 @@ namespace Bobs_Racing.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<RaceAthlete>> GetAthletesByIdsAsyncList(List<int> raceAthleteIds)
+        {
+            return await _context.RaceAthletes
+                .Where(a => raceAthleteIds.Contains(a.RaceAthleteId))
+                .ToListAsync();
+        }
+
+        public async Task UpdateRaceAthleteFinalPositionAsync(int raceAthleteId, int finalPosition)
+        {
+            var raceAthlete = await _context.RaceAthletes.FirstOrDefaultAsync(ra => ra.RaceAthleteId == raceAthleteId);
+            if (raceAthlete != null)
+            {
+                raceAthlete.FinalPosition = finalPosition;
+                _context.RaceAthletes.Update(raceAthlete);
+                await _context.SaveChangesAsync();
+            }
+        }
+
         public async Task<IEnumerable<RaceAthlete>> GetAllRaceAthleteAsync()
         {
             return await _context.RaceAthletes.ToListAsync();

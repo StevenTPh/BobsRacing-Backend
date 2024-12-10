@@ -11,17 +11,23 @@
         public double Speed { get; set; } // In m/s
         public double SlowestTime { get; set; }
         public double FastestTime { get; set; }
+        public int FinalPosition { get; set; }
+        public int AthleteID { get; set; }
+        public int RaceAthleteID { get; set; }
         
         public Runner() { }
 
 
-        public Runner(string name, double position, double speed, double slowestTime, double fastestTime)
+        public Runner(string name, double position, double speed, double slowestTime, double fastestTime, int finalPosition, int athleteID, int raceAthleteID)
         {
             Name = name;
             Position = position;
             Speed = speed;
             SlowestTime = slowestTime;
             FastestTime = fastestTime;
+            FinalPosition = finalPosition;
+            AthleteID = athleteID;
+            RaceAthleteID = raceAthleteID;
         }
     }
 
