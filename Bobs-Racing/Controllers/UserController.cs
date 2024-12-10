@@ -178,7 +178,7 @@ namespace Bobs_Racing.Controllers
                 return Unauthorized("Invalid credentials");
             }
 
-            var token = _tokenGenerator.GenerateToken(user.UserId, user.Username, user.Role);
+            var token = _tokenGenerator.GenerateToken(user.UserId, user.Username, user.Profilename, user.Role);
 
             return Ok(new { Token = token });
         }

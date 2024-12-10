@@ -17,7 +17,7 @@ namespace Bobs_Racing.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LowestTime = table.Column<double>(type: "float", nullable: false),
+                    SlowestTime = table.Column<double>(type: "float", nullable: false),
                     FastestTime = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
@@ -114,7 +114,7 @@ namespace Bobs_Racing.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "Credits", "Password", "Profilename", "Role", "Username" },
-                values: new object[] { 1, 0, "$2a$11$aTFwZVoUOOOKDLoo9TUF6eGu.1HLDUZG7csJt06/4awUkPSL78XdS", "Admin", "Admin", "admin" });
+                values: new object[] { 1, 0, "$2a$11$ZvSQAJKwmUdPOnGEkLQYXuZjQXS/iT9SARo8hG9PUUsYKC04QoxP6", "Admin", "Admin", "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bets_RaceAthleteId",
