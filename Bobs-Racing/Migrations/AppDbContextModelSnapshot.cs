@@ -37,7 +37,7 @@ namespace Bobs_Racing.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("LowestTime")
+                    b.Property<double>("SlowestTime")
                         .HasColumnType("float");
 
                     b.Property<string>("Name")
