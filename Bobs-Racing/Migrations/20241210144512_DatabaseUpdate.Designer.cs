@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bobs_Racing.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241210084754_DatabaseUpdate")]
+    [Migration("20241210144512_DatabaseUpdate")]
     partial class DatabaseUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,9 +104,6 @@ namespace Bobs_Racing.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RaceAthleteId"), 1L, 1);
 
-                    b.Property<int?>("AnimalId")
-                        .HasColumnType("int");
-
                     b.Property<int>("AthleteId")
                         .HasColumnType("int");
 
@@ -164,7 +161,7 @@ namespace Bobs_Racing.Migrations
                         {
                             UserId = 1,
                             Credits = 0,
-                            Password = "$2a$11$ZvSQAJKwmUdPOnGEkLQYXuZjQXS/iT9SARo8hG9PUUsYKC04QoxP6",
+                            Password = "$2a$11$OOCoEPdGQtF0HSP8K/IOI.4aBk3Pi9OP9NvbhuYE6ezwSwqLYw3I2",
                             Profilename = "Admin",
                             Role = "Admin",
                             Username = "admin"

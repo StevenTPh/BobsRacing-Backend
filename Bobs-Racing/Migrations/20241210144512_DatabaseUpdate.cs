@@ -63,8 +63,7 @@ namespace Bobs_Racing.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RaceId = table.Column<int>(type: "int", nullable: false),
                     AthleteId = table.Column<int>(type: "int", nullable: false),
-                    FinalPosition = table.Column<int>(type: "int", nullable: false),
-                    AnimalId = table.Column<int>(type: "int", nullable: true)
+                    FinalPosition = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,7 +113,7 @@ namespace Bobs_Racing.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "Credits", "Password", "Profilename", "Role", "Username" },
-                values: new object[] { 1, 0, "$2a$11$ZvSQAJKwmUdPOnGEkLQYXuZjQXS/iT9SARo8hG9PUUsYKC04QoxP6", "Admin", "Admin", "admin" });
+                values: new object[] { 1, 0, "$2a$11$OOCoEPdGQtF0HSP8K/IOI.4aBk3Pi9OP9NvbhuYE6ezwSwqLYw3I2", "Admin", "Admin", "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bets_RaceAthleteId",
