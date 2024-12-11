@@ -11,7 +11,7 @@
 
     public class RaceSimulationService
     {
-        private const double TimeStep = 0.11; // 50ms
+        private const double TimeStep = 0.01; // 50ms
         private const double TrackLength = 100.0; // 100 meters
         private List<Runner> _runners;
         private readonly IHubContext<RaceSimulationHub> _hubContext;
@@ -56,6 +56,7 @@
                     if (runner.Position >= TrackLength && runner.FinalPosition == 0)
                     {
                         runner.FinalPosition = finishOrder++;
+                        runner.FinishTime = timeElapsed;
                     }
                     else if (runner.Position < TrackLength)
                     {

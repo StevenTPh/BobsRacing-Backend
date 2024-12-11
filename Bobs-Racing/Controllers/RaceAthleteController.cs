@@ -12,15 +12,15 @@ namespace Bobs_Racing.Controllers
     public class RaceAthleteController : ControllerBase
     {
         private readonly IRaceAthleteRepository _raceAthleteRepository;
-        private readonly IRaceService _raceService;
+        //private readonly IRaceService _raceService;
         private readonly IAthleteRepository _athleteRepository;
 
         public RaceAthleteController(IRaceAthleteRepository raceAthleteRepository,
-                                    IRaceService raceService,
+                                    //IRaceService raceService,
                                     IAthleteRepository athleteRepository)
         {
             _raceAthleteRepository = raceAthleteRepository;
-            _raceService = raceService;
+            //_raceService = raceService;
             _athleteRepository = athleteRepository;
         }
 
