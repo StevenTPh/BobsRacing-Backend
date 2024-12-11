@@ -98,13 +98,14 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost") // Replace with your frontend URL
+        policy.SetIsOriginAllowed(origin =>
+            new Uri(origin).Host == "localhost") // Allow any localhost URL
             .AllowAnyHeader()
             .AllowAnyMethod()
-            //.AllowAnyOrigin() //For Giar/frontend
             .AllowCredentials(); // Required for SignalR
     });
 });
+
 
 var app = builder.Build();
 
