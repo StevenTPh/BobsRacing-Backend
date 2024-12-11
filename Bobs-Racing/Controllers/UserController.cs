@@ -52,7 +52,7 @@ namespace Bobs_Racing.Controllers
             return Ok(new { user.UserId, user.Profilename, user.Username, user.Credits, user.Role });
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User, Admin")]
         [HttpPut("{id}/credentials")]
         public async Task<IActionResult> UpdateUserCredentials(int id, [FromBody] User user)
         {
