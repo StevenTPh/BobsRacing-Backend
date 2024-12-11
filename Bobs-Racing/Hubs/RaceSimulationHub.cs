@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.SignalR;
     using System.Collections.Generic;
+    using System.Security.Cryptography.X509Certificates;
     using System.Threading.Tasks;
 
     public class Runner
@@ -14,11 +15,12 @@
         public int FinalPosition { get; set; }
         public int AthleteID { get; set; }
         public int RaceAthleteID { get; set; }
+        public double? FinishTime { get; set; }
         
         public Runner() { }
 
 
-        public Runner(string name, double position, double speed, double slowestTime, double fastestTime, int finalPosition, int athleteID, int raceAthleteID)
+        public Runner(string name, double position, double speed, double slowestTime, double fastestTime, int finalPosition, int athleteID, int raceAthleteID, double? finishTime)
         {
             Name = name;
             Position = position;
@@ -28,6 +30,7 @@
             FinalPosition = finalPosition;
             AthleteID = athleteID;
             RaceAthleteID = raceAthleteID;
+            FinishTime = finishTime;
         }
     }
 
