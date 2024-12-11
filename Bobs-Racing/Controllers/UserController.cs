@@ -69,7 +69,7 @@ namespace Bobs_Racing.Controllers
                 return NotFound("User not found");
             }
 
-            existingUser.Profilename = user.Profilename ?? existingUser.Profilename;
+            existingUser.Profilename = user.Profilename;
             if (!string.IsNullOrEmpty(user.Password))
             {
                 existingUser.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
