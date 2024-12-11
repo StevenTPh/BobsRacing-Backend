@@ -93,7 +93,6 @@ builder.Services.AddSignalR();
     return new RaceSimulationService(runners, hubContext);
 });*/
 
-// CORS Configuration
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
