@@ -56,7 +56,7 @@
                     if (runner.Position >= TrackLength && runner.FinalPosition == 0)
                     {
                         runner.FinalPosition = finishOrder++;
-                        runner.FastestTime = timeElapsed;
+                        runner.FinishTime = timeElapsed;
                     }
                     else if (runner.Position < TrackLength)
                     {

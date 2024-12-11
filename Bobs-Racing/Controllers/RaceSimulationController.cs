@@ -93,7 +93,7 @@ namespace Bobs_Racing.Controllers
 
             var result = new
             {
-                RaceID = raceAthletes.First().RaceId, // Assuming all runners belong to the same race
+                RaceID = raceAthletes.First().RaceId, 
                 Positions = positions
             };
 
