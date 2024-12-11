@@ -11,7 +11,7 @@ namespace Bobs_Racing.Models
         public int BetId { get; set; } // Primary Key for the Bet table
 
         [Required]
-        public int Amount { get; set; } // Bet amount
+        public int? Amount { get; set; } // Bet amount
 
         public int PotentialPayout { get; set; } // Potential payout
 

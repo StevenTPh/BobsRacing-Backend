@@ -9,15 +9,15 @@ namespace Bobs_Racing.Models
         public int UserId { get; set; }
         [Required]
         [MaxLength(50)]
-        public string Profilename { get; set; }
+        public string? Profilename { get; set; }
 
         [Required]
         [MaxLength(50)]
-        public string Username { get; set; } // Login username, must be unique
+        public string? Username { get; set; } // Login username, must be unique
 
         [Required]
         [MaxLength(150)]
-        public string Password { get; set; } // Hashed password
+        public string? Password { get; set; } // Hashed password
 
         public int Credits { get; set; }
 
