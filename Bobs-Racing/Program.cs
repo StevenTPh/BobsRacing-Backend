@@ -27,6 +27,7 @@ builder.Services.AddScoped<IRaceAthleteRepository, RaceAthleteRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBetRepository, BetRepository>();
 
+
 // Add JWT Authentication
 builder.Services.AddAuthentication(options =>
 {
