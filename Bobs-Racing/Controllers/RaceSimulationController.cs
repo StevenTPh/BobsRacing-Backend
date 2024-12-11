@@ -64,6 +64,7 @@ namespace Bobs_Racing.Controllers
                 SlowestTime = a.SlowestTime,
                 FastestTime = a.FastestTime,
                 FinalPosition = 0,
+                FinishTime = null,
                 AthleteID = a.AthleteId,
                 RaceAthleteID = raceAthleteMap[a.AthleteId]
             }).ToList();
@@ -72,19 +73,31 @@ namespace Bobs_Racing.Controllers
 
             await _simulationService.StartRace(cancellationToken);
 
-            foreach (var runner in runners)
+
+            var positions = new Dictionary<int, object>();
+            foreach (var runner in runners.OrderBy(r => r.FinalPosition).Where(r => r.FinalPosition > 0))
             {
-                if (runner.FinalPosition > 0)
+                await _raceAthleteRepository.UpdateRaceAthleteFinalPositionAsync(runner.RaceAthleteID, runner.FinalPosition);
+
+                positions[runner.FinalPosition] = new
                 {
-                    await _raceAthleteRepository.UpdateRaceAthleteFinalPositionAsync(runner.RaceAthleteID, runner.FinalPosition);
-                }
-                Console.WriteLine($"Name: {runner.Name}, Final: {runner.FinalPosition} Position: {runner.Position}, Speed: {runner.Speed}, SlowestTime: {runner.SlowestTime}, FastestTime: {runner.FastestTime}, AthleteID: {runner.AthleteID}, RaceAthleteID: {runner.RaceAthleteID}");
+                    AthleteID = runner.AthleteID,
+                    RaceAthleteID = runner.RaceAthleteID,
+                    Name = runner.Name,
+                    FinalPosition = runner.FinalPosition,
+                    FinishTime = runner.FinishTime
+                };
+
+                Console.WriteLine($"Name: {runner.Name}, Final: {runner.FinalPosition}, Speed: {runner.Speed}, SlowestTime: {runner.SlowestTime}, FastestTime: {runner.FastestTime}, AthleteID: {runner.AthleteID}, RaceAthleteID: {runner.RaceAthleteID}");
             }
 
-            
+            var result = new
+            {
+                RaceID = raceAthletes.First().RaceId, // Assuming all runners belong to the same race
+                Positions = positions
+            };
 
-            return Ok(new { message = "Race started!" });
-
+            return Ok(result);
         }
     }
 
