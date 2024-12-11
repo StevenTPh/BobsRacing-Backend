@@ -17,7 +17,7 @@ namespace Bobs_Racing.Models
         public Race? Race { get; set; }
 
         [JsonIgnore]
-        [ForeignKey("AnimalId")]
+        [ForeignKey("AthleteId")]
         public Athlete? Athlete { get; set; }
 
         public int FinalPosition { get; set; } // Position in the race
