@@ -21,6 +21,7 @@ namespace Bobs_Racing.Repositories
             return await _context.Races
                 .Include(r => r.RaceAthletes)
                     .ThenInclude(ra => ra.Athlete)
+                        .Where(r => r.RaceAthletes.Any())
                 .ToListAsync();
         }
 

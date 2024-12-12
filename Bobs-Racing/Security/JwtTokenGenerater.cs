@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -27,6 +28,7 @@ namespace Bobs_Racing.Security
                 new Claim("id", userId.ToString()), // User ID
                 new Claim("username", username), // User name
                 new Claim(ClaimTypes.Role, role), // User role
+                new Claim("role", role),
                 new Claim("profilename", profilename), // User profile name
                 new Claim("credits", credits.ToString()) // credits
             };
