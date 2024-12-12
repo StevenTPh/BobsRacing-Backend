@@ -8,9 +8,11 @@ namespace Bobs_Racing.Models
 {
     public class Race //OlympicGame
     {
+        //POST, PUT, DELETE Race
         [Key]
         public int RaceId { get; set; }
         public DateTime Date { get; set; }
+
         [JsonIgnore]
         public List<RaceAthlete>? RaceAthletes { get; set; } = new List<RaceAthlete>();
 

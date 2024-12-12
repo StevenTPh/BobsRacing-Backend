@@ -23,7 +23,15 @@ namespace Bobs_Racing.Controllers
         public async Task<IActionResult> GetAllRaces()
         {
             var races = await _raceRepository.GetAllRacesAsync();
-            return Ok(races);
+            // Map to RaceDTO
+            var raceDTOs = races.Select(race => new RaceDTO
+            {
+                RaceId = race.RaceId,
+                Date = race.Date,
+                RaceAthletes = race.RaceAthletes
+            }).ToList();
+
+            return Ok(raceDTOs);
         }
 
         [HttpGet("{id}")]
@@ -34,10 +42,18 @@ namespace Bobs_Racing.Controllers
             {
                 return NotFound("Race not found");
             }
-            return Ok(race);
+            // Map to RaceDTO
+            var raceDTO = new RaceDTO
+            {
+                RaceId = race.RaceId,
+                Date = race.Date,
+                RaceAthletes = race.RaceAthletes
+            };
+
+            return Ok(raceDTO);
         }
 
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateRace([FromBody] Race race)
         {

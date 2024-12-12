@@ -41,7 +41,7 @@ namespace Bobs_Racing.Controllers
 
             if (userRole == "User" && int.TryParse(userIdClaim, out var userId) && bet.UserId != userId)
             {
-                return Forbid("You are not allowed to access this bet.");
+                return StatusCode(StatusCodes.Status403Forbidden, "You are not allowed to access this bet.");
             }
             return Ok(bet);
         }

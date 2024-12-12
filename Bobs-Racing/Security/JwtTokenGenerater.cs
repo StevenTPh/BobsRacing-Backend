@@ -26,7 +26,7 @@ namespace Bobs_Racing.Security
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // Unique token ID
                 new Claim("id", userId.ToString()), // User ID
                 new Claim("username", username), // User name
-                new Claim("role", role), // User role
+                new Claim(ClaimTypes.Role, role), // User role
                 new Claim("profilename", profilename), // User profile name
                 new Claim("credits", credits.ToString()) // credits
             };
