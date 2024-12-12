@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -28,9 +29,9 @@ namespace Bobs_Racing.Security
                 new Claim("id", userId.ToString()), // User ID
                 new Claim("username", username), // User name
                 new Claim(ClaimTypes.Role, role), // User role
-                new Claim("role", role),
+                //new Claim("role", role),
                 new Claim("profilename", profilename), // User profile name
-                new Claim("credits", credits.ToString()) // credits
+                new Claim("credits", credits.ToString(CultureInfo.InvariantCulture))
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Secret"]));

@@ -7,10 +7,11 @@ namespace Bobs_Racing.Interface
         Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User> GetUserByIdAsync(int id);
         Task AddUserAsync(User user);
+        /*
         Task UpdateUserCredentialsAsync(User user);
-        Task UpdateUserCreditsAsync(User user);
+        Task UpdateUserCreditsAsync(User user); */
 
-        Task UpdateUserAsync(User user);
+        Task UpdateUserAsync(int userId, UserDTO userDto);
 
         Task DeleteUserAsync(int id);
         Task<User> GetUserByUsernameAsync(string username);
