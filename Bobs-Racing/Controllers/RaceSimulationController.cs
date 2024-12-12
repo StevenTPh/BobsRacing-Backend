@@ -17,38 +17,42 @@ namespace Bobs_Racing.Controllers
         private readonly RaceSimulationService _simulationService;
         private readonly IAthleteRepository _athleteRepository;
         private readonly IRaceAthleteRepository _raceAthleteRepository;
+        private readonly IRaceRepository _raceRepository;
 
         public RaceSimulationController(
             RaceSimulationService simulationService,
             IAthleteRepository athleteRepository,
             IHubContext<RaceSimulationHub> hubContext,
-            IRaceAthleteRepository raceAthleteRepository)
+            IRaceAthleteRepository raceAthleteRepository,
+            IRaceRepository raceRepository)
         {
             _simulationService = simulationService;
             _athleteRepository = athleteRepository;
             _raceAthleteRepository = raceAthleteRepository;
             _simulationService = new RaceSimulationService(hubContext);
+            _raceRepository = raceRepository;
         }
 
         [HttpPost("start")]
-        public async Task<IActionResult> StartRace([FromBody] List<int> raceAthleteIds, CancellationToken cancellationToken)
+        public async Task<IActionResult> StartRace(int raceId, CancellationToken cancellationToken)
         {
-            if (raceAthleteIds == null || !raceAthleteIds.Any())
+
+            var race = await _raceRepository.GetRaceByIdAsync(raceId);
+
+            if (race == null)
             {
-                return NotFound("No athlete IDs provided.");
+                return NotFound($"no race with id: {raceId}");
             }
 
-            var raceAthletes = await _raceAthleteRepository.GetAthletesByIdsAsyncList(raceAthleteIds);
-
-            if (!raceAthletes.Any())
+            if (race.RaceAthletes == null)
             {
-                return NotFound("No race-athletes found for the given IDs.");
+                return NotFound("no raceAthletes in race");
             }
 
-            var raceAthleteMap = raceAthletes.ToDictionary(ra => ra.AthleteId, ra => ra.RaceAthleteId);
-
-            var athleteIds = raceAthletes.Select(ra => ra.AthleteId).ToList();
-
+            var raceAthleteMap = race.RaceAthletes.ToDictionary(ra => ra.AthleteId, ra => ra.RaceAthleteId);
+            
+            var athleteIds = race.RaceAthletes.Select(ra => ra.AthleteId).ToList();
+            
             var athletes = await _athleteRepository.GetAthletesByIdsAsync(athleteIds);
 
             if (!athletes.Any())
@@ -93,7 +97,7 @@ namespace Bobs_Racing.Controllers
 
             var result = new
             {
-                RaceID = raceAthletes.First().RaceId, 
+                RaceID = race.RaceAthletes.First().RaceId, 
                 Positions = positions
             };
 
