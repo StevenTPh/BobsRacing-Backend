@@ -63,31 +63,15 @@ namespace Bobs_Racing.Controllers
             {
                 return StatusCode(StatusCodes.Status403Forbidden, "You are not allowed to update another user's credentials.");
             }
-
-            var existingUser = await _userRepository.GetUserByIdAsync(id);
-            if (existingUser == null)
+            try
+            {
+                await _userRepository.UpdateUserAsync(id, user);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
             {
                 return NotFound("User not found");
             }
-
-            // Update only fields that are provided
-            if (!string.IsNullOrEmpty(user.Profilename))
-            {
-                existingUser.Profilename = user.Profilename;
-            }
-
-            if (!string.IsNullOrEmpty(user.Username))
-            {
-                existingUser.Username = user.Username;
-            }
-
-            if (!string.IsNullOrEmpty(user.Password))
-            {
-                existingUser.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-            }
-
-            await _userRepository.UpdateUserCredentialsAsync(existingUser);
-            return NoContent();
         }
 
         [Authorize(Roles = "Admin, User")]
@@ -103,44 +87,42 @@ namespace Bobs_Racing.Controllers
                 return StatusCode(StatusCodes.Status403Forbidden, "You are not allowed to update another user's credits.");
             }
 
-            var existingUser = await _userRepository.GetUserByIdAsync(id);
-            if (existingUser == null)
+            try
+            {
+                await _userRepository.UpdateUserAsync(id, new UserDTO { Credits = user.Credits });
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
             {
                 return NotFound("User not found");
             }
-
-            existingUser.Credits = user.Credits;
-
-            await _userRepository.UpdateUserCreditsAsync(existingUser);
-            return NoContent();
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}/role")]
         public async Task<IActionResult> UpdateUserRole(int id, [FromBody] UserDTO user)
         {
-            var existingUser = await _userRepository.GetUserByIdAsync(id);
-            if (existingUser == null)
+            try
+            {
+                await _userRepository.UpdateUserAsync(id, new UserDTO { Role = user.Role });
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
             {
                 return NotFound("User not found");
             }
-
-            existingUser.Role = user.Role;
-            await _userRepository.UpdateUserAsync(existingUser);
-
-            return NoContent();
         }
 
         [Authorize(Roles = "Admin, User")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var userRole = HttpContext.User.FindFirst(ClaimTypes.Role)?.Value;
-            var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userIdClaim = HttpContext.User.FindFirst("id")?.Value;
+            var userRoleClaim = HttpContext.User.FindFirst(ClaimTypes.Role)?.Value;
 
-            if (userRole == "User" && (!int.TryParse(userIdClaim, out var userId) || userId != id))
+            if (!int.TryParse(userIdClaim, out var userId) || (userId != id && userRoleClaim != "Admin"))
             {
-                return StatusCode(StatusCodes.Status403Forbidden, "You are not allowed to update another user's credentials.");
+                return StatusCode(StatusCodes.Status403Forbidden, "You are not allowed to delete another user's credits.");
             }
 
             var user = await _userRepository.GetUserByIdAsync(id);

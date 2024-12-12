@@ -44,17 +44,35 @@ namespace Bobs_Racing.Repositories
             await _context.SaveChangesAsync();
         }
 
+        /*
         public async Task UpdateUserCredentialsAsync(User user)
         {
             var existingUser = await _context.Users.FindAsync(user.UserId);
 
             if (existingUser != null)
             {
-                existingUser.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                // Update password only if it's different
+                if (!string.IsNullOrEmpty(user.Password) &&
+                    !BCrypt.Net.BCrypt.Verify(user.Password, existingUser.Password))
+                {
+                    existingUser.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                }
+                // Update only fields that are provided
+                if (!string.IsNullOrEmpty(user.Profilename))
+                {
+                    existingUser.Profilename = user.Profilename;
+                }
+
+                if (!string.IsNullOrEmpty(user.Username))
+                {
+                    existingUser.Username = user.Username;
+                }
+
                 _context.Users.Update(existingUser);
                 await _context.SaveChangesAsync();
             }
         }
+
 
         public async Task UpdateUserCreditsAsync(User user)
         {
@@ -62,31 +80,53 @@ namespace Bobs_Racing.Repositories
 
             if (existingUser != null)
             {
-                // Example: Only update specific fields
-                //existingUser.Name = user.Name;
                 existingUser.Credits = user.Credits;
-               
                 _context.Users.Update(existingUser);
                 await _context.SaveChangesAsync();
             }
-        }
-
-        public async Task UpdateUserAsync(User user)
+        } */
+        public async Task UpdateUserAsync(int userId, UserDTO userDto)
         {
-            var existingUser = await _context.Users.FindAsync(user.UserId);
+            var existingUser = await _context.Users.FindAsync(userId);
 
-            if (existingUser != null)
+            if (existingUser == null)
             {
-                // Update properties as needed
-                existingUser.Profilename = user.Profilename;
-                existingUser.Password = user.Password; // Ensure password is hashed before calling this
-                existingUser.Role = user.Role;
-                existingUser.Credits = user.Credits;
-
-                _context.Users.Update(existingUser);
-                await _context.SaveChangesAsync();
+                throw new KeyNotFoundException("User not found");
             }
+
+            // Update fields if provided
+            if (!string.IsNullOrEmpty(userDto.Profilename))
+            {
+                existingUser.Profilename = userDto.Profilename;
+            }
+
+            if (!string.IsNullOrEmpty(userDto.Username))
+            {
+                existingUser.Username = userDto.Username;
+            }
+
+            if (!string.IsNullOrEmpty(userDto.Password) &&
+                !BCrypt.Net.BCrypt.Verify(userDto.Password, existingUser.Password))
+            {
+                existingUser.Password = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
+            }
+
+            if (!string.IsNullOrEmpty(userDto.Role))
+            {
+                existingUser.Role = userDto.Role;
+            }
+
+            // Always update credits if provided
+            if (userDto.Credits != 0)
+            {
+                existingUser.Credits = userDto.Credits;
+            }
+
+            _context.Users.Update(existingUser);
+            await _context.SaveChangesAsync();
         }
+
+
 
 
         public async Task DeleteUserAsync(int id)
