@@ -67,6 +67,7 @@
                 // check if race is running
                 Console.WriteLine($"Time: {timeElapsed}, Runners: {string.Join(", ", _runners.Select(r => $"{r.Name}: {r.Position:F2}m (Pos: {r.FinalPosition})"))}");
 
+                // use hubContext to send real time updates to frontend
                 await _hubContext.Clients.All.SendAsync("ReceiveRaceUpdate", _runners);
 
                     await Task.Delay((int)(TimeStep * 1000), cancellationToken);
