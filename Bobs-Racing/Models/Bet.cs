@@ -15,6 +15,8 @@ namespace Bobs_Racing.Models
 
         public int PotentialPayout { get; set; } // Potential payout
 
+        public bool IsActive { get; set; }
+
         public int  UserId { get; set; }
 
         [JsonIgnore]

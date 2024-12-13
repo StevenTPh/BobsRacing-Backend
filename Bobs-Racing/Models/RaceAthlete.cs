@@ -21,6 +21,7 @@ namespace Bobs_Racing.Models
         public Athlete? Athlete { get; set; }
 
         public int FinalPosition { get; set; } // Position in the race
+        public double FinishTime { get; set; }
 
         // Navigation property for Bets
         [JsonIgnore]
