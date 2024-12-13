@@ -19,6 +19,7 @@ namespace Bobs_Racing.Controllers
         private readonly IAthleteRepository _athleteRepository;
         private readonly IRaceAthleteRepository _raceAthleteRepository;
         private readonly IRaceRepository _raceRepository;
+        private readonly IHubContext<RaceSimulationHub> _hubContext;
 
         public RaceSimulationController(
             RaceSimulationService simulationService,
@@ -32,6 +33,7 @@ namespace Bobs_Racing.Controllers
             _raceAthleteRepository = raceAthleteRepository;
             _simulationService = new RaceSimulationService(hubContext);
             _raceRepository = raceRepository;
+            _hubContext = hubContext;
         }
 
         [HttpPost("start")]
@@ -117,9 +119,12 @@ namespace Bobs_Racing.Controllers
             // sets the result return
             var result = new
             {
-                RaceID = race.RaceAthletes.First().RaceId, 
+                RaceID = race.RaceAthletes.First().RaceId,
                 Positions = positions
             };
+
+            // Broadcast the results to all connected clients
+            await _hubContext.Clients.All.SendAsync("ReceiveRaceResults", result);
 
             return Ok(result);
         }
