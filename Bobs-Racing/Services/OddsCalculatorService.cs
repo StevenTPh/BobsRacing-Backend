@@ -1,10 +1,11 @@
 ﻿using Bobs_Racing.Models;
 
+namespace Bobs_Racing.Services;
 public class OddsCalculatorService
 {
-    private const double HouseEdge = 0.1; // 10% House Edge
+    private const double HouseEdge = 0.1;
 
-    public double CalculatePerformanceScore(double fastestTime, double slowestTime, double weightFastest = 0.7, double weightSlowest = 0.3)
+    public double CalculatePerformanceScore(double fastestTime, double slowestTime, double weightFastest = 0.9, double weightSlowest = 0.5)
     {
         return (fastestTime * weightFastest) + (slowestTime * weightSlowest);
     }
