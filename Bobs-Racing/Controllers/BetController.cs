@@ -50,6 +50,14 @@ namespace Bobs_Racing.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateBet([FromBody] Bet bet)
         {
+                   /*
+                {
+                      "amount": 0, (User input for amount)
+                      "potentialPayout": calculated in frontend,
+                      "userId": 0,
+                      "raceAthleteId": 0
+                    }*/
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

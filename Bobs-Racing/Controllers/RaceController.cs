@@ -1,6 +1,7 @@
 ﻿using Bobs_Racing.Data;
 using Bobs_Racing.Interface;
 using Bobs_Racing.Models;
+using Bobs_Racing.Services;
 using Bobs_Racing.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +14,12 @@ namespace Bobs_Racing.Controllers
     public class RaceController : ControllerBase
     {
         private readonly IRaceRepository _raceRepository;
+        private readonly OddsCalculatorService _oddsCalculatorService;
 
-        public RaceController(IRaceRepository raceRepository)
+        public RaceController(IRaceRepository raceRepository, OddsCalculatorService oddsCalculatorService)
         {
             _raceRepository = raceRepository;
+            _oddsCalculatorService = oddsCalculatorService;
         }
 
         [HttpGet]
@@ -96,5 +99,37 @@ namespace Bobs_Racing.Controllers
             await _raceRepository.DeleteRaceAsync(id);
             return NoContent();
         }
+
+        [HttpGet("{id}/odds")]
+        public async Task<IActionResult> GetRaceOdds(int id)
+        {
+            // Fetch the race with its athletes
+            var race = await _raceRepository.GetRaceByIdAsync(id);
+            if (race == null || race.RaceAthletes == null)
+            {
+                return NotFound("Race not found or no athletes in this race.");
+            }
+
+            var athletes = race.RaceAthletes.Select(ra => ra.Athlete).ToList();
+            if (athletes == null || athletes.Count == 0)
+            {
+                return BadRequest("No valid athlete data found for this race.");
+            }
+
+            // Calculate odds using the updated service method
+            var odds = _oddsCalculatorService.CalculateOddsBasedOnBestAverage(race.RaceAthletes, athletes);
+
+            // Format response with athleteId included
+            var result = race.RaceAthletes.Select(ra => new
+            {
+                RaceAthleteId = ra.RaceAthleteId,
+                AthleteId = odds[ra.RaceAthleteId].AthleteId,
+                AthleteName = ra.Athlete?.Name,
+                Odds = odds[ra.RaceAthleteId].Odds
+            });
+
+            return Ok(result);
+        }
+
     }
 }
