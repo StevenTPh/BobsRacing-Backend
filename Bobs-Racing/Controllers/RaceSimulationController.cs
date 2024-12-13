@@ -93,8 +93,14 @@ namespace Bobs_Racing.Controllers
             // only continue to run runners with position = 0
             foreach (var runner in runners.OrderBy(r => r.FinalPosition).Where(r => r.FinalPosition > 0))
             {
-                // updates the raceAthlete position 
+                // Update the raceAthlete position
                 await _raceAthleteRepository.UpdateRaceAthleteFinalPositionAsync(runner.RaceAthleteID, runner.FinalPosition);
+
+                // Update the raceAthlete finish time
+                if (runner.FinishTime.HasValue) // Ensure FinishTime is not null before updating
+                {
+                    await _raceAthleteRepository.UpdateRaceAthleteFinishTimeAsync(runner.RaceAthleteID, runner.FinishTime.Value);
+                }
 
                 positions[runner.FinalPosition] = new
                 {

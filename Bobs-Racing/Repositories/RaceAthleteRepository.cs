@@ -27,17 +27,6 @@ namespace Bobs_Racing.Repositories
                 .ToListAsync();
         }
 
-        public async Task UpdateRaceAthleteFinalPositionAsync(int raceAthleteId, int finalPosition)
-        {
-            var raceAthlete = await _context.RaceAthletes.FirstOrDefaultAsync(ra => ra.RaceAthleteId == raceAthleteId);
-            if (raceAthlete != null)
-            {
-                raceAthlete.FinalPosition = finalPosition;
-                _context.RaceAthletes.Update(raceAthlete);
-                await _context.SaveChangesAsync();
-            }
-        }
-
         public async Task<IEnumerable<RaceAthlete>> GetAllRaceAthleteAsync()
         {
             return await _context.RaceAthletes.ToListAsync();
@@ -54,6 +43,29 @@ namespace Bobs_Racing.Repositories
             _context.RaceAthletes.Add(raceAthlete);
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateRaceAthleteFinalPositionAsync(int raceAthleteId, int finalPosition)
+        {
+            var raceAthlete = await _context.RaceAthletes.FirstOrDefaultAsync(ra => ra.RaceAthleteId == raceAthleteId);
+            if (raceAthlete != null)
+            {
+                raceAthlete.FinalPosition = finalPosition;
+                _context.RaceAthletes.Update(raceAthlete);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateRaceAthleteFinishTimeAsync(int raceAthleteId, double finishTime)
+        {
+            var raceAthlete = await _context.RaceAthletes.FirstOrDefaultAsync(ra => ra.RaceAthleteId == raceAthleteId);
+            if (raceAthlete != null)
+            {
+                raceAthlete.FinishTime = finishTime;
+                _context.RaceAthletes.Update(raceAthlete);
+                await _context.SaveChangesAsync();
+            }
+        }
+
         public async Task UpdateRaceAthleteAsync(RaceAthlete raceAthlete)
         {
             _context.RaceAthletes.Update(raceAthlete);
