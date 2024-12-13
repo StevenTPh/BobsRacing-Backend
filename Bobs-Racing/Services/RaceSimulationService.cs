@@ -63,9 +63,6 @@
                     }
 
                     runner.Position += runner.Speed * TimeStep;
-                    
-
-
 
 
                     if (runner.Position >= TrackLength && runner.FinalPosition == 0)
@@ -85,9 +82,8 @@
                 // use hubContext to send real time updates to frontend
                 await _hubContext.Clients.All.SendAsync("ReceiveRaceUpdate", _runners);
 
-                    await Task.Delay((int)(TimeStep * 1000), cancellationToken);
-                    timeElapsed += TimeStep;
-            
+                await Task.Delay((int)(TimeStep * 1000), cancellationToken);
+                timeElapsed += TimeStep;
                 //Console.WriteLine("Race Complete!");
             }
             Console.WriteLine("Race Complete!");
