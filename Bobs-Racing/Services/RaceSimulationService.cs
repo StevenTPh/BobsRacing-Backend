@@ -34,21 +34,36 @@
             double timeElapsed = 0;
             int finishOrder = 1;
 
+            Dictionary<Runner, double> runnerTimeElapsed = _runners.ToDictionary(runner => runner, runner => 0.0);
+            Dictionary<Runner, double> lastSpeedUpdateTime = _runners.ToDictionary(runner => runner, runner => 0.0);
+            Random random = new Random();
+
+
+            foreach (var runner in _runners)
+            {
+                runner.Speed = 100 / runner.SlowestTime + (random.NextDouble() * (runner.SlowestTime - runner.FastestTime));
+
+            }
+
             while (!raceComplete && !cancellationToken.IsCancellationRequested)
             {
                 raceComplete = true;
-                Random random = new Random();
 
                 foreach (var runner in _runners)
                 {
                     if (runner.FinalPosition != 0)
                         continue;
 
-                    if (timeElapsed >= 0)
+                    runnerTimeElapsed[runner] += TimeStep;
+
+                    if (runnerTimeElapsed[runner] - lastSpeedUpdateTime[runner] >= 1)
                     {
                         runner.Speed = 100 / runner.SlowestTime + (random.NextDouble() * (runner.SlowestTime - runner.FastestTime));
-                        runner.Position += runner.Speed * TimeStep;
+                        lastSpeedUpdateTime[runner] = runnerTimeElapsed[runner];
                     }
+
+                    runner.Position += runner.Speed * TimeStep;
+                    
 
 
 
