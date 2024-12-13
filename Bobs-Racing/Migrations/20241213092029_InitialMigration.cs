@@ -9,11 +9,12 @@ namespace Bobs_Racing.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            //Add or change tables
 
-            // Change Credits column in Users table to FLOAT
+            // Change Column
             migrationBuilder.AlterColumn<double>(
-                name: "Credits",
-                table: "Users",
+                name: "PotentialPayout",
+                table: "Bets",
                 type: "float",
                 nullable: false,
                 oldClrType: typeof(int),
@@ -22,29 +23,7 @@ namespace Bobs_Racing.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            // Remove IsActive column from Bets table
-            migrationBuilder.DropColumn(
-                name: "IsActive",
-                table: "Bets");
-
-            // Remove IsFinished column from Races table
-            migrationBuilder.DropColumn(
-                name: "IsFinished",
-                table: "Races");
-
-            // Remove FinishTime column from RaceAthletes table
-            migrationBuilder.DropColumn(
-                name: "FinishTime",
-                table: "RaceAthletes");
-
-            // Revert Credits column in Users table back to INT
-            migrationBuilder.AlterColumn<int>(
-                name: "Credits",
-                table: "Users",
-                type: "int",
-                nullable: false,
-                oldClrType: typeof(double),
-                oldType: "float");
+            // Remove from tables
         }
 
     }
