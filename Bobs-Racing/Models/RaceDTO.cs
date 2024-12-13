@@ -8,6 +8,8 @@ namespace Bobs_Racing.Models
         public int RaceId { get; set; }
         public DateTime Date { get; set; }
 
+        public bool IsFinished { get; set; }
+
         public List<RaceAthlete>? RaceAthletes { get; set; } = new List<RaceAthlete>();
     }
 }

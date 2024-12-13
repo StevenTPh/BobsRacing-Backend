@@ -11,7 +11,7 @@ namespace Bobs_Racing.Models
         [MaxLength(150)]
         public string? Password { get; set; } // Hashed password
 
-        public int Credits { get; set; }
+        public double Credits { get; set; }
 
         public string? Role { get; set; } // e.g., "Admin" or "User"
     }

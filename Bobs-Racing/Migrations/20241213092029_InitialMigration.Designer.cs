@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bobs_Racing.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241210144512_DatabaseUpdate")]
-    partial class DatabaseUpdate
+    [Migration("20241213092029_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,8 +59,12 @@ namespace Bobs_Racing.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BetId"), 1L, 1);
 
-                    b.Property<int>("Amount")
+                    b.Property<int?>("Amount")
+                        .IsRequired()
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<int>("PotentialPayout")
                         .HasColumnType("int");
@@ -110,6 +114,9 @@ namespace Bobs_Racing.Migrations
                     b.Property<int>("FinalPosition")
                         .HasColumnType("int");
 
+                    b.Property<double>("FinishTime")
+                        .HasColumnType("float");
+
                     b.Property<int>("RaceId")
                         .HasColumnType("int");
 
@@ -130,8 +137,8 @@ namespace Bobs_Racing.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"), 1L, 1);
 
-                    b.Property<int>("Credits")
-                        .HasColumnType("int");
+                    b.Property<double>("Credits")
+                        .HasColumnType("float");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -160,8 +167,8 @@ namespace Bobs_Racing.Migrations
                         new
                         {
                             UserId = 1,
-                            Credits = 0,
-                            Password = "$2a$11$OOCoEPdGQtF0HSP8K/IOI.4aBk3Pi9OP9NvbhuYE6ezwSwqLYw3I2",
+                            Credits = 0.0,
+                            Password = "$2a$11$fcT9WqGPtGSqB8pGFy5P2.A8ywVbnFpEW2OXFhIrHz7dv2Vi0C3Eq",
                             Profilename = "Admin",
                             Role = "Admin",
                             Username = "admin"

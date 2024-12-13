@@ -11,6 +11,7 @@ namespace Bobs_Racing.Interface
         Task AddRaceAthleteAsync(RaceAthlete raceAthlete);
         Task UpdateRaceAthleteAsync(RaceAthlete raceAthlete);
         Task UpdateRaceAthleteFinalPositionAsync(int raceAthleteId, int finalPosition);
+        Task UpdateRaceAthleteFinishTimeAsync(int raceAthleteId, double finishTime);
         Task DeleteRaceAthleteAsync(int id);
 
         // New method to validate the composite key in RaceAnimal

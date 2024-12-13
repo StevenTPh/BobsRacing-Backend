@@ -13,7 +13,9 @@ namespace Bobs_Racing.Models
         [Required]
         public int? Amount { get; set; } // Bet amount
 
-        public int PotentialPayout { get; set; } // Potential payout
+        public double PotentialPayout { get; set; } // Potential payout
+
+        public bool IsActive { get; set; }
 
         public int  UserId { get; set; }
 
