@@ -33,6 +33,7 @@
             bool raceComplete = false;
             double timeElapsed = 0;
             int finishOrder = 1;
+            double speedUpdateCounter = 0;
 
             while (!raceComplete && !cancellationToken.IsCancellationRequested)
             {
@@ -46,7 +47,11 @@
 
                     if (timeElapsed >= 0)
                     {
-                        runner.Speed = 100 / runner.SlowestTime + (random.NextDouble() * (runner.SlowestTime - runner.FastestTime));
+                        if (timeElapsed - speedUpdateCounter >= 1)
+                        {
+                            runner.Speed = 100 / runner.SlowestTime + (random.NextDouble() * (runner.SlowestTime - runner.FastestTime));
+                            speedUpdateCounter = timeElapsed;
+                        }
                         runner.Position += runner.Speed * TimeStep;
                     }
 

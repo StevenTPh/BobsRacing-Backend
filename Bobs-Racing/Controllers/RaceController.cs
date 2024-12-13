@@ -13,10 +13,12 @@ namespace Bobs_Racing.Controllers
     public class RaceController : ControllerBase
     {
         private readonly IRaceRepository _raceRepository;
+        private readonly OddsCalculatorService _oddsCalculatorService;
 
-        public RaceController(IRaceRepository raceRepository)
+        public RaceController(IRaceRepository raceRepository, OddsCalculatorService oddsCalculatorService)
         {
             _raceRepository = raceRepository;
+            _oddsCalculatorService = oddsCalculatorService;
         }
 
         [HttpGet]
@@ -95,6 +97,40 @@ namespace Bobs_Racing.Controllers
 
             await _raceRepository.DeleteRaceAsync(id);
             return NoContent();
+        }
+
+        [HttpGet("{id}/odds")]
+        public async Task<IActionResult> GetRaceOdds(int id)
+        {
+            // Fetch the race with its athletes
+            var race = await _raceRepository.GetRaceByIdAsync(id);
+            if (race == null || race.RaceAthletes == null)
+            {
+                return NotFound("Race not found or no athletes in this race.");
+            }
+
+            var athletes = race.RaceAthletes.Select(ra => ra.Athlete).ToList();
+            if (athletes == null || athletes.Count == 0)
+            {
+                return BadRequest("No valid athlete data found for this race.");
+            }
+
+            // Calculate odds using the injected service
+            var probabilities = _oddsCalculatorService.CalculateProbabilities(race.RaceAthletes, athletes);
+
+            // Format response
+            var odds = race.RaceAthletes.Select(ra => new
+            {
+                RaceAthleteId = ra.RaceAthleteId,
+                AthleteName = ra.Athlete?.Name,
+                Odds = probabilities.ContainsKey(ra.RaceAthleteId)
+                    ? _oddsCalculatorService.CalculateOdds(probabilities[ra.RaceAthleteId])
+                    : 0.0
+            });
+
+            return Ok(odds);
+
+
         }
     }
 }
