@@ -116,22 +116,20 @@ namespace Bobs_Racing.Controllers
                 return BadRequest("No valid athlete data found for this race.");
             }
 
-            // Calculate odds using the injected service
-            var probabilities = _oddsCalculatorService.CalculateProbabilities(race.RaceAthletes, athletes);
+            // Calculate odds using the updated service method
+            var odds = _oddsCalculatorService.CalculateOddsBasedOnBestAverage(race.RaceAthletes, athletes);
 
-            // Format response
-            var odds = race.RaceAthletes.Select(ra => new
+            // Format response with athleteId included
+            var result = race.RaceAthletes.Select(ra => new
             {
                 RaceAthleteId = ra.RaceAthleteId,
+                AthleteId = odds[ra.RaceAthleteId].AthleteId,
                 AthleteName = ra.Athlete?.Name,
-                Odds = probabilities.ContainsKey(ra.RaceAthleteId)
-                    ? _oddsCalculatorService.CalculateOdds(probabilities[ra.RaceAthleteId])
-                    : 0.0
+                Odds = odds[ra.RaceAthleteId].Odds
             });
 
-            return Ok(odds);
-
-
+            return Ok(result);
         }
+
     }
 }

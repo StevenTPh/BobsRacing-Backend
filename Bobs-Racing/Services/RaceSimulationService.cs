@@ -33,27 +33,36 @@
             bool raceComplete = false;
             double timeElapsed = 0;
             int finishOrder = 1;
-            double speedUpdateCounter = 0;
+
+            Dictionary<Runner, double> runnerTimeElapsed = _runners.ToDictionary(runner => runner, runner => 0.0);
+            Dictionary<Runner, double> lastSpeedUpdateTime = _runners.ToDictionary(runner => runner, runner => 0.0);
+            Random random = new Random();
+
+
+            foreach (var runner in _runners)
+            {
+                runner.Speed = 100 / runner.SlowestTime + (random.NextDouble() * (runner.SlowestTime - runner.FastestTime));
+
+            }
 
             while (!raceComplete && !cancellationToken.IsCancellationRequested)
             {
                 raceComplete = true;
-                Random random = new Random();
 
                 foreach (var runner in _runners)
                 {
                     if (runner.FinalPosition != 0)
                         continue;
 
-                    if (timeElapsed >= 0)
+                    runnerTimeElapsed[runner] += TimeStep;
+
+                    if (runnerTimeElapsed[runner] - lastSpeedUpdateTime[runner] >= 1)
                     {
-                        if (timeElapsed - speedUpdateCounter >= 1)
-                        {
-                            runner.Speed = 100 / runner.SlowestTime + (random.NextDouble() * (runner.SlowestTime - runner.FastestTime));
-                            speedUpdateCounter = timeElapsed;
-                        }
-                        runner.Position += runner.Speed * TimeStep;
+                        runner.Speed = 100 / runner.SlowestTime + (random.NextDouble() * (runner.SlowestTime - runner.FastestTime));
+                        lastSpeedUpdateTime[runner] = runnerTimeElapsed[runner];
                     }
+
+                    runner.Position += runner.Speed * TimeStep;
 
 
 
@@ -75,9 +84,8 @@
                 // use hubContext to send real time updates to frontend
                 await _hubContext.Clients.All.SendAsync("ReceiveRaceUpdate", _runners);
 
-                    await Task.Delay((int)(TimeStep * 1000), cancellationToken);
-                    timeElapsed += TimeStep;
-            
+                await Task.Delay((int)(TimeStep * 1000), cancellationToken);
+                timeElapsed += TimeStep;
                 //Console.WriteLine("Race Complete!");
             }
             Console.WriteLine("Race Complete!");
