@@ -39,7 +39,7 @@ namespace Bobs_Racing.Repositories
         public async Task AddBetAsync(Bet bet)
         {
             // Validate if the RaceAnimalId exists
-            if (!await ValidateRaceAthleteAsync(bet.RaceAthlete.RaceAthleteId))
+            if (!await ValidateRaceAthleteAsync(bet.RaceAthleteId))
             {
                 throw new ArgumentException("Invalid RaceAthleteId.");
             }
@@ -51,7 +51,7 @@ namespace Bobs_Racing.Repositories
         public async Task UpdateBetAsync(Bet bet)
         {
             // Validate if the RaceAnimalId exists
-            if (!await ValidateRaceAthleteAsync(bet.RaceAthlete.RaceAthleteId))
+            if (!await ValidateRaceAthleteAsync(bet.RaceAthleteId))
             {
                 throw new ArgumentException("Invalid RaceAthleteId.");
             }
