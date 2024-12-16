@@ -95,5 +95,6 @@ namespace Bobs_Racing.Controllers
             await _betRepository.AddBetAsync(bet);
             return CreatedAtAction(nameof(GetBetById), new { id = bet.BetId }, bet);
         }
+
     }
 }
