@@ -31,6 +31,7 @@ namespace Bobs_Racing.Controllers
             {
                 RaceId = race.RaceId,
                 Date = race.Date,
+                IsFinished = race.IsFinished,
                 RaceAthletes = race.RaceAthletes
             }).ToList();
 
@@ -50,6 +51,7 @@ namespace Bobs_Racing.Controllers
             {
                 RaceId = race.RaceId,
                 Date = race.Date,
+                IsFinished = race.IsFinished,
                 RaceAthletes = race.RaceAthletes
             };
 

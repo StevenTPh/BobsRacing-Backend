@@ -11,5 +11,8 @@ namespace Bobs_Racing.Interface
         Task AddRaceAsync(Race race);
         Task UpdateRaceAsync(Race race);
         Task DeleteRaceAsync(int id);
+
+        Task UpdateRaceIsFinishedAsync(int raceId, bool isFinished);
+
     }
 }
