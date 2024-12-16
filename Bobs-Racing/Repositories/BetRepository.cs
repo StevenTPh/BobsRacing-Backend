@@ -36,6 +36,13 @@ namespace Bobs_Racing.Repositories
                 .FirstOrDefaultAsync(b => b.BetId == betId);
         }
 
+        public async Task<List<Bet>> GetBetsByRaceAthleteIdsAsync(List<int> raceAthleteIds)
+        {
+            return await _context.Bets
+                .Where(b => raceAthleteIds.Contains(b.RaceAthleteId))
+                .ToListAsync();
+        }
+
         public async Task AddBetAsync(Bet bet)
         {
             // Validate if the RaceAnimalId exists
@@ -57,6 +64,13 @@ namespace Bobs_Racing.Repositories
             }
 
             _context.Bets.Update(bet);
+            await _context.SaveChangesAsync();
+        }
+
+        // update multiple bets
+        public async Task UpdateBetsAsync(IEnumerable<Bet> bets)
+        {
+            _context.Bets.UpdateRange(bets);
             await _context.SaveChangesAsync();
         }
 
