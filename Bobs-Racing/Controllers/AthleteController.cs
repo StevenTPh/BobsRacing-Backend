@@ -19,7 +19,7 @@ namespace Bobs_Racing.Controllers
             _athleteRepository = athleteRepository;
         }
 
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "User,Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllAthletes()
         {
@@ -27,7 +27,7 @@ namespace Bobs_Racing.Controllers
             return Ok(athletes);
         }
 
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "User,Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAthleteById(int id)
         {
