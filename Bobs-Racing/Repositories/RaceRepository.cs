@@ -33,6 +33,17 @@ namespace Bobs_Racing.Repositories
                 .FirstOrDefaultAsync(r => r.RaceId == id);
         }
 
+        public async Task UpdateRaceIsFinishedAsync(int raceId, bool isFinished)
+        {
+            var race = await _context.Races.FirstOrDefaultAsync(r => r.RaceId == raceId);
+            if (race != null)
+            {
+                race.IsFinished = isFinished;
+                _context.Races.Update(race);
+                await _context.SaveChangesAsync();
+            }
+        }
+
         public async Task AddRaceAsync(Race race)
         {
             await _context.Races.AddAsync(race);

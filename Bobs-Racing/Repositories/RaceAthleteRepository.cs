@@ -66,6 +66,8 @@ namespace Bobs_Racing.Repositories
             }
         }
 
+        
+
         public async Task UpdateRaceAthleteAsync(RaceAthlete raceAthlete)
         {
             _context.RaceAthletes.Update(raceAthlete);
