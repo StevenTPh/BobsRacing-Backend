@@ -13,6 +13,9 @@ namespace Bobs_Racing.Interface
 
         Task UpdateUserAsync(int userId, UserDTO userDto);
 
+        Task<UserWithBetsDTO> GetUserWithBetsAsync(int userId);
+
+
         Task DeleteUserAsync(int id);
         Task<User> GetUserByUsernameAsync(string username);
 

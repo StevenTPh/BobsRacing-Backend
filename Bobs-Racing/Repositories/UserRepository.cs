@@ -155,5 +155,35 @@ namespace Bobs_Racing.Repositories
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         }
+
+        public async Task<UserWithBetsDTO> GetUserWithBetsAsync(int userId)
+        {
+            var user = await _context.Users
+                .Include(u => u.Bets)
+                .ThenInclude(b => b.RaceAthlete)
+                .ThenInclude(ra => ra.Athlete)
+                .FirstOrDefaultAsync(u => u.UserId == userId);
+
+            if (user == null) return null;
+
+            return new UserWithBetsDTO
+            {
+                UserId = user.UserId,
+                Profilename = user.Profilename,
+                Username = user.Username,
+                Credits = user.Credits,
+                Role = user.Role,
+                Bets = user.Bets.Select(b => new BetDTO
+                {
+                    BetId = b.BetId,
+                    Amount = (double)b.Amount,
+                    PotentialPayout = b.PotentialPayout,
+                    IsActive = b.IsActive,
+                    RaceAthleteId = b.RaceAthleteId,
+                    AthleteName = b.RaceAthlete?.Athlete?.Name
+                }).ToList()
+            };
+        }
+
     }
 }

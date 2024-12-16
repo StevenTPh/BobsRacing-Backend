@@ -4,6 +4,7 @@ using Bobs_Racing.Interface;
 using Bobs_Racing.Security;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bobs_Racing.Controllers
 {
@@ -50,6 +51,21 @@ namespace Bobs_Racing.Controllers
             }
 
             return Ok(new { user.UserId, user.Profilename, user.Username, user.Credits, user.Role });
+        }
+
+        [Authorize(Roles = "Admin, User")]
+        [HttpGet("bets")]
+        public async Task<IActionResult> GetUserWithBets(int id)
+        {
+            var userBets = await _userRepository.GetUserWithBetsAsync(id);
+
+            if (userBets == null)
+            {
+                return NotFound("User not found.");
+            }
+
+
+            return Ok(userBets);
         }
 
         [Authorize(Roles = "User, Admin")]
