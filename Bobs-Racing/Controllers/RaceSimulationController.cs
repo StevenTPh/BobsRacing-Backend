@@ -116,10 +116,13 @@ namespace Bobs_Racing.Controllers
                 Console.WriteLine($"Name: {runner.Name}, Final: {runner.FinalPosition}, Speed: {runner.Speed}, SlowestTime: {runner.SlowestTime}, FastestTime: {runner.FastestTime}, AthleteID: {runner.AthleteID}, RaceAthleteID: {runner.RaceAthleteID}");
             }
 
+            await _raceRepository.UpdateRaceIsFinishedAsync(raceId, true);
+
             // sets the result return
             var result = new
             {
                 RaceID = race.RaceAthletes.First().RaceId,
+                IsFinished = race.IsFinished,
                 Positions = positions
             };
 
