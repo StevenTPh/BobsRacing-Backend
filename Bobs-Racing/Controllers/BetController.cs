@@ -3,6 +3,7 @@ using Bobs_Racing.Models;
 using Bobs_Racing.Interface;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace Bobs_Racing.Controllers
 {
@@ -11,10 +12,12 @@ namespace Bobs_Racing.Controllers
     public class BetController : ControllerBase
     {
         private readonly IBetRepository _betRepository;
+        private IUserRepository _userRepository;
 
-        public BetController(IBetRepository betRepository)
+        public BetController(IBetRepository betRepository, IUserRepository userRepository)
         {
             _betRepository = betRepository;
+            _userRepository = userRepository;
         }
 
         [Authorize(Roles = "Admin")]
@@ -46,7 +49,7 @@ namespace Bobs_Racing.Controllers
             return Ok(bet);
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpPost]
         public async Task<IActionResult> CreateBet([FromBody] Bet bet)
         {
@@ -62,12 +65,32 @@ namespace Bobs_Racing.Controllers
             {
                 return BadRequest(ModelState);
             }
+            
 
             // Validate the composite key
-            if (!await _betRepository.ValidateRaceAthleteAsync(bet.RaceAthlete.RaceAthleteId))
+            if (!await _betRepository.ValidateRaceAthleteAsync(bet.RaceAthleteId))
             {
                 return BadRequest("Invalid RaceId or AthleteId combination");
             }
+
+            var user = await _userRepository.GetUserByIdAsync(bet.UserId);
+
+            if (user.Credits < bet.Amount)
+            {
+                return BadRequest("not enough credits for this bet");
+            }
+
+            user.Credits -= (double)bet.Amount;
+
+            var userDto = new UserDTO
+            {
+                Credits = user.Credits,
+                Profilename = user.Profilename,
+                Username = user.Username,
+                Role = user.Role,
+            };
+
+            await _userRepository.UpdateUserAsync(user.UserId, userDto);
 
             await _betRepository.AddBetAsync(bet);
             return CreatedAtAction(nameof(GetBetById), new { id = bet.BetId }, bet);
