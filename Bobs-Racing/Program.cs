@@ -27,6 +27,8 @@ builder.Services.AddScoped<IRaceAthleteRepository, RaceAthleteRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBetRepository, BetRepository>();
 builder.Services.AddScoped<OddsCalculatorService>();
+builder.Services.AddHostedService<RaceSchedulerService>();
+
 
 // Add JWT Authentication
 builder.Services.AddAuthentication(options =>
@@ -84,15 +86,9 @@ builder.Services.AddSwaggerGen(options =>
 
 // Register the runners
 builder.Services.AddSingleton<RaceSimulationService>();
-
+builder.Services.AddScoped<RaceSchedulerService>();
 // Register SignalR and RaceSimulationService
 builder.Services.AddSignalR();
-/*builder.Services.AddSingleton<RaceSimulationService>(provider =>
-{
-    var hubContext = provider.GetRequiredService<Microsoft.AspNetCore.SignalR.IHubContext<RaceSimulationHub>>();
-    var runners = provider.GetRequiredService<List<Runner>>();
-    return new RaceSimulationService(runners, hubContext);
-});*/
 
 builder.Services.AddCors(options =>
 {
