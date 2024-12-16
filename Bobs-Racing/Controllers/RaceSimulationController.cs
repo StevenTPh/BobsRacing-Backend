@@ -131,6 +131,33 @@ namespace Bobs_Racing.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("results/{raceId}")]
+        public async Task<IActionResult> GetRaceResults(int raceId)
+        {
+            var race = await _raceRepository.GetRaceByIdAsync(raceId);
+            if (race == null || !race.IsFinished)
+            {
+                return NotFound("Race not found or not finished.");
+            }
+
+            var results = new
+            {
+                RaceID = race.RaceId,
+                IsFinished = race.IsFinished,
+                Positions = race.RaceAthletes.OrderBy(ra => ra.FinalPosition).Select(ra => new
+                {
+                    AthleteID = ra.AthleteId,
+                    RaceAthleteID = ra.RaceAthleteId,
+                    Name = ra.Athlete.Name,
+                    FinalPosition = ra.FinalPosition,
+                    FinishTime = ra.FinishTime
+                })
+            };
+
+            return Ok(results);
+        }
+
     }
 
 }
