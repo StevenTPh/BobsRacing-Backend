@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
+using Bobs_Racing.Repositories;
 
 namespace Bobs_Racing.Controllers
 {
@@ -20,13 +21,17 @@ namespace Bobs_Racing.Controllers
         private readonly IRaceAthleteRepository _raceAthleteRepository;
         private readonly IRaceRepository _raceRepository;
         private readonly IHubContext<RaceSimulationHub> _hubContext;
+        private IUserRepository _userRepository;
+        private IBetRepository _betRepository;
 
         public RaceSimulationController(
             RaceSimulationService simulationService,
             IAthleteRepository athleteRepository,
             IHubContext<RaceSimulationHub> hubContext,
             IRaceAthleteRepository raceAthleteRepository,
-            IRaceRepository raceRepository)
+            IRaceRepository raceRepository,
+            IUserRepository userRepository,
+            IBetRepository betRepository)
         {
             _simulationService = simulationService;
             _athleteRepository = athleteRepository;
@@ -34,6 +39,8 @@ namespace Bobs_Racing.Controllers
             _simulationService = new RaceSimulationService(hubContext);
             _raceRepository = raceRepository;
             _hubContext = hubContext;
+            _userRepository = userRepository;
+            _betRepository = betRepository;
         }
 
         [HttpPost("start")]
@@ -114,6 +121,48 @@ namespace Bobs_Racing.Controllers
                 };
 
                 Console.WriteLine($"Name: {runner.Name}, Final: {runner.FinalPosition}, Speed: {runner.Speed}, SlowestTime: {runner.SlowestTime}, FastestTime: {runner.FastestTime}, AthleteID: {runner.AthleteID}, RaceAthleteID: {runner.RaceAthleteID}");
+            }
+
+            // winner
+            var winner = runners.FirstOrDefault(r => r.FinalPosition == 1);
+            if (winner == null)
+            {
+                return BadRequest("no winner in race.");
+            }
+
+            // find all bets
+            var raceAthleteIds = race.RaceAthletes.Select(ra => ra.RaceAthleteId).ToList();
+            var allBets = await _betRepository.GetBetsByRaceAthleteIdsAsync(raceAthleteIds);
+
+            if (allBets.Any())
+            {
+                foreach (var bet in allBets)
+                {
+                    // Mark all bets as inactive
+                    bet.IsActive = false;
+
+                    // For winning bets, pay out and mark as paid
+                    if (bet.RaceAthleteId == winner.RaceAthleteID)
+                    {
+                        var user = await _userRepository.GetUserByIdAsync(bet.UserId);
+                        if (user != null)
+                        {
+                            user.Credits += bet.PotentialPayout;
+
+                            var userDto = new UserDTO
+                            {
+                                Credits = user.Credits,
+                                Profilename = user.Profilename,
+                                Username = user.Username,
+                                Role = user.Role,
+                            };
+
+                            await _userRepository.UpdateUserAsync(user.UserId, userDto);
+                        }
+                    }
+                }
+
+                await _betRepository.UpdateBetsAsync(allBets);
             }
 
             await _raceRepository.UpdateRaceIsFinishedAsync(raceId, true);
