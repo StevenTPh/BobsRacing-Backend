@@ -156,6 +156,7 @@ namespace Bobs_Racing.Controllers
                                 Username = user.Username,
                                 Role = user.Role,
                             };
+                            bet.IsWin = true;
 
                             await _userRepository.UpdateUserAsync(user.UserId, userDto);
                         }

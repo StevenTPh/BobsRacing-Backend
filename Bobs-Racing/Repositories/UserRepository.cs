@@ -179,6 +179,7 @@ namespace Bobs_Racing.Repositories
                     Amount = (double)b.Amount,
                     PotentialPayout = b.PotentialPayout,
                     IsActive = b.IsActive,
+                    IsWin = b.IsWin,
                     RaceAthleteId = b.RaceAthleteId,
                     AthleteName = b.RaceAthlete?.Athlete?.Name
                 }).ToList()

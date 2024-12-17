@@ -17,6 +17,8 @@ namespace Bobs_Racing.Models
 
         public bool IsActive { get; set; }
 
+        public bool IsWin {  get; set; }
+
         public int  UserId { get; set; }
 
         [JsonIgnore]

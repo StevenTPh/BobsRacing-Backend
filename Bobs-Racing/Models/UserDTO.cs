@@ -31,6 +31,7 @@ namespace Bobs_Racing.Models
         public double Amount { get; set; }
         public double PotentialPayout { get; set; }
         public bool IsActive { get; set; }
+        public bool IsWin {  get; set; }
         public int RaceAthleteId { get; set; }
         public string AthleteName { get; set; }
     }
