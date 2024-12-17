@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bobs_Racing.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241213092029_InitialMigration")]
+    [Migration("20241217092157_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,8 +66,11 @@ namespace Bobs_Racing.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PotentialPayout")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsWin")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("PotentialPayout")
+                        .HasColumnType("float");
 
                     b.Property<int>("RaceAthleteId")
                         .HasColumnType("int");
@@ -94,6 +97,9 @@ namespace Bobs_Racing.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsFinished")
+                        .HasColumnType("bit");
 
                     b.HasKey("RaceId");
 
@@ -168,7 +174,7 @@ namespace Bobs_Racing.Migrations
                         {
                             UserId = 1,
                             Credits = 0.0,
-                            Password = "$2a$11$fcT9WqGPtGSqB8pGFy5P2.A8ywVbnFpEW2OXFhIrHz7dv2Vi0C3Eq",
+                            Password = "$2a$11$x9LF6lX.SVD50M1tCdNqEujeB0DwJ5peddwrmgxt.NZIPth2SXp4O",
                             Profilename = "Admin",
                             Role = "Admin",
                             Username = "admin"

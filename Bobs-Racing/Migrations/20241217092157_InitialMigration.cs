@@ -9,22 +9,19 @@ namespace Bobs_Racing.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            //Add or change tables
-
-            // Change Column
-            migrationBuilder.AlterColumn<double>(
-                name: "PotentialPayout",
+            migrationBuilder.AddColumn<bool>(
+                name: "IsWin",
                 table: "Bets",
-                type: "float",
+                type: "bit",
                 nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int");
+                defaultValue: false); // Default value is 0 (false)
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            // Remove from tables
+            migrationBuilder.DropColumn(
+                name: "IsWin",
+                table: "Bets");
         }
-
     }
 }
