@@ -1,96 +1,139 @@
-﻿// import RaceAnimal and RaceService interfaces
- /*
+﻿using Bobs_Racing.Hubs;
 using Bobs_Racing.Interface;
-// import Animal and RaceAnimal model classes
 using Bobs_Racing.Models;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Bobs_Racing.Services
 {
-    //implements RaceService interface into RaceService class
-    public class RaceService : IRaceService
+    public class RaceService
     {
-    // read-only fild to hold refrence to RaceAnimal Repository-Interface
-    // this handles all db operations for RaceAnimal
-    private readonly IRaceAthleteRepository _raceAthleteRepository;
-        
-        // constructor for accepting RaceAnimalRepository interface object
-        // this includes "SaveRaceResultsAsync" method
-        public RaceService(IRaceAthleteRepository raceAthleteRepository)
+        private readonly IRaceRepository _raceRepository;
+        private readonly IAthleteRepository _athleteRepository;
+        private readonly IRaceAthleteRepository _raceAthleteRepository;
+        private readonly IBetRepository _betRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly RaceSimulationService _simulationService;
+        private readonly ILogger<RaceService> _logger;
+        private readonly IHubContext<RaceSimulationHub> _hubContext;
+
+        public RaceService(
+            IRaceRepository raceRepository,
+            IAthleteRepository athleteRepository,
+            IRaceAthleteRepository raceAthleteRepository,
+            IBetRepository betRepository,
+            IUserRepository userRepository,
+            RaceSimulationService simulationService,
+            IHubContext<RaceSimulationHub> hubContext,
+            ILogger<RaceService> logger)
         {
+            _raceRepository = raceRepository;
+            _athleteRepository = athleteRepository;
             _raceAthleteRepository = raceAthleteRepository;
+            _betRepository = betRepository;
+            _userRepository = userRepository;
+            _simulationService = simulationService;
+            _hubContext = hubContext;
+            _logger = logger;
         }
 
-        /* asynchronous method for processing a race
-             Accepts:
-                RaceId
-                List<animalIds>
-
-             Returns:
-                List<RaceAnimal>
-                    - int: RaceAnimalId
-                    - int: RaceId
-                    - int: AnimalId
-                    - CheckpointSpeeds []
-                    - int: FinalPosition
-         */
- /*
-        public async Task<List<RaceAthlete>> ProcessRaceAsync(int raceId, List<Athlete> athletes)
+        public async Task StartRaceAsync(int raceId, CancellationToken cancellationToken)
         {
-            // List<> for storing RaceAnimal objects
-            var raceResults = new List<RaceAthlete>();
-            // Initialize Random instance
-            Random random = new Random();
+            var race = await _raceRepository.GetRaceByIdAsync(raceId);
 
-            // iterates over each animal in list of animals recived
-            foreach (var athlete in athletes)
+            if (race == null || race.RaceAthletes == null)
             {
-                // initialize a List<> for storing 3 different checkpoint speeds for the current animal
-                // created as List<> for easier adding elements
-                var checkpointSpeeds = new List<int>();
-                for (int i = 0; i < 3; i++)
+                _logger.LogWarning("Race {RaceId} or its athletes not found.", raceId);
+                return;
+            }
+
+            // Prepare runners
+            var raceAthleteMap = race.RaceAthletes.ToDictionary(ra => ra.AthleteId, ra => ra.RaceAthleteId);
+            var athleteIds = race.RaceAthletes.Select(ra => ra.AthleteId).ToList();
+            var athletes = await _athleteRepository.GetAthletesByIdsAsync(athleteIds);
+
+            if (!athletes.Any())
+            {
+                _logger.LogWarning("No athletes found for race {RaceId}.", raceId);
+                return;
+            }
+
+            var runners = athletes.Select(a => new Runner
+            {
+                Name = a.Name,
+                Speed = 0.0,
+                Position = 0.0,
+                SlowestTime = a.SlowestTime,
+                FastestTime = a.FastestTime,
+                FinalPosition = 0,
+                FinishTime = null,
+                AthleteID = a.AthleteId,
+                RaceAthleteID = raceAthleteMap[a.AthleteId]
+            }).ToList();
+
+            _simulationService.SetRunners(runners);
+            await _simulationService.StartRace(cancellationToken);
+
+            // Update raceAthlete results
+            foreach (var runner in runners.Where(r => r.FinalPosition > 0))
+            {
+                await _raceAthleteRepository.UpdateRaceAthleteFinalPositionAsync(runner.RaceAthleteID, runner.FinalPosition);
+                if (runner.FinishTime.HasValue)
                 {
-                    // uses random to generate a random speed in a range based on min and max speed
-                    // adding +1 to ensure the max value is included.
-                    checkpointSpeeds.Add(random.Next((int)athlete.LowestTime, (int)(athlete.FastestTime + 1)));
-                    //checkpointSpeeds.Add(random.Next(athlete.LowestTime, athlete.FastestTime + 1));
+                    await _raceAthleteRepository.UpdateRaceAthleteFinishTimeAsync(runner.RaceAthleteID, runner.FinishTime.Value);
                 }
-                // finds the sum of all checkpoint speeds to represent animals overall speed for a race
-                int totalSpeed = checkpointSpeeds.Sum();
-
-                // creates a RaceAnimal object for the current animal
-                var raceAthlete = new RaceAthlete
-                {
-                    RaceId = raceId,
-                    AthleteId = athlete.AthleteId,
-                    // converts a the List<int> to an array
-                    //CheckpointSpeeds = checkpointSpeeds.ToArray(),
-                    // temporarily sets totalSpeed to FinalPosition
-                    FinalPosition = totalSpeed
-                };
-
-                // add the current Animal to the raceResults List<>
-                raceResults.Add(raceAthlete);
             }
 
-            // sorts raceResults list in descending order based on FinalPosition(totalSpeed)
-            // the Animal with the highest speed is number 1
-            var rankedResults = raceResults
-                .OrderByDescending(ra => ra.FinalPosition)
-                .ToList();
+            // Determine winner
+            var winner = runners.FirstOrDefault(r => r.FinalPosition == 1);
+            if (winner == null) return;
 
-            // iterates though rankedResults
-            // assignes position based on ranking
-            for  (int i = 0; i < rankedResults.Count;i++)
+            // Update bets
+            var raceAthleteIds = race.RaceAthletes.Select(ra => ra.RaceAthleteId).ToList();
+            var allBets = await _betRepository.GetBetsByRaceAthleteIdsAsync(raceAthleteIds);
+
+            foreach (var bet in allBets)
             {
-                rankedResults[i].FinalPosition = i +1;
+                bet.IsActive = false;
+                if (bet.RaceAthleteId == winner.RaceAthleteID)
+                {
+                    var user = await _userRepository.GetUserByIdAsync(bet.UserId);
+                    if (user != null)
+                    {
+                        user.Credits += bet.PotentialPayout;
+                        await _userRepository.UpdateUserAsync(user.UserId, new UserDTO
+                        {
+                            Credits = user.Credits,
+                            Profilename = user.Profilename,
+                            Username = user.Username,
+                            Role = user.Role
+                        });
+                    }
+                }
             }
-            // uses the RaceAnimal repository to save the ranked results to the db
-            // using await to ensure the operation is completed before coninuing
-            await _raceAthleteRepository.SaveRaceResultsAsync(rankedResults);
 
-            // returns a List<> of RaceAnimals with final position and heckpoint speed
-            return rankedResults;
+            await _betRepository.UpdateBetsAsync(allBets);
+            await _raceRepository.UpdateRaceIsFinishedAsync(raceId, true);
+
+            // Broadcast final race results
+            var result = new
+            {
+                RaceID = race.RaceId,
+                IsFinished = true,
+                Positions = runners.Select(r => new
+                {
+                    r.Name,
+                    r.FinalPosition,
+                    r.FinishTime
+                })
+            };
+
+            await _hubContext.Clients.All.SendAsync("ReceiveRaceResults", result);
         }
     }
-} */
- 
+}

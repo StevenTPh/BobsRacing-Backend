@@ -27,6 +27,7 @@ builder.Services.AddScoped<IRaceAthleteRepository, RaceAthleteRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBetRepository, BetRepository>();
 builder.Services.AddScoped<OddsCalculatorService>();
+builder.Services.AddScoped<RaceService>();
 builder.Services.AddHostedService<RaceSchedulerService>();
 
 

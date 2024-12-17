@@ -24,65 +24,40 @@ namespace Bobs_Racing.Services
         public Task StartAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("Race Scheduler Service starting...");
-
-            // Align to the next minute and schedule the timer
-            var nextRunTime = GetNextMinuteStart();
-            var delay = nextRunTime - DateTime.Now;
-
-            _timer = new Timer(CheckRacesForStart, null, delay, TimeSpan.FromMinutes(1));
-            _logger.LogInformation("First check scheduled at {Time}.", nextRunTime);
-
+            _timer = new Timer(CheckRacesForStart, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
             return Task.CompletedTask;
-        }
-
-        private DateTime GetNextMinuteStart()
-        {
-            var now = DateTime.Now;
-            return new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0).AddMinutes(1);
         }
 
         private void CheckRacesForStart(object? state)
         {
-            try
+            using (var scope = _scopeFactory.CreateScope())
             {
-                _logger.LogInformation("Checking races for start at: {Time}", DateTime.Now);
+                var raceService = scope.ServiceProvider.GetRequiredService<RaceService>();
+                var raceRepository = scope.ServiceProvider.GetRequiredService<IRaceRepository>();
+                var currentTime = DateTime.Now;
 
-                using (var scope = _scopeFactory.CreateScope())
+                var races = raceRepository.GetAllRacesAsync().Result
+                    .Where(r => !r.IsFinished && r.Date <= currentTime);
+
+                foreach (var race in races)
                 {
-                    var raceRepository = scope.ServiceProvider.GetRequiredService<IRaceRepository>();
-
-                    var currentTime = DateTime.Now;
-                    var racesTask = raceRepository.GetAllRacesAsync();
-                    racesTask.Wait();
-                    var races = racesTask.Result;
-
-                    foreach (var race in races.Where(r => !r.IsFinished && r.Date <= currentTime))
+                    if(race.IsFinished == true)
                     {
-                        _logger.LogInformation("Starting Race ID: {RaceId} scheduled at {StartTime}", race.RaceId, race.Date);
-
-                        // Implement race start logic here
-                        // updateTask.Wait();
-
-                        _logger.LogInformation("Race ID: {RaceId} has been marked as finished.", race.RaceId);
+                        //skip race if it is already finished
+                        continue;
                     }
+                    _logger.LogInformation($"Starting Race ID: {race.RaceId}");
+                    raceService.StartRaceAsync(race.RaceId, CancellationToken.None).Wait();
                 }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while checking races for start.");
             }
         }
 
         public Task StopAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Race Scheduler Service stopping...");
             _timer?.Change(Timeout.Infinite, 0);
             return Task.CompletedTask;
         }
 
-        public void Dispose()
-        {
-            _timer?.Dispose();
-        }
+        public void Dispose() => _timer?.Dispose();
     }
 }
