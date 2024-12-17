@@ -23,6 +23,7 @@ namespace Bobs_Racing.Controllers
         private readonly IHubContext<RaceSimulationHub> _hubContext;
         private IUserRepository _userRepository;
         private IBetRepository _betRepository;
+        private readonly RaceService _raceService;
 
         public RaceSimulationController(
             RaceSimulationService simulationService,
@@ -31,7 +32,9 @@ namespace Bobs_Racing.Controllers
             IRaceAthleteRepository raceAthleteRepository,
             IRaceRepository raceRepository,
             IUserRepository userRepository,
-            IBetRepository betRepository)
+            IBetRepository betRepository,
+            RaceService raceService
+            )
         {
             _simulationService = simulationService;
             _athleteRepository = athleteRepository;
@@ -41,6 +44,7 @@ namespace Bobs_Racing.Controllers
             _hubContext = hubContext;
             _userRepository = userRepository;
             _betRepository = betRepository;
+            _raceService = raceService;
         }
 
         [HttpPost("start")]
@@ -179,7 +183,8 @@ namespace Bobs_Racing.Controllers
             // Broadcast the results to all connected clients
             await _hubContext.Clients.All.SendAsync("ReceiveRaceResults", result);
 
-            return Ok(result);
+            await _raceService.StartRaceAsync(raceId, cancellationToken);
+            return Ok($"Race {raceId} started successfully.");
         }
 
         [HttpGet("results/{raceId}")]
