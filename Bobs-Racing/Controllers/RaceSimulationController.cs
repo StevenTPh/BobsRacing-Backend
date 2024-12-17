@@ -145,7 +145,7 @@ namespace Bobs_Racing.Controllers
                     // Mark all bets as inactive
                     bet.IsActive = false;
 
-                    // For winning bets, pay out and mark as paid
+                    // winning bets, pay out and mark IsWin
                     if (bet.RaceAthleteId == winner.RaceAthleteID)
                     {
                         var user = await _userRepository.GetUserByIdAsync(bet.UserId);
