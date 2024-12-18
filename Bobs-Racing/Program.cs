@@ -89,19 +89,28 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddSingleton<RaceSimulationService>();
 builder.Services.AddScoped<RaceSchedulerService>();
 // Register SignalR and RaceSimulationService
-builder.Services.AddSignalR();
+builder.Services.AddSignalR().AddAzureSignalR(builder.Configuration["Azure:SignalR:ConnectionString"]);
 
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
         policy.SetIsOriginAllowed(origin =>
-            new Uri(origin).Host == "localhost") // Allow any localhost URL
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials(); // Required for SignalR
+        {
+            // Safely parse the origin into a URI and validate it
+            if (Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+            {
+                return (uri.Host == "localhost") || // Allow localhost
+                       (uri.Scheme == "https" && uri.Host == "agreeable-island-0faa76803.4.azurestaticapps.net"); // Allow specific frontend endpoint
+            }
+            return false; // Reject if origin is not valid
+        })
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials(); // Required for SignalR
     });
 });
+
 
 
 var app = builder.Build();
