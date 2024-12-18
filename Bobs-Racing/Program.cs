@@ -122,6 +122,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+app.UseStaticFiles();
+app.MapGet("/", async context =>
+{
+    context.Response.Redirect("/index.html");
+});
+
+
 app.UseCors();
 app.UseHttpsRedirection();
 app.UseAuthentication();

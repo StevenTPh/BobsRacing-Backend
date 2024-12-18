@@ -113,6 +113,7 @@ namespace Bobs_Racing.Services
                             Username = user.Username,
                             Role = user.Role
                         });
+                        bet.IsWin = true;
                     }
                 }
             }
