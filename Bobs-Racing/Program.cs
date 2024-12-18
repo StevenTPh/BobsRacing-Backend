@@ -96,10 +96,18 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
     {
         policy.SetIsOriginAllowed(origin =>
-            new Uri(origin).Host == "localhost") // Allow any localhost URL
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials(); // Required for SignalR
+        {
+            // Safely parse the origin into a URI and validate it
+            if (Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+            {
+                return (uri.Host == "localhost") || // Allow localhost
+                       (uri.Scheme == "https" && uri.Host == "agreeable-island-0faa76803.4.azurestaticapps.net"); // Allow specific frontend endpoint
+            }
+            return false; // Reject if origin is not valid
+        })
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials(); // Required for SignalR
     });
 });
 
@@ -112,6 +120,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+app.UseStaticFiles();
+app.MapGet("/", async context =>
+{
+    context.Response.Redirect("/index.html");
+});
+
 
 app.UseCors();
 app.UseHttpsRedirection();
