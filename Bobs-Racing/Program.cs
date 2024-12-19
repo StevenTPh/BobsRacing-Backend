@@ -89,7 +89,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddSingleton<RaceSimulationService>();
 builder.Services.AddScoped<RaceSchedulerService>();
 // Register SignalR and RaceSimulationService
-builder.Services.AddSignalR().AddAzureSignalR(builder.Configuration["Azure:SignalR:ConnectionString"]);
+builder.Services.AddSignalR();
 
 builder.Services.AddCors(options =>
 {
@@ -123,11 +123,6 @@ if (app.Environment.IsDevelopment())
 }
 
 
-app.UseStaticFiles();
-app.MapGet("/", async context =>
-{
-    context.Response.Redirect("/index.html");
-});
 
 
 app.UseCors();
